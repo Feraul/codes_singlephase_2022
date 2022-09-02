@@ -55,7 +55,7 @@ erromethod='erromethod1';
 % nlfvHP    --> metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='lfvLPEW';
+pmetodo='nlfvHP';
 %% metodo de interação: picard, newton, broyden, secant,
 % método de itereção proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
@@ -67,14 +67,14 @@ pmetodo='lfvLPEW';
 %  iteration='AA';  % picard com aceleracao de Anderson
 %iteration='iterhybrid';
 %% defina o ponto de interpolacao
-%interpol='LPEW2';
+interpol='LPEW2';
 %interpol='LPEW1';
-interpol='LS';
+%interpol='LS';
 %interpol='eLS';
 %interpol='eLPEW2';
 %% correcao dos pontos harmonicos
 % digite 'yes' ou 'no'
-correction='yes';
+correction='no';
 %% digite segundo o benchmark
 % procure no "benchmarks.m" o caso que deseja rodar e logo digite o nome
 % do caso

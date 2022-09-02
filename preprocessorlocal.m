@@ -103,7 +103,7 @@ elseif strcmp(pmetodo,'nlfvDMPSY')|| strcmp(pmetodo,'lfvHP') || ...
         [pointarmonic,weightDMP,raioaux]=harmonicopointcorrection(kmap);
     else
         % calculoa dos pontos harmonicos sem correcao
-        [pointarmonic,weightDMP,raioaux]=harmonicopoint(kmap,N,benchmark);
+        [pointarmonic,weightDMP,raioaux]=harmonicopoint(kmap,N);
     end
     %% calculo dos parametros ou constantes (ksi)
     % temos usado este parametro durante muito tempo em muitos testes
