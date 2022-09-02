@@ -526,7 +526,8 @@ for iface=1:size(inedge,1)
                     if abs(sumatotaldenom)<1e-5
                         termo2=0;
                     else
-                        termo2=(opostoksi*(fluxOpost/(mobilO*normcontopost)) - opostksO*(fluxoN/(mobil*normcont)))/sumatotaldenom;
+                        termo2=(opostoksi*(fluxOpost/(mobilO*normcontopost))...
+                     - opostksO*(fluxoN/(mobil*normcont)))/sumatotaldenom;
                         
                     end
                     M(rel,rel)=M(rel,rel)- termo0*termo1;
@@ -585,9 +586,7 @@ for iface=1:size(inedge,1)
                 M(lef,auxelematual)=M(lef,auxelematual)- termo0*(termo3*pesatual-termo1 );
                 
                 M(lef,auxelemopost)=M(lef,auxelemopost)- termo0*termo3*pesopost;
-                I(lef)=I(lef)+termo0*termo2;
-                
-                
+                I(lef)=I(lef)+termo0*termo2;  
             end
             
         end
@@ -598,17 +597,11 @@ for iface=1:size(inedge,1)
         
         auxlef=weightDMP(ifacerel1-size(bedge,1),3);
         auxrel=weightDMP(ifacerel1-size(bedge,1),4);
-        
-        
+
         % contribuição do elemento a esquerda
         M(lef,[auxlef,auxrel])=  M(lef,[auxlef,auxrel])+ termo0*[auxweightrel1,auxweightrel2];
-        
-        
         % contribuição do elemento a direita
         M(rel,[auxlef,auxrel])=  M(rel,[auxlef,auxrel])- termo0*[auxweightrel1,auxweightrel2];
-        
-        
-        
     end
     % somando 2
     %termo0=mobility(ifactual)*norma*mulef*parameter(2,2,ifactual);
@@ -705,7 +698,8 @@ for iface=1:size(inedge,1)
                     if abs(sumatotaldenom)<1e-5
                         termo2=0;
                     else
-                        termo2=(opostoksi*(fluxOpost/(mobilO*normcontopost)) - opostksO*(fluxoN/(mobil*normcont)))/sumatotaldenom;
+                        termo2=(opostoksi*(fluxOpost/(mobilO*normcontopost))...
+                      - opostksO*(fluxoN/(mobil*normcont)))/sumatotaldenom;
                     end
                     M(rel,rel)=M(rel,rel)- termo0*termo1;
                     I(rel)=I(rel)+ termo0*termo2;
