@@ -14,12 +14,12 @@
 
 //Do you have a mesh file? [y] ==> "yes"; [n] ==> "no"
 
-n
+y
 
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
 
-HomegeneoLitology8.msh
+HermelineMeshModTriang_48_48.msh
 
 //OBS.: This file must be puted into folder together with *.m files 
 //or in a folder whose path will be declared immediately below:
@@ -369,10 +369,8 @@ porosity.dat
 //group seted into "*.geo" file will be associated with the 1st code 
 //declared below and so on.
 
-3
-201 0
+1
 101 1
-102 0
 
 //--------------------------------------------------------------------
 //Tratment of boundary points
@@ -388,8 +386,8 @@ porosity.dat
 //group reported to points will be associated with 1st code written
 //below.
 
-2
-101 102
+1
+101 
 
 //--------------------------------------------------------------------
 //----------------------- Convergence criteria -----------------------

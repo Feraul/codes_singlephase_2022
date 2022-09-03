@@ -82,7 +82,8 @@ for node = 1:size(coord,1)
     end
     B2(1,:) = [];
     B2(end,:) = [];
-    
+    %%%%
+    B3 = zeros(size(around_nodecenter,1), size(around_elemcenter,1)*2 + 1);
     if center_node_type == 0
         B3 = zeros(size(around_k ,1), size(around_elemcenter,1)*2 + 1);
         jj = 1;
@@ -107,7 +108,7 @@ for node = 1:size(coord,1)
         B3(1,end-2:end-1) =  vec2;
     elseif  center_node_type == 1
         1;
-        %disp("B3 Dirichlet node")        
+        %disp("B3 Dirichlet node")
     elseif  center_node_type == 2
         B3 = zeros(size(around_k ,1) + 1, size(around_elemcenter,1)*2 + 1);
         jj = 1;
@@ -115,7 +116,7 @@ for node = 1:size(coord,1)
         end_normal = normals(end_edge,1:2);
         start_talnormal = tal_versor(1,:);
         end_talnormal = tal_versor(2,:);
-
+        
         
         for ii = 2:size(around_k,1)-1
             vec = tal_versor(ii,:);
@@ -142,7 +143,7 @@ for node = 1:size(coord,1)
         K1 = around_k(end,:);
         vec1 = multvec(vec,K1);
         %vec2 = multvec(vec,K2);
-        B3(end,end-2:end-1) =   -vec1;        
+        B3(end,end-2:end-1) =   -vec1;
         
         
     end
