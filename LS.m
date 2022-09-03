@@ -83,7 +83,7 @@ for node = 1:size(coord,1)
     B2(1,:) = [];
     B2(end,:) = [];
     %%%%
-    B3 = zeros(size(around_nodecenter,1), size(around_elemcenter,1)*2 + 1);
+    B3 = zeros(size(around_k ,1), size(around_elemcenter,1)*2 + 1);
     if center_node_type == 0
         B3 = zeros(size(around_k ,1), size(around_elemcenter,1)*2 + 1);
         jj = 1;
