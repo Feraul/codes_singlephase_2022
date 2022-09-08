@@ -11,6 +11,7 @@ for ifacont=1:size(bedge,1)
     yy(ifacont,:)= 0.5*( coord(bedge(ifacont,1),:)+ coord(bedge(ifacont,2),:));    
 end
 i=1;
+contador=1;
 for iface=1:size(inedge,1)
     lef=inedge(iface,3);
     rel=inedge(iface,4);
@@ -101,7 +102,8 @@ for iface=1:size(inedge,1)
         weightlef_2 = 0;weightrel_2 = 0;
         weightlef = weightlef_1+weightlef_2;
         weightrel = weightrel_1+weightrel_2;
-        
+        % serve para armazenar o numero de faces que precisa de corregir
+        contador=contador+1;
     else
         raioaux=0;
         % escolha o original ponto harmonico
@@ -124,6 +126,8 @@ for iface=1:size(inedge,1)
     
    %======================================================================% 
 end
+name=(contador/size(inedge,1))*100;
+sprintf('>> Percentage of faces corrected: %s ',num2str(name));
 end
 
 function [p]=calculXaXb(p1,p2,p3,p4)
