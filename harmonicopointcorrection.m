@@ -127,7 +127,8 @@ for iface=1:size(inedge,1)
    %======================================================================% 
 end
 name=(contador/size(inedge,1))*100;
-sprintf('>> Percentage of faces corrected: %s ',num2str(name));
+value=round(name);
+sprintf('>> Percentage of faces corrected: %s ',num2str(value));
 end
 
 function [p]=calculXaXb(p1,p2,p3,p4)
