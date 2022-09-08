@@ -87,7 +87,7 @@ gravitational='no';
 strategy= 'starnoni';
 
 %% adequação das permeabilidades e otros parametros fisico-geometricos 
-%segundo o bechmark
+%segundo cada caso ou problema
 [elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,grav,gravno,...
     gravelem,gravface,fator]=benchmarks(kmap,elem,bedge);
 
