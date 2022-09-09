@@ -1,4 +1,4 @@
-function [yy,weightDMP,raioaux]=harmonicopointcorrection(kmap)
+function [yy,weightDMP,raioaux]=thirdcorrectharmonic(kmap)
 
 global inedge bedge coord elem centelem 
 yy=zeros(size(inedge,1)+size(bedge,1),3);
@@ -19,18 +19,18 @@ for iface=1:size(inedge,1)
     vd1=coord(inedge(iface,2),:)-coord(inedge(iface,1),:);
     % comprimento da face ou area
     R=0.5*norm(vd1);
-    % calculo das projeções ortogonais sobre a face
+    % calculo das projeÃ§Ãµes ortogonais sobre a face
     %[hrel]=projortogonal(rel,inedge(iface,2), inedge(iface,1));
     
     %[hlef]=projortogonal(lef,inedge(iface,1), inedge(iface,2));
-    %Determinação das alturas dos centróides dos elementos
+    %DeterminaÃ§Ã£o das alturas dos centrÃ³ides dos elementos
     
-    %Do ponto do início da aresta até o centro da célula da direita
+    %Do ponto do inÃ­cio da aresta atÃ© o centro da cÃ©lula da direita
     vd2=centelem(rel,:)-coord(inedge(iface,1),:);
     cd=cross(vd1,vd2);
     hrel=norm(cd)/norm(vd1); % altura a direita
     
-    %Do ponto do início da aresta até o centro da célula da direita
+    %Do ponto do inÃ­cio da aresta atÃ© o centro da cÃ©lula da direita
     ve2=centelem(lef,:)-coord(inedge(iface,1),:);
     ce=cross(vd1,ve2);
     hlef=norm(ce)/norm(vd1); % altura a esquerda
@@ -73,7 +73,7 @@ for iface=1:size(inedge,1)
     % ponto medio da face
     media=0.5*(coord(inedge(iface,1),:)+coord(inedge(iface,2),:)); 
     %=====================================================================%
-    % equação 37 Zhang e Kobaise
+    % equaÃ§Ã£o 37 Zhang e Kobaise
     raio=norm(harmo- media)/R;
     % R' is called as Raux
     Raux=3*R;
@@ -97,7 +97,7 @@ for iface=1:size(inedge,1)
         if abs(norm(yy(iface+size(bedge,1),1:2)- media(1,1:2))-Raux)>1e-5
           disp('...The restricction of the equation 40 was violate...!!!')
         end
-        % calculo dos pesos para interpolar a variavel no ponto em questão
+        % calculo dos pesos para interpolar a variavel no ponto em questÃ£o
         weightlef_1= a/(a+b); weightrel_1= 1-weightlef_1; % Eq. (17)
         weightlef_2 = 0;weightrel_2 = 0;
         weightlef = weightlef_1+weightlef_2;
@@ -108,7 +108,7 @@ for iface=1:size(inedge,1)
         raioaux=0;
         % escolha o original ponto harmonico
         yy(iface+size(bedge,1),:)=harmo;
-        % calculo dos pesos para interpolar a variavel no ponto em questão
+        % calculo dos pesos para interpolar a variavel no ponto em questÃ£o
         weightlef_1= (hrel*Knlef)/(hrel*Knlef+ hlef*Knrel); weightrel_1= 1-weightlef_1; % Eq. (17)
         
         weightlef_2 = 0;weightrel_2 = 0;
@@ -128,7 +128,7 @@ for iface=1:size(inedge,1)
 end
 name=(contador/size(inedge,1))*100;
 value=round(name);
-sprintf('>> Percentage of faces corrected: %s ',num2str(value));
+sprintf('>> Percentage of faces corrected: %s ',num2str(name))
 end
 
 function [p]=calculXaXb(p1,p2,p3,p4)

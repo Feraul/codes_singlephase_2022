@@ -1,4 +1,4 @@
-function [y,weightDMP,raioaux]=harmonicopoint(kmap,N)
+function [y,weightDMP,raioaux]=secondcorrectharmonic(kmap,N)
 
 global inedge bedge coord elem centelem benchmark
 y=zeros(size(inedge,1)+size(bedge,1),3);
@@ -98,11 +98,13 @@ for iface=1:size(inedge,1)
         end
         
     elseif strcmp(benchmark,'edqueiroz')
-        a=0.5*(coord(inedge(iface,1),:)+coord(inedge(iface,2),:)); % ponto medio da face
+        
+        a=0.5*(coord(inedge(iface,1),:)+coord(inedge(iface,2),:)); 
         
         if norm(a-coord(inedge(iface,1),:))<norm(a-y(iface+size(bedge,1),:))
-            y(iface+size(bedge,1),:)= (hrel*Knlef*centelem(lef,:)'+ hlef*Knrel*centelem(rel,:)')/(hrel*Knlef+hlef*Knrel);
-            % y(iface+size(bedge,1),:)= a;
+            % correccao ao ponto medio
+            
+             y(iface+size(bedge,1),:)= a;
         end
     else
         % ative este calculo em malhas severamente distorcidas ja que
@@ -110,10 +112,9 @@ for iface=1:size(inedge,1)
         % este calculo eh usad por varios autores na literatura
         
         if norm(a-coord(inedge(iface,1),:))<norm(a-y(iface+size(bedge,1),:))
-            
-            y(iface+size(bedge,1),:)= (hrel*Knlef*centelem(lef,:)'+ hlef*Knrel*centelem(rel,:)')/(hrel*Knlef+hlef*Knrel); 
-            % ativar para obter a convergencia Go e Wu 2010; na tese equacao 3.119
-            
+            % correccao ao ponto medio
+            y(iface+size(bedge,1),:)= a; 
+                        
         end
         
         

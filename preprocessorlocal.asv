@@ -2,7 +2,7 @@ function [pointarmonic,parameter,gamma,p_old,tol,nit,er,nflagface,...
     nflagno,weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,...
     gravresult,gravrate,weight,contrcontor]=preprocessorlocal(kmap,...
     N,grav,gravface,gravelem,fator)
-global elem gravitational pmetodo interpol correction bedge strategy typecorrection
+global elem gravitational pmetodo interpol correction bedge strategy
 % inicializando as variaveis
 nflagno=0;
 nflagface=0;
@@ -57,7 +57,7 @@ if strcmp(pmetodo,'nlfvLPEW')
     %[parameter]=coefficientPPS(kmap); % urgente revisar
     %temos usado para muitos estes o seguinte rutina
     [parameter,calnormface]=coefficientLPSangle(kmap);
-    % adequaÁ„o dos flags de contorno
+    % adequa√ß√£o dos flags de contorno
     nflagno= contflagno;
     
 elseif strcmp(pmetodo,'nlfvLPS')|| strcmp(pmetodo,'lfvLPEW')
@@ -66,7 +66,7 @@ elseif strcmp(pmetodo,'nlfvLPS')|| strcmp(pmetodo,'lfvLPEW')
     %[parameter]=coefficientPPS(kmap); % urgente revisar
     %temos usado para muitos estes o seguinte rutina
     [parameter,calnormface]=coefficientLPSangle(kmap);
-    % adequaÁ„o dos flags de contorno
+    % adequa√ß√£o dos flags de contorno
     nflagno= contflagno;
     if strcmp(pmetodo,'lfvLPEW')
         [weightDMP]=weightnlfvDMP(kmap);
@@ -83,7 +83,7 @@ elseif strcmp(pmetodo,'nlfvPPS')
     %[parameter]=coefficientPPS(kmap); % urgente revisar
     %temos usado para muitos estes o seguinte rutina
     [parameter,calnormface]=coefficientLPSangle(kmap);
-    % adequaÁ„o dos flags de contorno
+    % adequa√ß√£o dos flags de contorno
     nflagno= contflagno;
     
     if strcmp(correction,'yes')
@@ -100,28 +100,24 @@ elseif strcmp(pmetodo,'nlfvDMPSY')|| strcmp(pmetodo,'lfvHP') || ...
     
     if strcmp(correction,'yes')
         if strcmp(typecorrection,'firstcorrect')
-            % correcao utilizando express. simplificada
-            [pointarmonic,weightDMP,raioaux]=firstcorrectharmonic(kmap,N);
-        elseif strcmp(typecorrection,'secondcorrect')
-            % correcao ao ponto medio
-            [pointarmonic,weightDMP,raioaux]=secondcorrectharmonic(kmap,N);
+
         else
-            % correcao dos pontos harmonicos segundo Kobaise
-            [pointarmonic,weightDMP,raioaux]=thirdcorrectharmonic(kmap);
+
         end
-        
+        % calculo dos pontos harmonicos com correcao
+        [pointarmonic,weightDMP,raioaux]=harmonicopointcorrection(kmap);
     else
-        % calculoa dos pontos harmonicos sem correcao 'express. original'
-        [pointarmonic,weightDMP,raioaux]=nocorrectharmonic(kmap);
+        % calculoa dos pontos harmonicos sem correcao
+        [pointarmonic,weightDMP,raioaux]=norharmonicopoint(kmap,N);
     end
     %% calculo dos parametros ou constantes (ksi)
     % temos usado este parametro durante muito tempo em muitos testes
     [parameter,auxface]=coefficientPPSharmonicpoint(facelement,pointarmonic,kmap,raioaux);
     % esta rutina estamos usando de 7/2/2016
     %[parameter]=coefficientPPSusingHP(kmap,facelement,pointarmonic); %para lfvHP
-    % adequaÁ„o dos flag de face de contorno
+    % adequa√ß√£o dos flag de face de contorno
     nflagface= contflagface;
-    % adequaÁ„o dos nos flags de contorno
+    % adequa√ß√£o dos nos flags de contorno
     nflagno= contflagno;
     %calculo de parametros
     if strcmp(pmetodo,'nlfvHP')
@@ -131,19 +127,19 @@ elseif strcmp(pmetodo,'mpfad')
     
     % calculo das constantes fisicos-geometrico
     [Hesq, Kde, Kn, Kt, Ded] = Kde_Ded_Kt_Kn(kmap);
-    % adequaÁ„o dos flags de contorno
+    % adequa√ß√£o dos flags de contorno
     nflagno= contflagno; 
 else
     % calculo das constantes fisicos-geometrico para o TPFA
     [Hesq, Kde, Kn, Kt, Ded] = Kde_Ded_Kt_Kn( kmap);
     
-    % adequaÁ„o dos flags de contorno
+    % adequa√ß√£o dos flags de contorno
     nflagface= contflagface;
 end
-%% dados inicializaÁ„o mÈtodos dos volumes finitos n„o linear
-gamma=0.0;                     % este parametro esta no intervalo [0,1] pode ser utilizado para o mÈtodo nao linear MPFA
+%% dados inicializa√ß√£o m√©todos dos volumes finitos n√£o linear
+gamma=0.0;                     % este parametro esta no intervalo [0,1] pode ser utilizado para o m√©todo nao linear MPFA
 p_old=1*ones(size(elem,1),1);  % inicializando a presao
-tol=1e-10;                      % tolerancia para metodos n„o lineares
+tol=1e-10;                      % tolerancia para metodos n√£o lineares
 nit=2000;                      % numero de iteracoes de Picard
 er=1;                          % inicializacao do erro
 end

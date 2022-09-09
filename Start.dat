@@ -19,7 +19,7 @@ y
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
 
-HermelineMeshModTriang_48_48.msh
+HermelineMeshModTriang_96_96.msh
 
 //OBS.: This file must be puted into folder together with *.m files 
 //or in a folder whose path will be declared immediately below:
