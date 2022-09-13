@@ -77,9 +77,9 @@ interpol='LPEW2';
 % digite 'yes' ou 'no'
 correction='yes';
 % qual tipo de correcao deseja utilizar
-typecorrection='firstcorrection'; % correcao utilizando express. simplif.
+%typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %typecorrection= 'secondcorrection'; % correcao utilizando ponto medio da face
-%typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
+typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %% digite segundo o benchmark
 % procure no "benchmarks.m" o caso que deseja rodar e logo digite o nome
 % do caso

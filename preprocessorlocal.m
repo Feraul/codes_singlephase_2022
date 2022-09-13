@@ -99,10 +99,10 @@ elseif strcmp(pmetodo,'nlfvDMPSY')|| strcmp(pmetodo,'lfvHP') || ...
     [facelement]=element_face;
     
     if strcmp(correction,'yes')
-        if strcmp(typecorrection,'firstcorrect')
+        if strcmp(typecorrection,'firstcorrection')
             % correcao utilizando express. simplificada
             [pointarmonic,weightDMP,raioaux]=firstcorrectharmonic(kmap,N);
-        elseif strcmp(typecorrection,'secondcorrect')
+        elseif strcmp(typecorrection,'secondcorrection')
             % correcao ao ponto medio
             [pointarmonic,weightDMP,raioaux]=secondcorrectharmonic(kmap,N);
         else
