@@ -21,14 +21,16 @@ for ifacont=1:size(bedge,1)
     else
         % contriuição no elemento do contorno
         
-        [Transmicont1,elemavaliar1,pressureface1,contorno1]=auxassemblematrixcontourDMPSY(parameter(1,3,ifacont),...
+        [Transmicont1,elemavaliar1,pressureface1,contorno1]=...
+            auxassemblematrixcontourDMPSY(parameter(1,3,ifacont),...
             parameter(1,1,ifacont),lef,pinterp,normcont,weightDMP,bedge);
         
         %auxelemavaliar1=auxface(ifacont,1);
         
         M(lef,elemavaliar1)=M(lef,elemavaliar1)-(1-contorno1)*Transmicont1*mobility;
         
-        [Transmicont2,elemavaliar2,pressureface2,contorno2]=auxassemblematrixcontourDMPSY(parameter(1,4,ifacont),...
+        [Transmicont2,elemavaliar2,pressureface2,contorno2]=...
+            auxassemblematrixcontourDMPSY(parameter(1,4,ifacont),...
             parameter(1,2,ifacont),lef,pinterp,normcont,weightDMP,bedge);
         
         %auxelemavaliar2=auxface(ifacont,2);
@@ -39,7 +41,8 @@ for ifacont=1:size(bedge,1)
         
         M(lef,lef)=M(lef,lef)+ Transmicont2 + Transmicont1*mobility;
         
-        I(lef)=I(lef) + contorno1*Transmicont1*pressureface1*mobility + contorno2*Transmicont2*pressureface2*mobility;
+        I(lef)=I(lef) + contorno1*Transmicont1*pressureface1*mobility + ...
+            contorno2*Transmicont2*pressureface2*mobility;
         %__________________________________________________________________
          if strcmp(gravitational,'yes')
             if strcmp(strategy,'starnoni')
@@ -80,9 +83,11 @@ for iface=1:size(inedge,1)
     ifacerel2= parameter(2,4,ifactual);
     % Fluxo parcial do elemento a esquerda
     
-    F1=norma*(parameter(1,1,ifactual)*(p(lef)-pinterp(ifacelef1))+ parameter(1,2,ifactual)*(p(lef)-pinterp(ifacelef2)));
+    F1=norma*(parameter(1,1,ifactual)*(p(lef)-pinterp(ifacelef1))+ ...
+        parameter(1,2,ifactual)*(p(lef)-pinterp(ifacelef2)));
     % Fluxo parcial do elemento a direita
-    F2=norma*(parameter(2,1,ifactual)*(p(rel)-pinterp(ifacerel1))+ parameter(2,2,ifactual)*(p(rel)-pinterp(ifacerel2)));
+    F2=norma*(parameter(2,1,ifactual)*(p(rel)-pinterp(ifacerel1))+ ...
+        parameter(2,2,ifactual)*(p(rel)-pinterp(ifacerel2)));
     if abs(F1)<1e-20
         F1=0;
     end
@@ -102,19 +107,24 @@ for iface=1:size(inedge,1)
         % contribuições do elemento a esquerda
         % somando 1
         
-        [flaglef11,flaglef12,auxweightlef1,pressureface1]=auxassemblematrixintDMPSY1(ifacelef1,lef,pinterp,weightDMP,bedge);
+        [flaglef11,flaglef12,auxweightlef1,pressureface1]=...
+            auxassemblematrixintDMPSY1(ifacelef1,lef,pinterp,weightDMP,bedge);
         % se contornolef1 é zero então o ifacelef1 pertece ao face interior
         % da malha
         
-        auxTransmilef1= flaglef11*auxweightlef1*betalef*parameter(1,1,ifactual)*norma + flaglef12*betalef*parameter(1,1,ifactual)*norma;
+        auxTransmilef1= flaglef11*auxweightlef1*betalef*...
+            parameter(1,1,ifactual)*norma + flaglef12*betalef*parameter(1,1,ifactual)*norma;
         
         
-        M(lef,auxface(ifactual,1))=  M(lef,auxface(ifactual,1))- flaglef11*auxTransmilef1*mobility;
+        M(lef,auxface(ifactual,1))=  M(lef,auxface(ifactual,1))- ...
+            flaglef11*auxTransmilef1*mobility;
         
         % somando 2
-        [flaglef21,flaglef22,auxweightlef2,pressureface2]=auxassemblematrixintDMPSY1(ifacelef2,lef,pinterp,weightDMP,bedge);
+        [flaglef21,flaglef22,auxweightlef2,pressureface2]=...
+            auxassemblematrixintDMPSY1(ifacelef2,lef,pinterp,weightDMP,bedge);
         
-        auxTransmilef2= flaglef21*auxweightlef2*betalef*parameter(1,2,ifactual)*norma+ flaglef22*betalef*parameter(1,2,ifactual)*norma;
+        auxTransmilef2= flaglef21*auxweightlef2*betalef*...
+            parameter(1,2,ifactual)*norma+ flaglef22*betalef*parameter(1,2,ifactual)*norma;
         
         
         M(lef,auxface(ifactual,2))=  M(lef,auxface(ifactual,2))- flaglef21*auxTransmilef2*mobility;
@@ -123,24 +133,29 @@ for iface=1:size(inedge,1)
         
         M(lef,lef)=M(lef,lef) + auxTransmilef2 + auxTransmilef1*mobility;
         
-        I(lef)=I(lef)+ flaglef22*auxTransmilef2*pressureface2*mobility + flaglef12*auxTransmilef1*pressureface1*mobility;
+        I(lef)=I(lef)+ flaglef22*auxTransmilef2*pressureface2*mobility + ...
+            flaglef12*auxTransmilef1*pressureface1*mobility;
         %__________________________________________________________________
         
         % contribuições do elemento a direita
         % somando 1
         
-        [flagrel11,flagrel12,auxweightrel1,pressurefacerel1]=auxassemblematrixintDMPSY1(ifacerel1,rel,pinterp,weightDMP,bedge);
+        [flagrel11,flagrel12,auxweightrel1,pressurefacerel1]=...
+            auxassemblematrixintDMPSY1(ifacerel1,rel,pinterp,weightDMP,bedge);
         
-        auxTransmirel1= flagrel11*auxweightrel1*betarel*parameter(2,1,ifactual)*norma + flagrel12*betarel*parameter(2,1,ifactual)*norma;
+        auxTransmirel1= flagrel11*auxweightrel1*betarel*parameter(2,1,ifactual)...
+            *norma + flagrel12*betarel*parameter(2,1,ifactual)*norma;
         
         
         M(rel,auxface(ifactual,3))=  M(rel,auxface(ifactual,3))- flagrel11*auxTransmirel1*mobility;
         
         % somando 2
         
-        [flagrel21,flagrel22,auxweightrel2,pressurefacerel2]=auxassemblematrixintDMPSY1(ifacerel2,rel,pinterp,weightDMP,bedge);
+        [flagrel21,flagrel22,auxweightrel2,pressurefacerel2]=...
+            auxassemblematrixintDMPSY1(ifacerel2,rel,pinterp,weightDMP,bedge);
         
-        auxTransmirel2= flagrel21*auxweightrel2*betarel*parameter(2,2,ifactual)*norma + flagrel22*betarel*parameter(2,2,ifactual)*norma;
+        auxTransmirel2= flagrel21*auxweightrel2*betarel*parameter(2,2,ifactual)*norma +...
+            flagrel22*betarel*parameter(2,2,ifactual)*norma;
         
         
         M(rel,auxface(ifactual,4))=  M(rel,auxface(ifactual,4))- flagrel21*auxTransmirel2*mobility;
@@ -149,15 +164,18 @@ for iface=1:size(inedge,1)
         
         M(rel,rel)=M(rel,rel)+ auxTransmirel1*mobility + auxTransmirel2*mobility;
         
-        I(rel)=I(rel) + flagrel11*auxTransmirel1*pressurefacerel1*mobility + flagrel22*auxTransmirel2*pressurefacerel2*mobility;
+        I(rel)=I(rel) + flagrel11*auxTransmirel1*pressurefacerel1*mobility + ...
+            flagrel22*auxTransmirel2*pressurefacerel2*mobility;
         %__________________________________________________________________
         
         % caso 2 F1*F2<=0  pag. 2594 Sheng and yuan, 2011
     else
-        [F1b,]=calfluxopartial2(ifacelef1,ifacelef2,parameter(1,1,ifactual), parameter(1,2,ifactual), gamma,lef,pinterp,ifactual,p,norma);
+        [F1b,]=calfluxopartial2(ifacelef1,ifacelef2,parameter(1,1,ifactual),...
+         parameter(1,2,ifactual), gamma,lef,pinterp,ifactual,p,norma);
         % aveliando no elemento a direita
         
-        [F2b,]=calfluxopartial2(ifacerel1,ifacerel2,parameter(2,1,ifactual), parameter(2,2,ifactual), gamma,rel,pinterp,ifactual,p,norma);
+        [F2b,]=calfluxopartial2(ifacerel1,ifacerel2,parameter(2,1,ifactual)...
+            , parameter(2,2,ifactual), gamma,rel,pinterp,ifactual,p,norma);
         
         
         % faço esta escolha ja que um das faces pode coincidir com a face
