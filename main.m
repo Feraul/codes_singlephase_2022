@@ -56,16 +56,16 @@ erromethod='erromethod1';
 % nlfvHP    --> metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='nlfvHP';
+pmetodo='nlfvDMPSY';
 %% metodo de interação: picard, newton, broyden, secant,
 % método de itereção proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
 % iteration='iterbroyden';
 % iteration='JFNK';
- iteration='fullpicard';
+% iteration='fullpicard';
 % iteration='MPE'; 
 % iteration='RRE'; % picard com acelerador rank reduced extrapolation
-%  iteration='AA';  % picard com aceleracao de Anderson
+  iteration='AA';  % picard com aceleracao de Anderson
 %iteration='iterhybrid';
 %% defina o ponto de interpolacao
 interpol='LPEW2';
@@ -75,7 +75,7 @@ interpol='LPEW2';
 %interpol='eLPEW2';
 %% correcao dos pontos harmonicos
 % digite 'yes' ou 'no'
-correction='yes';
+correction='no';
 % qual tipo de correcao deseja utilizar
 %typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %typecorrection= 'secondcorrection'; % correcao utilizando ponto medio da face
@@ -83,10 +83,10 @@ typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %% digite segundo o benchmark
 % procure no "benchmarks.m" o caso que deseja rodar e logo digite o nome
 % do caso
-benchmark='shenyuan16'; 
+benchmark='starnonigrav1'; 
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
-gravitational='no';
+gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse'
 strategy= 'starnoni';

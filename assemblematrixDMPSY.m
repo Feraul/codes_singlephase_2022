@@ -127,7 +127,8 @@ for iface=1:size(inedge,1)
             parameter(1,2,ifactual)*norma+ flaglef22*betalef*parameter(1,2,ifactual)*norma;
         
         
-        M(lef,auxface(ifactual,2))=  M(lef,auxface(ifactual,2))- flaglef21*auxTransmilef2*mobility;
+        M(lef,auxface(ifactual,2))=  M(lef,auxface(ifactual,2))- ...
+            flaglef21*auxTransmilef2*mobility;
         
         %__________________________________________________________________
         
@@ -147,7 +148,8 @@ for iface=1:size(inedge,1)
             *norma + flagrel12*betarel*parameter(2,1,ifactual)*norma;
         
         
-        M(rel,auxface(ifactual,3))=  M(rel,auxface(ifactual,3))- flagrel11*auxTransmirel1*mobility;
+        M(rel,auxface(ifactual,3))=  M(rel,auxface(ifactual,3))- ...
+            flagrel11*auxTransmirel1*mobility;
         
         % somando 2
         
@@ -158,7 +160,8 @@ for iface=1:size(inedge,1)
             flagrel22*betarel*parameter(2,2,ifactual)*norma;
         
         
-        M(rel,auxface(ifactual,4))=  M(rel,auxface(ifactual,4))- flagrel21*auxTransmirel2*mobility;
+        M(rel,auxface(ifactual,4))=  M(rel,auxface(ifactual,4))- ...
+            flagrel21*auxTransmirel2*mobility;
         
         %__________________________________________________________________
         
@@ -240,78 +243,95 @@ for iface=1:size(inedge,1)
             weightlef=weightDMP(ifactual-size(bedge,1),1);
             weightrel=weightDMP(ifactual-size(bedge,1),2);
             
-            alfa=(1-gamma)*norma*(mulef1*auxparameter1*weightrel + murel1*auxparameter2*weightlef);
+            alfa=(1-gamma)*norma*(mulef1*auxparameter1*weightrel + ...
+                murel1*auxparameter2*weightlef);
             
             % contribuição da transmisibilidade no elemento esquerda
             
             % somando 1
             
-            [flaglef11,flaglef12,flaglef13,auxweightlef1,pressurefacelef1]=auxassemblematrixint(ifacelef1,lef,pinterp,ifactual,weightDMP,bedge);
+            [flaglef11,flaglef12,flaglef13,auxweightlef1,pressurefacelef1]=...
+                auxassemblematrixint(ifacelef1,lef,pinterp,ifactual,weightDMP,bedge);
             
             % esta transmisibilidade é ativado quando ifacelef1 pertenece
             % ao interior da malha e ifacelef1==ifactual
             Transmilef1=flaglef11*weightrel*gamma*betalef*parameter(1,1,ifactual)*norma;
             % esta transmisibilidade é ativado quando ifacelef1 pertenece
             % ao interior da malha e ifacelef1~=ifactual
-            auxTransmilef1= flaglef12*auxweightlef1*betalef*parameter(1,1,ifactual)*norma + flaglef13*betalef*parameter(1,1,ifactual)*norma;
+            auxTransmilef1= flaglef12*auxweightlef1*betalef*...
+                parameter(1,1,ifactual)*norma + flaglef13*betalef*parameter(1,1,ifactual)*norma;
             
-            M(lef,auxface(ifactual,1))=M(lef,auxface(ifactual,1))- flaglef12*auxTransmilef1*mobility;
+            M(lef,auxface(ifactual,1))=M(lef,auxface(ifactual,1))- ...
+                flaglef12*auxTransmilef1*mobility;
             
             % somando 2
             
-            [flaglef21,flaglef22,flaglef23,auxweightlef2,pressurefacelef2]=auxassemblematrixint(ifacelef2,lef,pinterp,ifactual,weightDMP,bedge);
+            [flaglef21,flaglef22,flaglef23,auxweightlef2,pressurefacelef2]=...
+                auxassemblematrixint(ifacelef2,lef,pinterp,ifactual,weightDMP,bedge);
             % esta transmisibilidade é ativado quando ifacelef1 pertenece
             % ao interior da malha e ifacelef2==ifactual
             Transmilef2=flaglef21*weightrel*gamma*betalef*parameter(1,2,ifactual)*norma;
             % esta transmisibilidade é ativado quando ifacelef1 pertenece
             % ao interior da malha e ifacelef2~=ifactual ou quando a face
             % pertenece ao contorno.
-            auxTransmilef2= flaglef22*auxweightlef2*betalef*parameter(1,2,ifactual)*norma  + flaglef23*betalef*parameter(1,2,ifactual)*norma;
+            auxTransmilef2= flaglef22*auxweightlef2*betalef*...
+                parameter(1,2,ifactual)*norma  + flaglef23*betalef*parameter(1,2,ifactual)*norma;
             
-            M(lef,auxface(ifactual,2))=M(lef,auxface(ifactual,2))-flaglef22*auxTransmilef2*mobility;
+            M(lef,auxface(ifactual,2))=M(lef,auxface(ifactual,2))-...
+                flaglef22*auxTransmilef2*mobility;
             
             %______________________________________________________________
             
-            M(lef,lef)=M(lef,lef) + mobility*(Transmilef2 + auxTransmilef2 + Transmilef1+ auxTransmilef1 + alfa);
+            M(lef,lef)=M(lef,lef) + mobility*(Transmilef2 + auxTransmilef2 +...
+                Transmilef1+ auxTransmilef1 + alfa);
             
             M(lef,rel)=M(lef,rel) - Transmilef1*mobility - Transmilef2*mobility - alfa*mobility;
             
-            I(lef)=I(lef) + flaglef13*auxTransmilef1*pressurefacelef1*mobility + flaglef23*auxTransmilef2*pressurefacelef2*mobility;
+            I(lef)=I(lef) + flaglef13*auxTransmilef1*pressurefacelef1*mobility +...
+                flaglef23*auxTransmilef2*pressurefacelef2*mobility;
             %______________________________________________________________
             
             % contribuição da transmisibilidade no elemento direita
             
             % somando 1
-            [flagrel11,flagrel12,flagrel13,auxweightrel1,pressurefacerel1]=auxassemblematrixint(ifacerel1,rel,pinterp,ifactual,weightDMP,bedge);
+            [flagrel11,flagrel12,flagrel13,auxweightrel1,pressurefacerel1]=...
+                auxassemblematrixint(ifacerel1,rel,pinterp,ifactual,weightDMP,bedge);
             % esta transmisibilidade é ativado quando ifacelef1 pertenece
             % ao interior da malha e ifacerel1==ifactual
             Transmirel1=flagrel11*weightlef*gamma*betarel*parameter(2,1,ifactual)*norma;
             % esta transmisibilidade é ativado quando ifacelef1 pertenece
             % ao interior da malha e ifacerel1~=ifactual
-            auxTransmirel1= flagrel12*auxweightrel1*betarel*parameter(2,1,ifactual)*norma + flagrel13*betarel*parameter(2,1,ifactual)*norma;
+            auxTransmirel1= flagrel12*auxweightrel1*betarel*...
+                parameter(2,1,ifactual)*norma + flagrel13*betarel*parameter(2,1,ifactual)*norma;
             
             M(rel,auxface(ifactual,3))=M(rel,auxface(ifactual,3))-flagrel12*auxTransmirel1*mobility;
             
             % somando 2
             
-            [flagrel21,flagrel22,flagrel23,auxweightrel2,pressurefacerel2]=auxassemblematrixint(ifacerel2,rel,pinterp,ifactual,weightDMP,bedge);
+            [flagrel21,flagrel22,flagrel23,auxweightrel2,pressurefacerel2]=...
+            auxassemblematrixint(ifacerel2,rel,pinterp,ifactual,weightDMP,bedge);
             % esta transmisibilidade é ativado quando ifacelef1 pertenece
             % ao interior da malha e ifacerel2==ifactual
             Transmirel2=flagrel21*weightlef*gamma*betarel*parameter(2,2,ifactual)*norma;
             % esta transmisibilidade é ativado quando ifacelef1 pertenece
             % ao interior da malha e ifacerel2~=ifactual ou quando a face
             % pertenece ao contorno.
-            auxTransmirel2= flagrel22*auxweightrel2*betarel*parameter(2,2,ifactual)*norma + flagrel23*betarel*parameter(2,2,ifactual)*norma;
+            auxTransmirel2= flagrel22*auxweightrel2*betarel*parameter(2,2,ifactual)...
+                *norma + flagrel23*betarel*parameter(2,2,ifactual)*norma;
             
-            M(rel,auxface(ifactual,4))=M(rel,auxface(ifactual,4))-flagrel22*auxTransmirel2*mobility;
+            M(rel,auxface(ifactual,4))=M(rel,auxface(ifactual,4))-...
+                flagrel22*auxTransmirel2*mobility;
             
             %______________________________________________________________
             
-            M(rel,rel)= M(rel,rel) + mobility*(Transmirel1 + auxTransmirel1 + Transmirel2 + auxTransmirel2 + alfa);
+            M(rel,rel)= M(rel,rel) + mobility*(Transmirel1 + auxTransmirel1 +...
+                Transmirel2 + auxTransmirel2 + alfa);
             
-            M(rel,lef)= M(rel,lef) - Transmirel1*mobility - Transmirel2*mobility - alfa*mobility;
+            M(rel,lef)= M(rel,lef) - Transmirel1*mobility - Transmirel2*mobility -...
+                alfa*mobility;
             
-            I(rel)=I(rel) + flagrel13*auxTransmirel1*pressurefacerel1*mobility + flagrel23*auxTransmirel2*pressurefacerel2*mobility;
+            I(rel)=I(rel) + flagrel13*auxTransmirel1*pressurefacerel1*mobility +...
+                flagrel23*auxTransmirel2*pressurefacerel2*mobility;
             
             %=============================================================%
             %  caso 2.2
@@ -320,7 +340,8 @@ for iface=1:size(inedge,1)
             weightlef=weightDMP(ifactual-size(bedge,1),1);
             weightrel=weightDMP(ifactual-size(bedge,1),2);
             % Calculo da transmisibilidade (eq. 18)
-            alfa=(1-gamma)*norma*(mulef1*auxparameter1*weightrel + murel1*auxparameter2*weightlef);
+            alfa=(1-gamma)*norma*(mulef1*auxparameter1*weightrel + ...
+                murel1*auxparameter2*weightlef);
             % contribuição da transmisibilidade no elemento esquerda
             M(lef,lef)=M(lef,lef)+ alfa*mobility;
             M(lef,rel)=M(lef,rel)- alfa*mobility;
