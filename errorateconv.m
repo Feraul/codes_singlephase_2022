@@ -43,7 +43,7 @@ switch benchmark
                 for i=1:size(elem,1)
                     s=s+(solanal(i,1)-p(i,1))^2*elemarea(i,1);
                 end
-                disp('>> Erro pressao')
+                
                 erropressure=sqrt(s/sum(elemarea));
                 % calcula o erro respeito a velocidade
                 Q=zeros(size(inedge,1),1);

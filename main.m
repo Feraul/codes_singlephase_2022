@@ -44,7 +44,7 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
 % erromethod3 --->  ''     ''     por Eigestad et al 2005
 % erromethod4 --->  ''     ''     por Shen e Yuan 2015
 % erromethod6 --->  ''     ''     por M. Starnoni 2019
-erromethod='erromethod1';
+erromethod='erromethod6';
 %% defina o tipo de solver 
 % tpfa      --> (TPFA)
 % mpfad     --> (MPFA-D) 
@@ -56,7 +56,7 @@ erromethod='erromethod1';
 % nlfvHP    --> metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='nlfvDMPSY';
+pmetodo='nlfvHP';
 %% metodo de interação: picard, newton, broyden, secant,
 % método de itereção proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
