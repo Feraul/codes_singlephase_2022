@@ -127,7 +127,6 @@ for iface=1:size(inedge,1)
    %======================================================================% 
 end
 name=(contador/size(inedge,1))*100;
-value=round(name);
 sprintf('>> Percentage of faces corrected: %s ',num2str(name))
 end
 

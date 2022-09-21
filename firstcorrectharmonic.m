@@ -11,6 +11,7 @@ for ifacont=1:size(bedge,1)
     y(ifacont,:)= 0.5*( coord(bedge(ifacont,1),:)+ coord(bedge(ifacont,2),:));
     
 end
+contador=1;
 for iface=1:size(inedge,1)
     lef=inedge(iface,3);
     rel=inedge(iface,4);
@@ -53,7 +54,7 @@ for iface=1:size(inedge,1)
     % calculo dos pontos armonicos
     y(iface+size(bedge,1),:)=(hrel*Knlef*centelem(lef,:)'+ hlef*Knrel*centelem(rel,:)'+...
         hlef*hrel*(Klef'-Krel')*(R*(vd1/norm(vd1))'))/(hrel*Knlef+hlef*Knrel);
-   
+    
     %=====================================================================%
     %     calculo dos pontos que saim fora da face interna nos pontos
     %     intermeadiarios da discontinuidade, sobre na discontinuidade
@@ -96,16 +97,6 @@ for iface=1:size(inedge,1)
                 end
             end
         end
-        
-    elseif strcmp(benchmark,'edqueiroz')
-        
-        a=0.5*(coord(inedge(iface,1),:)+coord(inedge(iface,2),:)); 
-        
-        if norm(a-coord(inedge(iface,1),:))<norm(a-y(iface+size(bedge,1),:))
-            % correccao ao ponto tradicional
-            y(iface+size(bedge,1),:)= (hrel*Knlef*centelem(lef,:)'+ hlef*Knrel*centelem(rel,:)')/(hrel*Knlef+hlef*Knrel);
-            % y(iface+size(bedge,1),:)= a;
-        end
     else
         % ative este calculo em malhas severamente distorcidas ja que
         a=0.5*(coord(inedge(iface,1),:)+coord(inedge(iface,2),:)); % ponto medio da face
@@ -113,12 +104,10 @@ for iface=1:size(inedge,1)
         
         if norm(a-coord(inedge(iface,1),:))<norm(a-y(iface+size(bedge,1),:))
             
-            y(iface+size(bedge,1),:)= (hrel*Knlef*centelem(lef,:)'+ hlef*Knrel*centelem(rel,:)')/(hrel*Knlef+hlef*Knrel); 
+            y(iface+size(bedge,1),:)= (hrel*Knlef*centelem(lef,:)'+ hlef*Knrel*centelem(rel,:)')/(hrel*Knlef+hlef*Knrel);
             % ativar para obter a convergencia Go e Wu 2010; na tese equacao 3.119
-            
+            contador=contador+1;
         end
-        
-        
     end
     
     % calculo dos pesos de interpolacao
@@ -133,4 +122,6 @@ for iface=1:size(inedge,1)
     weightDMP(iface,4)=rel;
     %======================================================================%
 end
+name=(contador/size(inedge,1))*100;
+sprintf('>> Percentage of faces corrected: %s ',num2str(name))
 end

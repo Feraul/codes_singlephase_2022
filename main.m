@@ -56,7 +56,7 @@ erromethod='erromethod6';
 % nlfvHP    --> metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='nlfvHP';
+pmetodo='nlfvLPEW';
 %% metodo de interação: picard, newton, broyden, secant,
 % método de itereção proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
@@ -86,7 +86,7 @@ typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 benchmark='starnonigrav1'; 
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
-gravitational='yes';
+gravitational='no';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse'
 strategy= 'starnoni';
