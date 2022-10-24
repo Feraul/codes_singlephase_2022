@@ -103,12 +103,16 @@ switch benchmark
                 nij=R*IJ'/norma;
                 
                 ym=a(1,2);
-                if ym>=0.5
-                    h1=10;
-                V=-[-0.1*h1 -h1 0];
+                if bedge(j,5)>200
+                    V=[0 0 0];
                 else
-                    h2=1;
-                V=-[-0.1*h2 -h2 0];    
+                    if ym>=0.5
+                        h1=10;
+                        V=-[-0.1*h1 -h1 0];
+                    else
+                        h2=1;
+                        V=-[-0.1*h2 -h2 0];
+                    end
                 end
             %Obtain the flow rate
                 
@@ -142,10 +146,7 @@ switch benchmark
                 gravface(j,1:2)= h2*[0,1];
             end
         end
-        
-        
-            
-            
+
         vel=F;
         K=kmap;
         elem(:,5)=1;

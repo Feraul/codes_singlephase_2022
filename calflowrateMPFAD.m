@@ -46,7 +46,7 @@ for ifacont=1:size(bedge,1);
             (O-coord(B1,:))*(coord(B2,:)-coord(B1,:))'*c2-(nor^2)*p(lef))...
             -(c2-c1)*Kt(ifacont);
 		
-        flowrate(ifacont)=auxflowrate-m;
+        flowrate(ifacont)=auxflowrate+m;
     else
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
@@ -96,7 +96,7 @@ for iface=1:size(inedge,1)
     end
     
     
-    flowrate(iface+size(bedge,1))=Kde(iface)*(p(rel)-p(lef)-Ded(iface)*(p2-p1))-m;
+    flowrate(iface+size(bedge,1))=Kde(iface)*(p(rel)-p(lef)-Ded(iface)*(p2-p1))+m;
     %Attribute the flow rate to "flowresult"
     %On the left:
     flowresult(lef) = flowresult(lef) + flowrate(bedgesize + iface);  
