@@ -44,7 +44,7 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
 % erromethod3 --->  ''     ''     por Eigestad et al 2005
 % erromethod4 --->  ''     ''     por Shen e Yuan 2015
 % erromethod6 --->  ''     ''     por M. Starnoni 2019
-erromethod='erromethod6';
+erromethod='erromethod1';
 %% defina o tipo de solver 
 % tpfa      --> (TPFA)
 % mpfad     --> (MPFA-D) 
@@ -56,7 +56,7 @@ erromethod='erromethod6';
 % nlfvHP    --> metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='mpfad';
+pmetodo='nlfvHP';
 %% metodo de interação: picard, newton, broyden, secant,
 % método de itereção proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
@@ -77,16 +77,16 @@ interpol='LPEW2';
 % digite 'yes' ou 'no'
 correction='yes';
 % qual tipo de correcao deseja utilizar
-%typecorrection='firstcorrection'; % correcao utilizando express. simplif.
-typecorrection= 'secondcorrection'; % correcao utilizando ponto medio da face
+typecorrection='firstcorrection'; % correcao utilizando express. simplif.
+%typecorrection= 'secondcorrection'; % correcao utilizando ponto medio da face
 %typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %% digite segundo o benchmark
 % procure no "benchmarks.m" o caso que deseja rodar e logo digite o nome
 % do caso
-benchmark='starnonigrav1'; 
+benchmark='edqueiroz'; 
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
-gravitational='yes';
+gravitational='no';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse'
 strategy= 'starnoni';

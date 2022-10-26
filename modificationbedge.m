@@ -22,7 +22,7 @@ function [bedge]=modificationbedge(bedge)
 %[auxcoord]=distortedramd;
 
 %% somente use nas malhas "Tipo1malha1", "Tipo1malha2", "Tipo1malha3" e "Tipo1malha4"
-
+%Tipo4Malha1_1, Tipo4Malha1_2, Tipo4Malha1_3, Tipo4Malha1_4
 % Historial para malha "Tipo1malha0" não habilite nada, el ya viene
 % ordenado en sentido antihorario tanto en elemento como no contorno
 % para malha "Tipo1malha1" "Tipo1malha2 " "Tipo1malha3" e "Tipo1malha4"

@@ -1330,21 +1330,21 @@ switch benchmark
         % contorno interior
         % unstructured mesh com furo reordenando o sentido da fronterira no
         % contorno interior
-        %  x=bedge(71:78,1); % UTILIZE Benchmark23_3_18_18.msh
-        %  y=bedge(71:78,2);
-        %  bedge(71:78,1)=y;
-        %  bedge(71:78,2)=x;
-        %  bedge(71:78,4:5)=102; % 18x18
-        %  bcflag(2,1)=102;
-        %  bcflag(2,2)=2;
+%          x=bedge(71:78,1); % UTILIZE Benchmark23_3_18_18.msh
+%          y=bedge(71:78,2);
+%          bedge(71:78,1)=y;
+%          bedge(71:78,2)=x;
+%          bedge(71:78,4:5)=102; % 18x18
+%          bcflag(2,1)=102;
+%          bcflag(2,2)=2;
         %=====================================
-        %  x=bedge(73:80,1); % UTILIZE MeshTri18sym.msh
-        %  y=bedge(73:80,2);
-        %  bedge(73:80,1)=y;
-        %  bedge(73:80,2)=x;
-        %  bedge(73:80,4:5)=102; % 18x18
-        %  bcflag(2,1)=102;
-        %  bcflag(2,2)=2;
+%          x=bedge(73:80,1); % UTILIZE MeshTri18sym.msh
+%          y=bedge(73:80,2);
+%          bedge(73:80,1)=y;
+%          bedge(73:80,2)=x;
+%          bedge(73:80,4:5)=102; % 18x18
+%          bcflag(2,1)=102;
+%          bcflag(2,2)=2;
         
         %=====================================
         %
@@ -1367,13 +1367,13 @@ switch benchmark
         %===============================================================
         % unstructured mesh com furo reordenando o sentido da fronterira no
         % contorno interior
-        % x=bedge(289:320,1);
-        % y=bedge(289:320,2);
-        % bedge(289:320,1)=y;
-        % bedge(289:320,2)=x;
-        % bedge(289:320,4:5)=102; % benchmark23_3 72x72
-        % bcflag(2,1)=102;
-        % bcflag(2,2)=2;
+%         x=bedge(289:320,1);
+%         y=bedge(289:320,2);
+%         bedge(289:320,1)=y;
+%         bedge(289:320,2)=x;
+%         bedge(289:320,4:5)=102; % benchmark23_3 72x72
+%         bcflag(2,1)=102;
+%         bcflag(2,2)=2;
         
         % unstructured mesh com furo reordenando o sentido da fronterira no
         % contorno interior
