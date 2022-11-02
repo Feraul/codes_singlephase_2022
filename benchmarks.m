@@ -1,7 +1,7 @@
 % este codigo contem todas as informacoes dos diferentes casos, como por
 % exemplo: tensor de permeabilidade (kmap), pressão analitica (u), termos de fonte (fonte),
 % velocidade analitica (vel),gravidade (grav)
-function[elem,kmap,normKmap,u,bedge,fonte,vel,grav,gravno,gravelem,gravface,fator]=benchmarks(kmap,elem,bedge)
+function[elem,kmap,normKmap,u,bedge,fonte,vel,grav,gravno,gravface]=benchmarks(kmap,elem,bedge)
 global centelem coord inedge normals elemarea bcflag benchmark
 normKmap=0;
 vel=0;
@@ -9,9 +9,8 @@ u=0;
 fonte=0;
 grav=zeros(size(elem,1),2);
 gravno=0;
-gravelem=0;
 gravface=0;
-fator=1;
+
 switch benchmark
     
     case 'miao'
@@ -65,7 +64,7 @@ switch benchmark
             if y>=0.5
                 % solucao analitica
                 u(i,1)= 11-h1*y;
-                gravelem(i,1)=h1*y;
+                
                 % calculo do gravidade
                 grav(i,:)=h1*[0,1];
             else
@@ -73,7 +72,7 @@ switch benchmark
                 u(i,1)= 6.5-h2*y;
                 % calculo do gravidade
                 grav(i,:)=h2*[0,1];
-                gravelem(i,1)=h2*y;
+                
             end
         end
         for jj=1:size(coord,1)
@@ -103,17 +102,15 @@ switch benchmark
                 nij=R*IJ'/norma;
                 
                 ym=a(1,2);
-                if bedge(j,5)>200
-                    V=[0 0 0];
-                else
+               
                     if ym>=0.5
                         h1=10;
-                        V=-[-0.1*h1 -h1 0];
+                        V=-[-0.1*0 -0 0];
                     else
                         h2=1;
-                        V=-[-0.1*h2 -h2 0];
+                        V=-[-0.1*0 -0 0];
                     end
-                end
+                
             %Obtain the flow rate
                 
             else
@@ -128,10 +125,10 @@ switch benchmark
                 ym=a(1,2);
                 if ym>=0.5
                     h1=10;
-                V=-[-0.1*h1 -h1 0];
+                V=-[-0.1*0 0 0];
                 else
                     h2=1;
-                V=-[-0.1*h2 -h2 0];    
+                V=-[-0.1*0 -0 0];    
                 end
             end
             F(j,1) = dot(V,nij');
@@ -151,7 +148,7 @@ switch benchmark
         K=kmap;
         elem(:,5)=1;
     case 'starnonigrav2'
-        fator=1;
+        
         for i = 1:size(centelem,1)
             %Define "x" and "y"
             x = centelem(i,1);
@@ -161,7 +158,6 @@ switch benchmark
             %  sin e cos no radianes
             u(i,1)=1+sin(x)*cos(y);
             
-            gravelem(i,1)=1-sin(x)*cos(y);
             % gravidade
             grav(i,:)=[-cos(x)*cos(y) sin(x)*sin(y)];
            
@@ -205,7 +201,7 @@ switch benchmark
                 
                 % solucao analitica
                 u(i,1)= sin(x)*cos(y)+11-h1*y;
-                gravelem(i,1)=sin(x)*cos(y)-h1*y;
+                
                 % calculo do gravidade
                 grav(i,:)=[-cos(x)*cos(y) h1+sin(x)*sin(y)];
             else
@@ -213,7 +209,7 @@ switch benchmark
                 u(i,1)= sin(x)*cos(y)+6.5-h2*y;
                 % calculo do gravidade
                 grav(i,:)=[-cos(x)*cos(y) h2+sin(x)*sin(y)];
-                gravelem(i,1)=sin(x)*cos(y)-h2*y;
+                
             end
         end
         for j=1:size(coord,1)
@@ -281,7 +277,7 @@ switch benchmark
                 
                 % solucao analitica
                 u(i,1)= 100*sin(x)*cos(y)+11-h1*y;
-                gravelem(i,1)=100*sind(x)*cosd(y)-h1*y;
+               
                 % calculo do gravidade
                 grav(i,:)=[-100*cos(x)*cos(y) h1+100*sin(x)*sin(y)];
             else
@@ -289,7 +285,7 @@ switch benchmark
                 u(i,1)= 100*sin(x)*cos(y)+6.5-h2*y;
                 % calculo do gravidade
                 grav(i,:)=[-100*cos(x)*cos(y) h2+100*sin(x)*sin(y)];
-                gravelem(i,1)=100*sind(x)*cosd(y)-h2*y;
+                
             end
         end
         for j=1:size(coord,1)
