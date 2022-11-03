@@ -1,4 +1,4 @@
-function [G,g]=gravitation(kmap,grav,gravface,fator)
+function [G,g]=gravitation(kmap,gravelem,gravface)
 global inedge bedge elem centelem coord 
 Klef=zeros(2,2);
 Krel=zeros(2,2);
@@ -21,9 +21,9 @@ for ifacont=1:size(bedge,1)
     
     Keq=Klef;
     if bedge(ifacont,5)>200
-        g(ifacont,1)=fator*dot((R*ve1')'*Keq,(gravface(ifacont,1:2)));
+        g(ifacont,1)=dot((R*ve1')'*Keq,(gravface(ifacont,1:2)));
      else
-         g(ifacont,1)=fator*dot((R*ve1')'*Keq,(grav(lef,1:2)));
+         g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,1:2)));
      end
     G(lef,1)=G(lef,1)-g(ifacont,1);
 
@@ -56,8 +56,8 @@ for iface=1:size(inedge,1)
          Krel(2,2)=kmap(elem(rel,5),5);
          
          Keq=inv((dj1*inv(Klef)+dj2*inv(Krel))); % equation 21
-         graveq=((dj1*grav(lef,:)+dj2*grav(rel,:))'); % equation 22
-         g(iface+size(bedge,1),1)=fator*dot(((R*vd1')')*Keq, graveq);% equation 20
+         graveq=((dj1*gravelem(lef,:)+dj2*gravelem(rel,:))'); % equation 22
+         g(iface+size(bedge,1),1)=dot(((R*vd1')')*Keq, graveq);% equation 20
         
          G(lef,1)=G(lef,1)-g(iface+size(bedge,1),1);
          G(rel,1)=G(rel,1)+g(iface+size(bedge,1),1);

@@ -101,8 +101,14 @@ for iface=1:size(inedge,1)
         % ative este calculo em malhas severamente distorcidas ja que
         a=0.5*(coord(inedge(iface,1),:)+coord(inedge(iface,2),:)); % ponto medio da face
         % este calculo eh usad por varios autores na literatura
+        %=====================================================================%
+        % comprimento da face ou area
+        RR=0.5*norm(vd1);
         
-        if norm(a-coord(inedge(iface,1),:))<norm(a-y(iface+size(bedge,1),:))
+        % R' is called as Raux
+        Raux=3*RR;
+        if norm(y(iface+size(bedge,1),:)- a)>Raux
+            % if norm(a-coord(inedge(iface,1),:))<norm(a-y(iface+size(bedge,1),:))
             
             y(iface+size(bedge,1),:)= (hrel*Knlef*centelem(lef,:)'+ hlef*Knrel*centelem(rel,:)')/(hrel*Knlef+hlef*Knrel);
             % ativar para obter a convergencia Go e Wu 2010; na tese equacao 3.119

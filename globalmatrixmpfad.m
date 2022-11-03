@@ -34,7 +34,7 @@ for ifacont=1:size(bedge,1)
         
         if strcmp(gravitational,'yes')
             if strcmp(strategy,'starnoni')
-                m=gravrate(ifacont);
+                m=normcont*gravrate(ifacont);
             elseif strcmp(strategy,'inhouse')
                 g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
                 g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
@@ -49,11 +49,22 @@ for ifacont=1:size(bedge,1)
         I(lef)=I(lef)-A*(dot(v2,-v0)*c1+dot(v1,v0)*c2)+(c2-c1)*Kt(ifacont)+m;
         
     else
-       
+       if strcmp(gravitational,'yes')
+            if strcmp(strategy,'starnoni')
+                m=normcont*gravrate(ifacont);
+            elseif strcmp(strategy,'inhouse')
+                g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
+                g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
+                m=(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-norm(v0)^2*gravelem(lef))-(g2-g1)*Kt(ifacont));
+            end
+        else
+            m=0;
+        end
+        
         % Contorno de Neumann
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
-        I(lef)=I(lef) -normcont*bcflag(r,2);
+        I(lef)=I(lef) -normcont*bcflag(r,2)-m;
        
     end
     

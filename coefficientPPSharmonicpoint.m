@@ -1,5 +1,5 @@
 function [coefficient,auxface]=coefficientPPSharmonicpoint(F,y,kmap,raioaux)
-global inedge bedge coord elem centelem
+global inedge bedge coord elem centelem correction
 Klef=zeros(3,3);
 Krel=zeros(3,3);
 R=[0 1 0; -1 0 0;0 0 0];
@@ -90,7 +90,7 @@ for ifacont=1:size(bedge,1)
     end
     % quado nao e possivel encontrar os coeficientes este trecho de rutina 
     % reorganiza os pontos harmonicos
-    if (ksii==1e30 && ksij==1e30) || (ksii>1e10 && ksij>1e10)
+    if ((ksii==1e30 && ksij==1e30) || (ksii>1e10 && ksij>1e10))&& strcmp(correction,'yes')
         
         [ksii,ksij,aux11,aux12,auxy]=aroundfacelement(F,y,lef,ve2,klef,kmap,raioaux);
         % atribuindo valores a os coeficientes
@@ -230,7 +230,7 @@ for iface=1:size(inedge,1)
     end
     % quado nao e possivel encontrar os coeficientes este trecho de rutina 
     % reorganiza os pontos harmonicos
-    if (ksii==1e30 && ksij==1e30) || (ksii>1e10 && ksij>1e10)
+    if ((ksii==1e30 && ksij==1e30) || (ksii>1e10 && ksij>1e10))&& strcmp(correction,'yes') 
         
         [ksii,ksij,aux11,aux12,auxy]=aroundfacelement(F,y,lef,ve2,klef,kmap,raioaux);
         % atribuindo valores a os coeficientes
@@ -345,7 +345,7 @@ for iface=1:size(inedge,1)
     end
     % quado nao e possivel encontrar os coeficientes este trecho de rutina 
     % reorganiza os pontos harmonicos
-    if (ksii==1e30 && ksij==1e30)|| (ksii>1e10 && ksij>1e10)
+    if ((ksii==1e30 && ksij==1e30)|| (ksii>1e10 && ksij>1e10))&& strcmp(correction,'yes')
         
         [ksii,ksij,auxi,auxj,auxy]=aroundfacelement(F,y,rel,vetor12,krel,kmap,raioaux);
         % atribuindo valores a os coeficientes

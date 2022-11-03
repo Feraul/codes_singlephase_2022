@@ -75,10 +75,10 @@ interpol='LPEW2';
 %interpol='eLPEW2';
 %% correcao dos pontos harmonicos
 % digite 'yes' ou 'no'
-correction='yes';
+correction='no';
 % qual tipo de correcao deseja utilizar
-%typecorrection='firstcorrection'; % correcao utilizando express. simplif.
-typecorrection= 'secondcorrection'; % correcao utilizando ponto medio da face
+typecorrection='firstcorrection'; % correcao utilizando express. simplif.
+%typecorrection= 'secondcorrection'; % correcao utilizando ponto medio da face
 %typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %% digite segundo o benchmark
 % procure no "benchmarks.m" o caso que deseja rodar e logo digite o nome
@@ -93,8 +93,7 @@ strategy= 'starnoni';
 
 %% adequação das permeabilidades e otros parametros fisico-geometricos 
 %segundo cada caso ou problema
-[elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,grav,gravno,...
-    gravelem,gravface,fator]=benchmarks(kmap,elem,bedge);
+[elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,grav,gravno,gravface]=benchmarks(kmap,elem,bedge);
 
 % F faces na vizinhanca de um elemento
 % V 
@@ -103,7 +102,7 @@ strategy= 'starnoni';
 %% pre-processador local
 [pointarmonic,parameter,gamma,p_old,tol,nit,er,nflagface,nflagno,...
     weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,gravresult,gravrate,w,s]=...
-    preprocessorlocal(kmap,N,grav,gravface,gravelem,fator);
+    preprocessorlocal(kmap,N,grav,gravface);
 
 % não habilite
 %[aroundface]=aroundfacelement(F,pointarmonic);
@@ -114,7 +113,7 @@ mobility=1;
 [pressurenum,errorelativo,flowrate,flowresult,tabletol,coercividade]=...
     solverpressure(kmap,nflagface,nflagno,fonte, tol,nit,p_old,mobility,...
     gamma,wells,parameter,Hesq, Kde, Kn, Kt, Ded,weightDMP,auxface,...
-    calnormface,gravresult,gravrate,w,s,gravno,gravelem,gravface);
+    calnormface,gravresult,gravrate,w,s,gravno,gravface);
 
 %% pos-processador no visit
 postprocessor(full(abs(pressurenum-pressurexact)),1); 

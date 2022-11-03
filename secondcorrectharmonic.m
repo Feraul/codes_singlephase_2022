@@ -102,7 +102,17 @@ for iface=1:size(inedge,1)
         a=0.5*(coord(inedge(iface,1),:)+coord(inedge(iface,2),:)); % ponto medio da face
         % este calculo eh usad por varios autores na literatura
         
-        if norm(a-coord(inedge(iface,1),:))<norm(a-y(iface+size(bedge,1),:))
+        
+        %=====================================================================%
+        % comprimento da face ou area
+        RR=0.5*norm(vd1);
+        
+        % R' is called as Raux
+        Raux=3*RR;
+        if norm(y(iface+size(bedge,1),:)- a)>Raux
+            
+            
+            % if norm(a-coord(inedge(iface,1),:))<norm(a-y(iface+size(bedge,1),:))
             % correccao ao ponto medio
             y(iface+size(bedge,1),:)= a;
             contador=contador+1;
