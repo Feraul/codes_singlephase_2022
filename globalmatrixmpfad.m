@@ -34,7 +34,7 @@ for ifacont=1:size(bedge,1)
         
         if strcmp(gravitational,'yes')
             if strcmp(strategy,'starnoni')
-                m=normcont*gravrate(ifacont);
+                m=gravrate(ifacont);
             elseif strcmp(strategy,'inhouse')
                 g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
                 g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
@@ -51,7 +51,7 @@ for ifacont=1:size(bedge,1)
     else
        if strcmp(gravitational,'yes')
             if strcmp(strategy,'starnoni')
-                m=normcont*gravrate(ifacont);
+                m=gravrate(ifacont);
             elseif strcmp(strategy,'inhouse')
                 g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
                 g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
