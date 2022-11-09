@@ -5,7 +5,7 @@ global inedge coord bedge bcflag elem elemarea gravitational strategy
 I=sparse(size(elem,1),1);
 M=sparse(size(elem,1),size(elem,1));
 % gravresult:div*flux_g
-I=I+fonte-gravresult;
+I=I+fonte;
 
 m=0;
 auxmobility=1;
@@ -19,14 +19,14 @@ for ifacont=1:size(bedge,1)
         r=find(x==1);
         I(lef)=I(lef)- normcont*bcflag(r,2);
     else
-%         if strcmp(gravitational,'yes')
-%             if strcmp(strategy,'starnoni')
-%                 m=gravrate(ifacont);
-%             elseif strcmp(strategy,'inhouse')
-%                m=0;
-%             end
-%             
-%         end
+        if strcmp(gravitational,'yes')
+            if strcmp(strategy,'starnoni')
+                m=gravrate(ifacont);
+            elseif strcmp(strategy,'inhouse')
+               m=0;
+            end
+            
+        end
         %-------------------------------------------------------------%
         % somando 1
         ifacelef1=parameter(1,3,ifacont);
@@ -778,19 +778,19 @@ for iface=1:size(inedge,1)
         M(rel,[auxlef,auxrel])=  M(rel,[auxlef,auxrel])- termo0*[auxweightrel1,auxweightrel2];
         
     end
-%     if strcmp(gravitational,'yes')
-%         
-%         if strcmp(strategy,'starnoni')
-%             m=gravrate(size(bedge,1)+iface);
-%         elseif strcmp(strategy,'inhouse')
-%             m=0;
-%         end
-%         
-%         I(lef)=I(lef)+m;
-%        
-%         I(rel)=I(rel)-m;
-%        
-%     end
+    if strcmp(gravitational,'yes')
+        
+        if strcmp(strategy,'starnoni')
+            m=gravrate(size(bedge,1)+iface);
+        elseif strcmp(strategy,'inhouse')
+            m=0;
+        end
+        
+        I(lef)=I(lef)+m;
+       
+        I(rel)=I(rel)-m;
+       
+    end
 end
 %
 % % adequação da matriz nos poços produtores

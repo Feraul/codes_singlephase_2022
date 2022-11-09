@@ -49,21 +49,9 @@ for ifacont=1:size(bedge,1);
         flowrate(ifacont)=auxflowrate-m;
     else
         
-        if strcmp(gravitational,'yes')
-            if strcmp(strategy,'starnoni')
-                m=gravrate(ifacont);
-            elseif strcmp(strategy,'inhouse')
-                g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
-                g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
-                m=(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-norm(v0)^2*gravelem(lef))-(g2-g1)*Kt(ifacont));
-            end
-        else
-            m=0;
-        end
-        
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
-        flowrate(ifacont)= nor*bcflag(r,2);%+m;
+        flowrate(ifacont)= nor*bcflag(r,2);
     end
     %Attribute the flow rate to "flowresult"
     %On the left:

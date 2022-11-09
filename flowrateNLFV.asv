@@ -1,5 +1,5 @@
 function [flowrate,flowresult,coercividade]=flowrateNLFV(p, pinterp, parameter,mobility,gravrate)
-global inedge coord bedge bcflag centelem gravitational strategy
+global inedge coord bedge bcflag centelem gravitational
 
 %Initialize "bedgesize" and "inedgesize"
 bedgesize = size(bedge,1);
@@ -47,7 +47,7 @@ for ifacont=1:size(bedge,1)
         end
         
         flowrate(ifacont,1)=normcont*(parameter(1,1,ifacont)*(p(lef)-pinterp(parameter(1,3,ifacont)))+...
-            parameter(1,2,ifacont)*(p(lef)-pinterp(parameter(1,4,ifacont))))-m;
+            parameter(1,2,ifacont)*(p(lef)-pinterp(parameter(1,4,ifacont))));
         % teste de coercividade
         
         
@@ -102,14 +102,8 @@ for iface=1:size(inedge,1)
     %% calculo da contribuição, Eq. 2.12 (resp. Eq. 21) do artigo Gao and Wu 2015 (resp. Gao and Wu 2014)
     ALL=norma*mulef*(parameter(1,1,ifactual)+parameter(1,2,ifactual));
     ALR=norma*murel*(parameter(2,1,ifactual)+parameter(2,2,ifactual));
-    if strcmp(gravitational,'yes')
-        if strcmp(strategy,'starnoni')
-            m=gravrate(iface+size(bedge,1));
-        elseif strcmp(strategy,'inhouse')
-            m=0;
-        end
-    end
-    flowrate(iface+size(bedge,1),1)=ALL*p(lef)-ALR*p(rel)-m;
+    
+    flowrate(iface+size(bedge,1),1)=ALL*p(lef)-ALR*p(rel);
     
     %Attribute the flow rate to "flowresult"
     %On the left:

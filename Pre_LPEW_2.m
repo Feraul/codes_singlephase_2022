@@ -46,8 +46,12 @@ for No=1:size(coord,1)
             m1=1;
             m2=1;
         end
-        s(No,1) = -(1/sum(lambda))*(r(No,1)*bcflag(s1,2) + r(No,1)*m1+ ...
-            r(No,2)*bcflag(s2,2)+r(No,2)*m2);
+        % da errado quando colocamos o termo gravitacional
+        %s(No,1) = -(1/sum(lambda))*(r(No,1)*bcflag(s1,2) + r(No,1)*m1+ ...
+        %    r(No,2)*bcflag(s2,2)+r(No,2)*m2);
+        
+        s(No,1) = -(1/sum(lambda))*(r(No,1)*bcflag(s1,2) + ...
+           r(No,2)*bcflag(s2,2));
     end  %End of IF
 end
 end

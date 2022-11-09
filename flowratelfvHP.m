@@ -1,5 +1,5 @@
-function [flowrate,flowresult]=flowratelfvHP(parameter,weightDMP,mobility,pinterp,p)
-global inedge coord bedge bcflag centelem
+function [flowrate,flowresult]=flowratelfvHP(parameter,weightDMP,mobility,pinterp,p,gravrate)
+global inedge coord bedge bcflag centelem gravitational strategy
 % incialização das matrizes
 % 
 % auxmobility1=mobility(1:size(inedge,1),1);
@@ -26,6 +26,14 @@ for ifacont=1:size(bedge,1)
         r=find(x==1);
         flowrate(ifacont,1)=normcont*bcflag(r,2);
     else
+        if strcmp(gravitational,'yes')
+            if strcmp(strategy,'starnoni')
+                m=gravrate(ifacont);
+            elseif strcmp(strategy,'inhouse')
+               m=0;
+            end
+        end
+        
         facelef1=parameter(1,3,ifacont);
         facelef2=parameter(1,4,ifacont);
         
@@ -33,7 +41,7 @@ for ifacont=1:size(bedge,1)
         %    parameter(1,1,ifacont)*pinterp(facelef1)-parameter(1,2,ifacont)*pinterp(facelef2));
         
         flowrate(ifacont,1)= normcont*((parameter(1,1,ifacont)+parameter(1,2,ifacont))*p(lef)-...
-            parameter(1,1,ifacont)*pinterp(facelef1)-parameter(1,2,ifacont)*pinterp(facelef2));
+            parameter(1,1,ifacont)*pinterp(facelef1)-parameter(1,2,ifacont)*pinterp(facelef2))-m;
     end
     %Attribute the flow rate to "flowresult"
     %On the left:
@@ -67,7 +75,15 @@ for iface=1:size(inedge,1)
                        parameter(2,1,ifactual)*pinterp(auxfacerel1)-parameter(2,2,ifactual)*pinterp(auxfacerel2));
     % calculo do fluxo unico na face
    % flowrate(iface+size(bedge,1),1)=mobility(ifactual)*(murel*fluxesq-mulef*fluxdireit);
-    flowrate(iface+size(bedge,1),1)=(murel*fluxesq-mulef*fluxdireit) ;
+    if strcmp(gravitational,'yes')
+            if strcmp(strategy,'starnoni')
+                m=gravrate(iface+size(bedge,1));
+            elseif strcmp(strategy,'inhouse')
+               m=0;
+            end
+    end
+        
+    flowrate(iface+size(bedge,1),1)=(murel*fluxesq-mulef*fluxdireit)-m;
     %Attribute the flow rate to "flowresult"
     %On the left:
     flowresult(lef) = flowresult(lef) + flowrate(bedgesize + iface);  

@@ -1,6 +1,5 @@
-function [flowrate,flowresult]=flowrateNLFVHP(p, pinterp, parameter)
-global inedge coord bedge bcflag centelem phasekey smethod
-
+function [flowrate,flowresult]=flowrateNLFVHP(p, pinterp, parameter,gravrate)
+global inedge coord bedge bcflag centelem strategy gravitational
 
 %Initialize "bedgesize" and "inedgesize"
 bedgesize = size(bedge,1);
@@ -21,9 +20,16 @@ for ifacont=1:size(bedge,1)
         r=find(x==1);
         flowrate(ifacont,1)= normcont*bcflag(r,2);
     else
-
-        flowrate(ifacont,1)=normcont*(parameter(1,1,ifacont)*(p(lef)-pinterp(parameter(1,3,ifacont)))+...
-                                                    parameter(1,2,ifacont)*(p(lef)-pinterp(parameter(1,4,ifacont))));        
+        if strcmp(gravitational,'yes')
+            if strcmp(strategy,'starnoni')
+                m=gravrate(ifacont);
+            elseif strcmp(strategy,'inhouse')
+               m=0;
+            end
+        end
+        flowrate(ifacont,1)=normcont*(parameter(1,1,ifacont)*(p(lef)-...
+            pinterp(parameter(1,3,ifacont)))+...
+        parameter(1,2,ifacont)*(p(lef)-pinterp(parameter(1,4,ifacont))))-m;        
     end
     %Attribute the flow rate to "flowresult"
     %On the left:
@@ -60,8 +66,14 @@ for iface=1:size(inedge,1)
     %% calculo da contribuição, Eq. 2.12 (resp. Eq. 21) do artigo Gao and Wu 2015 (resp. Gao and Wu 2014)
     ALL=norma*mulef*(parameter(1,1,ifactual)+parameter(1,2,ifactual));
     ALR=norma*murel*(parameter(2,1,ifactual)+parameter(2,2,ifactual));
-    
-   flowrate(iface+size(bedge,1),1)=(ALL*p(lef)-ALR*p(rel)); 
+    if strcmp(gravitational,'yes')
+            if strcmp(strategy,'starnoni')
+                m=gravrate(iface+size(bedge,1));
+            elseif strcmp(strategy,'inhouse')
+               m=0;
+            end
+        end
+   flowrate(iface+size(bedge,1),1)=(ALL*p(lef)-ALR*p(rel))-m; 
    
    %Attribute the flow rate to "flowresult"
     %On the left:

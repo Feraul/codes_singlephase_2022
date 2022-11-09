@@ -1,5 +1,5 @@
 function [G,g]=gravitation(kmap,gravelem,gravface)
-global inedge bedge elem centelem coord 
+global inedge bedge elem centelem coord normals
 Klef=zeros(2,2);
 Krel=zeros(2,2);
 G=zeros(size(elem,1),1);

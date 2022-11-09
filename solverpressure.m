@@ -174,12 +174,12 @@ if strcmp(pmetodo,'nlfvDMPSY')
     [flowrate,flowresult]=flowrateNLFVDMP(pressure, pinterp, parameter,...
         nflagface,kmap,gamma,weightDMP,mobility);
 elseif strcmp(pmetodo,'nlfvHP')
-    [flowrate,flowresult]=flowrateNLFVHP(pressure, pinterp, parameter);
+    [flowrate,flowresult]=flowrateNLFVHP(pressure, pinterp, parameter,gravrate);
     coercividade=0;
 elseif strcmp(pmetodo,'nlfvLPEW')
     %implementação do fluxo NLFV
     [flowrate,flowresult,coercividade]=flowrateNLFV(pressure, pinterp,...
-        parameter,mobility);
+        parameter,mobility,gravrate);
 elseif strcmp(pmetodo, 'nlfvLPS')
     %implementação do fluxo NLFV
     [flowrate,flowresult,coercividade]=flowrateNLFVPP(pressure, pinterp,...
@@ -192,7 +192,7 @@ elseif strcmp(pmetodo, 'nlfvPPS')
     
 elseif strcmp(pmetodo, 'lfvHP')
     [flowrate,flowresult]=flowratelfvHP(parameter,weightDMP,mobility,...
-        pinterp,pressure);
+        pinterp,pressure,gravrate);
     
 elseif strcmp(pmetodo, 'lfvLPEW')
     %calculo das vazões
