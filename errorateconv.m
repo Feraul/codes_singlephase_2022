@@ -18,15 +18,11 @@ switch benchmark
             if iface<size(bedge,1) ||iface==size(bedge,1)
                 v1=bedge(iface,1);
                 v2=bedge(iface,2);
-                
-                norma(iface,1)=norm(coord(v2,:)-coord(v1,:));
             else
                 v1=inedge(iface-size(bedge,1),1);
-                v2=inedge(iface-size(bedge,1),2);
-                
-                norma(iface,1)=norm(coord(v2,:)-coord(v1,:));
+                v2=inedge(iface-size(bedge,1),2); 
             end
-            
+            norma(iface,1)=norm(coord(v2,:)-coord(v1,:));
             switch benchmark
                 case 'lepotier'
                     velnum(iface,1)=flowrate(iface);

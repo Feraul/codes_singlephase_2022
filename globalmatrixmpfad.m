@@ -64,7 +64,7 @@ for ifacont=1:size(bedge,1)
         % Contorno de Neumann
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
-        I(lef)=I(lef) -normcont*bcflag(r,2)-m;
+        I(lef)=I(lef) -normcont*bcflag(r,2);%-m;
        
     end
     

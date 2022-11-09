@@ -63,7 +63,7 @@ for ifacont=1:size(bedge,1);
         
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
-        flowrate(ifacont)= nor*bcflag(r,2)+m;
+        flowrate(ifacont)= nor*bcflag(r,2);%+m;
     end
     %Attribute the flow rate to "flowresult"
     %On the left:
