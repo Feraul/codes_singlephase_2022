@@ -6,7 +6,7 @@
 
 //Work developed by: Marcio Souza and Luiz E. Queiroz
 //Adviser Professors: Paulo Lyra & Darlan Carvalho
-//Create date: 2022/12/7;	hour: 16:37h
+//Create date: 2022/12/17;	hour: 10:1h
 
 //--------------------------------------------------------------------
 //This file has CAD parameters. It is related to building of domain
