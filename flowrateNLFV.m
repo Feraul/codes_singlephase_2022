@@ -13,6 +13,7 @@ flowresult = zeros(size(centelem,1),1);
 
 denomi=0;
 numera=0;
+m=0;
 for ifacont=1:size(bedge,1)
     lef=bedge(ifacont,3);
     

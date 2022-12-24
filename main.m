@@ -56,7 +56,7 @@ erromethod='erromethod6';
 % nlfvHP    --> metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='nlfvHP';
+pmetodo='nlfvLPEW';
 %% metodo de interação: picard, newton, broyden, secant,
 % método de itereção proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
@@ -67,6 +67,7 @@ pmetodo='nlfvHP';
 % iteration='RRE'; % picard com acelerador rank reduced extrapolation
   iteration='AA';  % picard com aceleracao de Anderson
 %iteration='iterhybrid';
+%iteration='fsolver';
 %% defina o ponto de interpolacao
 interpol='LPEW2';
 %interpol='LPEW1';
@@ -93,7 +94,8 @@ strategy= 'starnoni';
 
 %% adequação das permeabilidades e otros parametros fisico-geometricos 
 %segundo cada caso ou problema
-[elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,grav,gravno,gravface]=benchmarks(kmap,elem,bedge);
+[elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,grav,gravno,...
+    gravface]=benchmarks(kmap,elem,bedge);
 
 % F faces na vizinhanca de um elemento
 % V 
