@@ -60,12 +60,12 @@ pmetodo='nlfvLPEW';
 %% metodo de interação: picard, newton, broyden, secant,
 % método de itereção proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
- iteration='iterbroyden';
+% iteration='iterbroyden';
 % iteration='JFNK';
 % iteration='fullpicard';
 % iteration='MPE'; 
 % iteration='RRE'; % picard com acelerador rank reduced extrapolation
- % iteration='AA';  % picard com aceleracao de Anderson
+  iteration='AA';  % picard com aceleracao de Anderson
 %iteration='iterhybrid';
 %iteration='fsolver';
 %% defina o ponto de interpolacao
