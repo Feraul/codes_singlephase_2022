@@ -96,7 +96,8 @@ strategy= 'starnoni';
 %segundo cada caso ou problema
 [elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,grav,gravno,...
     gravface]=benchmarks(kmap,elem,bedge);
-
+mm=find(bedge(:,4)==202);
+bedge(mm',4)=201;
 % F faces na vizinhanca de um elemento
 % V 
 % N
