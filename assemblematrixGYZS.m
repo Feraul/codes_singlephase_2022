@@ -115,13 +115,13 @@ end
 %     end
 % end
 % adequação da matriz nos poços produtores
-if max(max(wells))~=0
-    for iw = 1:size(wells,1)
-        if wells(iw,2)==2 %produtor
-            M(wells(iw,1),:)=0*M(wells(iw,1),:);
-            M(wells(iw,1),wells(iw,1))=1;
-            I(wells(iw,1))=0;
-        end
-    end
-end
+% if max(max(wells))~=0
+%     for iw = 1:size(wells,1)
+%         if wells(iw,2)==2 %produtor
+%             M(wells(iw,1),:)=0*M(wells(iw,1),:);
+%             M(wells(iw,1),wells(iw,1))=1;
+%             I(wells(iw,1))=0;
+%         end
+%     end
+% end
 end

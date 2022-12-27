@@ -1,6 +1,7 @@
 function [J]=aproxmjacobian(Fk,p_new,p_old,nflagface,nflagno,w,s,...
-    parameter,weightDMP,kmap,fonte,mobility,Hesq, Kde, Kn, Kt, ...
+    parameter,weightDMP,kmap,fonte,auxface,mobility,Hesq, Kde, Kn, Kt, ...
     Ded,calnormface,wells)
+
 global elem
 nelem=size(elem,1);
 J=sparse(nelem,nelem);
@@ -20,7 +21,8 @@ for ielem=1:nelem
     % Calculo da matriz global
     [auxM,auxRHS]=globalmatrix(x,pinterp_new,0,nflagface,nflagno...
         ,parameter,kmap,fonte,w,s,weightDMP,wells,...
-        mobility,Hesq, Kde, Kn, Kt, Ded,calnormface,0);
+        mobility,Hesq, Kde, Kn, Kt, Ded,calnormface,0,0,0,0,0,0);
+    
     % f(xk+1)
     Fkk= auxM*x - auxRHS;
     

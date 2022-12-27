@@ -19,7 +19,7 @@ n
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
 
-HermelineMeshModTriang_12_12.msh
+Benchmark23_3_FINA36.msh
 
 //OBS.: This file must be puted into folder together with *.m files 
 //or in a folder whose path will be declared immediately below:
@@ -91,13 +91,13 @@ y
 //and two geometric tag)
 
 1
-3 1 1 3
+2 1 1 3
 
 //Direction "y" (number of statments, number of points, growth rate 
 //and two geometric tag)
 
 1
-3 1 2 4
+2 1 2 4
 
 //IMPORTANT: In case where there are two or more properties to long
 //domain, the user must take care during attribution of parameters 
@@ -389,7 +389,7 @@ porosity.dat
 //below.
 
 2
-201 202
+101 102
 
 //--------------------------------------------------------------------
 //----------------------- Convergence criteria -----------------------
