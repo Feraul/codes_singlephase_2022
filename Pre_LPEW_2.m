@@ -27,9 +27,9 @@ for No=1:size(coord,1)
     end
     
     apw(No+1)=apw(No)+size(O,1);
-    % calculando os pesos relativos a condição de contorno de Neumann
-    % interpolaçao das pressões nos contornos de Neumann
-    % N ordena faces na vizinhanca de um vertices, comecando por faces do
+    % calculando os pesos na condição de contorno de Neumann para poder
+    % interpolar as pressoes naquele contorno
+    % N ordena faces na vizinhanca de um vertices, comecando pela face do
     % contorno 
     vetor = nsurn1(nsurn2(No) + 1:nsurn2(No + 1));
     comp1 = N(No,1);

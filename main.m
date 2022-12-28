@@ -45,7 +45,7 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
 % erromethod4 --->  ''     ''     por Shen e Yuan 2015
 % erromethod6 --->  ''     ''     por M. Starnoni 2019
 erromethod='erromethod6';
-%% defina o tipo de solver 
+%% defina o tipo de metodo  
 % tpfa      --> (TPFA)
 % mpfad     --> (MPFA-D) 
 % lfvLPEW   --> (MPFA-HD)ou (MPFA-QL)
@@ -56,9 +56,9 @@ erromethod='erromethod6';
 % nlfvHP    --> metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='nlfvLPEW';
-%% metodo de interação: picard, newton, broyden, secant,
-% método de itereção proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
+pmetodo='mpfad';
+%% metodo de interacao: picard, newton, broyden, secant,
+% método de iterecao proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
 % iteration='iterbroyden';
 % iteration='JFNK';
@@ -68,7 +68,7 @@ pmetodo='nlfvLPEW';
   iteration='AA';  % picard com aceleracao de Anderson
 %iteration='iterhybrid';
 %iteration='fsolver';
-%% defina o ponto de interpolacao
+%% qual tipo de interpolacao deseja utilizar
 interpol='LPEW2';
 %interpol='LPEW1';
 %interpol='LS';
@@ -87,12 +87,12 @@ typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 benchmark='starnonigrav1'; 
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
-gravitational='no';
+gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse'
 strategy= 'starnoni';
 
-%% adequação das permeabilidades e otros parametros fisico-geometricos 
+%% adequacao das permeabilidades e otros parametros fisico-geometricos 
 %segundo cada caso ou problema
 [elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,grav,gravno,...
     gravface]=benchmarks(kmap,elem,bedge);
@@ -104,7 +104,7 @@ bedge(mm',4)=201;
 [F,V,N]=elementface; % falta finalizar o tratamento (05-08-2022)
 %% pre-processador local
 [pointarmonic,parameter,gamma,p_old,tol,nit,er,nflagface,nflagno,...
-    weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,gravresult,gravrate,w,s]=...
+    weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,gravresult,gravrate,weight,s]=...
     preprocessorlocal(kmap,N,grav,gravface);
 
 % não habilite
@@ -116,7 +116,7 @@ mobility=1;
 [pressurenum,errorelativo,flowrate,flowresult,tabletol,coercividade]=...
     solverpressure(kmap,nflagface,nflagno,fonte, tol,nit,p_old,mobility,...
     gamma,wells,parameter,Hesq, Kde, Kn, Kt, Ded,weightDMP,auxface,...
-    calnormface,gravresult,gravrate,w,s,gravno,gravface);
+    calnormface,gravresult,gravrate,weight,s,gravno,gravface);
 
 %% pos-processador no visit
 postprocessor(full(abs(pressurenum-pressurexact)),1); 
