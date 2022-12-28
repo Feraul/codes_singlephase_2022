@@ -25,6 +25,7 @@ for ifacont=1:size(bedge,1)
                 m=0;
             end
         end
+        
         alef=normcont*(parameter(1,1,ifacont)*pinterp(parameter(1,3,ifacont))+...
             parameter(1,2,ifacont)*pinterp(parameter(1,4,ifacont)));
         
@@ -64,7 +65,8 @@ for iface=1:size(inedge,1)
     
     % mulef=(arel+coef)/(alef+arel+2*coef);
     % murel=(alef+coef)/(alef+arel+2*coef);
-    % calculo da contribuição, Eq. 2.12 (resp. Eq. 21) do artigo Gao and Wu 2015 (resp. Gao and Wu 2014)
+    % calculo da contribuição, Eq. 2.12 (resp. Eq. 21) do artigo Gao and
+    % Wu 2015 (resp. Gao and Wu 2014)
     ALL=norma*mulef*(parameter(1,1,ifactual)+parameter(1,2,ifactual));
     
     ARR=norma*murel*(parameter(2,1,ifactual)+parameter(2,2,ifactual));
@@ -75,15 +77,15 @@ for iface=1:size(inedge,1)
     % contribuição da transmisibilidade no elemento direita
     M(rel,rel)=M(rel,rel)+ ARR;
     M(rel,lef)=M(rel,lef)- ALL;
-     if strcmp(gravitational,'yes')
-            if strcmp(strategy,'starnoni')
-                m=gravrate(size(bedge,1)+iface);
-            else
-                m=0;
-            end
-            I(lef)=I(lef)+m;
-            I(rel)=I(rel)-m;
-     end
+    if strcmp(gravitational,'yes')
+        if strcmp(strategy,'starnoni')
+            m=gravrate(size(bedge,1)+iface);
+        else
+            m=0;
+        end
+        I(lef)=I(lef)+m;
+        I(rel)=I(rel)-m;
+    end
 end
 %% malha 23x23
 % M(357,:)=0*M(357,:);

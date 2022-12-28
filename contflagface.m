@@ -33,7 +33,7 @@ for ifacont=1:size(bedge,1)
             if nflag(ifacont,1)>200
                nflag(ifacont,2)=0;
             else
-                if y>=0.5
+                if single(y)>=0.5
                     nflag(ifacont,2)= 11-10*y;
                 else
                     
@@ -61,11 +61,11 @@ for ifacont=1:size(bedge,1)
                nflag(ifacont,2)=0;
             else
                if single(y)>0.5
-                    nflag(ifacont,2)=-sind(x)*cosd(y)+ 1*y;
+                    nflag(ifacont,2)=sin(x)*cos(y)+ 11-10*y;
                 else
                     
                     % condicao de contorno de Dirichlet no lado direito e esquerdo
-                    nflag(ifacont,2)=-sind(x)*cosd(y)+ 10*y;
+                    nflag(ifacont,2)=sin(x)*cos(y)+ 6.5-1*y;
                 end 
                  
             end 
@@ -78,11 +78,11 @@ for ifacont=1:size(bedge,1)
                nflag(ifacont,2)=0;
             else
                if single(y)>0.5
-                    nflag(ifacont,2)=-100*sind(x)*cosd(y)+ 1*y;
+                    nflag(ifacont,2)=100*sin(x)*cos(y)+11- 10*y;
                 else
                     
                     % condicao de contorno de Dirichlet no lado direito e esquerdo
-                    nflag(ifacont,2)=-100*sind(x)*cosd(y)+ 10*y;
+                    nflag(ifacont,2)=100*sin(x)*cos(y)+6.5- 1*y;
                 end 
                  
             end   

@@ -20,7 +20,7 @@ elseif strcmp(pmetodo,'nlfvLPEW')
     
 elseif strcmp(pmetodo,'nlfvHP')
     [M,I]=assemblematrixNLFVHP(pinterp,parameter,fonte,wells,Hesq,...
-        Kn,Kt,nflagno,gravrate,gravresult);
+        Kn,Kt,nflagno,gravrate,gravresult,nflagface);
 elseif strcmp(pmetodo,'nlfvDMPSY')
     
     [M,I]=assemblematrixDMPSY(p,pinterp,gamma,nflagface,parameter,kmap,fonte,...

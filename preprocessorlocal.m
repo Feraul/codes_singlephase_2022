@@ -33,7 +33,8 @@ if strcmp(pmetodo,'nlfvLPEW')|| strcmp(pmetodo,'nlfvLPS') || ...
         strcmp(pmetodo,'nlfvHP')||strcmp(pmetodo,'nlfvDMPSY')||...
         strcmp(pmetodo,'lfvHP')|| strcmp(pmetodo,'lfvLPEW')|| ...
         strcmp(pmetodo,'mpfad')
-    
+    % adequação dos flags de contorno
+    nflagface= contflagface;
     % calculo dos pesos que correspondem aos metodos de interpolacao
     if strcmp(interpol,'LPEW1')
         % interpolaca LPEW1 proposto por Gao e Wu 2010
@@ -47,8 +48,9 @@ if strcmp(pmetodo,'nlfvLPEW')|| strcmp(pmetodo,'nlfvLPS') || ...
         disp('>> falta implementar!')
     else
         % interpolaca LPEW1 proposto por Gao e Wu 2010
-        [weight,contrcontor] = Pre_LPEW_2(kmap,N,gravrate);
+        [weight,contrcontor] = Pre_LPEW_2(kmap,N,gravrate,nflagface);
     end
+    
 end
 %% calculo dos variavei inherentes ao metodo
 if strcmp(pmetodo,'nlfvLPEW')

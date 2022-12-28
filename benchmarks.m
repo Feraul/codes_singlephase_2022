@@ -190,13 +190,14 @@ switch benchmark
         K=kmap;
         elem(:,5)=1;
     case 'starnonigrav3'
+        h1=10;
+        h2=1;
         for i = 1:size(centelem,1)
             %Define "x" and "y"
             x = centelem(i,1);
             y = centelem(i,2);
             % parametro segundo  Starnoni
-            h1=10;
-            h2=1;
+            
             if single(y)>0.5
                 
                 % solucao analitica
@@ -216,9 +217,7 @@ switch benchmark
             %Define "x" and "y"
             x21=coord(j,1);
             y21 = coord(j,2);
-            % parametro segundo  Starnoni
-            h1=1;
-            h2=10;
+            
             if single(y21)>0.5
                 
                 % solucao analitica
@@ -236,43 +235,37 @@ switch benchmark
             if jj<=size(bedge,1)
                 v1=bedge(jj,1);
                 v2=bedge(jj,2);
-                
-                a=0.5*(coord(v1,:)+coord(v2,:));
-                
             else
                 v1=inedge(jj-size(bedge,1),1);
                 v2=inedge(jj-size(bedge,1),2);
-                
-                a=0.5*(coord(v1,:)+coord(v2,:));
-                
             end
+            a=0.5*(coord(v1,:)+coord(v2,:));
             x11=a(1,1);
             y11=a(1,2);
-            % parametro segundo  Starnoni
-            h1=1;
-            h2=10;
+           
             if single(y11)>0.5
                 
                 % solucao analitica
-                gravface(jj,1)= sin(x11)*cos(y11)-h1*y11;
+                aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h1];
             else
                 % solucao analitica
-                gravface(jj,1)= sin(x11)*cos(y11)-h2*y11;
+               aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h2];
                 
             end
-            
+            gravface(jj,1:2)=aaa;
         end
         
         K=kmap;
         elem(:,5)=1;
     case 'starnonigrav4'
+        % parametro segundo  Starnoni
+            h1=10;
+            h2=1;
         for i = 1:size(centelem,1)
             %Define "x" and "y"
             x = centelem(i,1);
             y = centelem(i,2);
-            % parametro segundo  Starnoni
-            h1=10;
-            h2=1;
+            
             if single(y)>0.5
                 
                 % solucao analitica
@@ -292,9 +285,7 @@ switch benchmark
             %Define "x" and "y"
             x21=coord(j,1);
             y21 = coord(j,2);
-            % parametro segundo  Starnoni
-            h1=1;
-            h2=10;
+            
             if single(y21)>0.5
                 
                 % solucao analitica
@@ -311,32 +302,22 @@ switch benchmark
             %Define "x" and "y"
             if jj<=size(bedge,1)
                 v1=bedge(jj,1);
-                v2=bedge(jj,2);
-                
-                a=0.5*(coord(v1,:)+coord(v2,:));
-                
+                v2=bedge(jj,2);                
             else
                 v1=inedge(jj-size(bedge,1),1);
                 v2=inedge(jj-size(bedge,1),2);
-                
-                a=0.5*(coord(v1,:)+coord(v2,:));
-                
             end
+            a=0.5*(coord(v1,:)+coord(v2,:));
             x11=a(1,1);
             y11=a(1,2);
-            % parametro segundo  Starnoni
-            h1=1;
-            h2=10;
-            if single(y11)>0.5
-                
-                % solucao analitica
-                gravface(jj,1)= 100*sind(x11)*cosd(y11)-h1*y11;
-            else
-                % solucao analitica
-                gravface(jj,1)= 100*sind(x11)*cosd(y11)-h2*y11;
-                
-            end
             
+            if single(y11)>0.5
+               bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h1];
+            else
+               bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h2];
+                
+            end           
+           gravface(jj,1:2)=bbb; 
         end
         
         K=kmap;

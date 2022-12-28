@@ -1,5 +1,5 @@
 function [M,I]=assemblematrixNLFVHP(pinterp,parameter,fonte,wells,...
-    Hesq,Kn,Kt,nflag,gravrate,gravresult)
+    Hesq,Kn,Kt,nflag,gravrate,gravresult,nflagface)
 global inedge coord bedge bcflag elem elemarea centelem gravitational strategy
 I=sparse(size(elem,1),1);
 M=sparse(size(elem,1),size(elem,1));
@@ -10,10 +10,6 @@ I=I+fonte;
 m=0;
 for ifacont=1:size(bedge,1)
     lef=bedge(ifacont,3);
-    v0=coord(bedge(ifacont,2),:)-coord(bedge(ifacont,1),:); %fase.
-    v1=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,1),:);
-    v2=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,2),:);
-    
     normcont=norm(coord(bedge(ifacont,1),:)-coord(bedge(ifacont,2),:));
     
     if bedge(ifacont,5)>200
@@ -21,36 +17,23 @@ for ifacont=1:size(bedge,1)
         r=find(x==1);
         I(lef)=I(lef)- normcont*bcflag(r,2);
     else
-        %% calculo da contribuição do contorno, veja Eq. 2.17 (resp. eq. 24) do artigo Gao and Wu 2015 (resp. Gao and Wu 2014)
-        %             c1=nflag(bedge(ifacont,1),2);
-        %             c2=nflag(bedge(ifacont,2),2);
-        %
-        %             A=-Kn(ifacont)/(Hesq(ifacont)*normcont);
-        %
-        %             %Preenchimento
-        %
-        %             M(bedge(ifacont,3),bedge(ifacont,3))=M(bedge(ifacont,3),bedge(ifacont,3))-A*(norm(v0)^2);
-        %
-        %             I(bedge(ifacont,3))=I(bedge(ifacont,3))-(dot(v2,-v0)*c1+dot ...
-        %                 (v1,v0)*c2)*A+(c2-c1)*Kt(ifacont);
-        alef= normcont*(parameter(1,1,ifacont)*pinterp(parameter(1,3,ifacont))+...
-            parameter(1,2,ifacont)*pinterp(parameter(1,4,ifacont)));
-        
-        Alef=normcont*(parameter(1,1,ifacont)+parameter(1,2,ifacont));
-        
-        %% implementação da matriz global no contorno
-        M(lef,lef)=M(lef,lef)+ Alef;
-        I(lef,1)=I(lef,1)+alef;
+        %% calculo da contribuição do contorno, veja Eq. 2.17 (resp. eq. 24)
+        %do artigo Gao and Wu 2015 (resp. Gao and Wu 2014)        
         if strcmp(gravitational,'yes')
             if strcmp(strategy,'starnoni')
                 m=gravrate(ifacont);
             elseif strcmp(strategy,'inhouse')
                 m=0;
             end
-        else
-            m=0;
-         end
-        I(lef)=I(lef)+m;
+        end
+         
+        alef= normcont*(parameter(1,1,ifacont)*pinterp(parameter(1,3,ifacont))+...
+                    parameter(1,2,ifacont)*pinterp(parameter(1,4,ifacont)));
+                
+        Alef=normcont*(parameter(1,1,ifacont)+parameter(1,2,ifacont));
+        %% implementação da matriz global no contorno
+        M(lef,lef)=M(lef,lef)+ Alef;
+        I(lef)=I(lef)+alef+m;
     end
     
 end
@@ -77,7 +60,8 @@ for iface=1:size(inedge,1)
     
     mulef=(abs(arel)+coef)/(abs(alef)+abs(arel)+2*coef);
     murel=(abs(alef)+coef)/(abs(alef)+abs(arel)+2*coef);
-    % calculo da contribuição, Eq. 2.12 (resp. Eq. 21) do artigo Gao and Wu 2015 (resp. Gao and Wu 2014)
+    % calculo da contribuição, Eq. 2.12 (resp. Eq. 21) do artigo Gao and
+    %Wu 2015 (resp. Gao and Wu 2014)
     ALL=norma*mulef*(parameter(1,1,ifactual)+parameter(1,2,ifactual));
     
     ARR=norma*murel*(parameter(2,1,ifactual)+parameter(2,2,ifactual));

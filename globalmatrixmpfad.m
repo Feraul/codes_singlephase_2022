@@ -44,18 +44,33 @@ for ifacont=1:size(bedge,1)
         else
             m=0;
         end
-        
-        M(lef,lef)=M(lef,lef)-A*(norm(v0)^2);
-        
-        I(lef)=I(lef)-A*(dot(v2,-v0)*c1+dot(v1,v0)*c2)+(c2-c1)*Kt(ifacont)+m;
-        
+        % ambos os vertices pertenecem ao contorno de Dirichlet
+        if nflagno(bedge(ifacont,2),1)<200 && nflagno(bedge(ifacont,1),1)<200
+            M(lef,lef)=M(lef,lef)-A*(norm(v0)^2);
+            
+            I(lef)=I(lef)-A*(dot(v2,-v0)*c1+dot(v1,v0)*c2)+(c2-c1)*Kt(ifacont)+m;
+        else
+            % quando um dos vertices da quina da malha computacional
+            % pertence ao contorno de Neumann
+            if nflagno(bedge(ifacont,1),1)>200
+                
+                M(lef,lef)=M(lef,lef)-A*(norm(v0)^2)+Kt(ifacont)+A*dot(v2,-v0);
+                
+                I(lef)=I(lef)-A*(dot(v1,v0)*c2)+(c2)*Kt(ifacont)+m;
+            elseif nflagno(bedge(ifacont,2),1)>200
+                
+                M(lef,lef)=M(lef,lef)-A*(norm(v0)^2)-Kt(ifacont)+A*dot(v1,v0);
+                
+                I(lef)=I(lef)-A*(dot(v2,-v0)*c1)+(-c1)*Kt(ifacont)+m;
+            end
+        end
     else
-               
+        
         % Contorno de Neumann
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
         I(lef)=I(lef) -normcont*bcflag(r,2);
-       
+        
     end
     
 end
