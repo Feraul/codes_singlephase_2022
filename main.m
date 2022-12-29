@@ -56,7 +56,7 @@ erromethod='erromethod6';
 % nlfvHP    --> metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='nlfvHP';
+pmetodo='nlfvLPEW';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
@@ -84,7 +84,7 @@ typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %% digite segundo o benchmark
 % procure no "benchmarks.m" o caso que deseja rodar e logo digite o nome
 % do caso
-benchmark='starnonigrav3'; 
+benchmark='starnonigrav2'; 
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
 gravitational='yes';
@@ -96,8 +96,8 @@ strategy= 'starnoni';
 %segundo cada caso ou problema
 [elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,grav,gravno,...
     gravface]=benchmarks(kmap,elem,bedge);
-  mm=find(bedge(:,4)==202);
-  bedge(mm',4)=201;
+%   mm=find(bedge(:,4)==202);
+%   bedge(mm',4)=201;
 % F faces na vizinhanca de um elemento
 % V 
 % N
