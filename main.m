@@ -60,12 +60,12 @@ pmetodo='nlfvHP';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
-% iteration='iterbroyden';
+ iteration='iterbroyden';
 % iteration='JFNK';
 % iteration='fullpicard';
 % iteration='MPE'; 
 % iteration='RRE'; % picard com acelerador rank reduced extrapolation
-  iteration='AA';  % picard com aceleracao de Anderson
+%  iteration='AA';  % picard com aceleracao de Anderson
 %iteration='iterhybrid';
 %iteration='fsolver';
 %% qual tipo de interpolacao deseja utilizar
@@ -84,10 +84,10 @@ typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %% digite segundo o benchmark
 % procure no "benchmarks.m" o caso que deseja rodar e logo digite o nome
 % do caso
-benchmark='starnonigrav2'; 
+benchmark='shenyuan16'; 
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
-gravitational='yes';
+gravitational='no';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse'
 strategy= 'starnoni';

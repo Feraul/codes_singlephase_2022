@@ -33,7 +33,7 @@ end
 
 J=aproxmjacobian(f,p_old1,p_old,nflagface,nflagno,w,s,...
     parameter,weightDMP,kmap,fonte,0,mobility,0, 0, 0, 0, ...
-    0,calnormface,wells);
+    0,calnormface,wells,M_old);
 
 ciclos=1;
 i=1;
