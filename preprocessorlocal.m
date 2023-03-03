@@ -89,11 +89,20 @@ elseif strcmp(pmetodo,'nlfvPPS')
     nflagno= contflagno;
     
     if strcmp(correction,'yes')
-        % calculo dos pontos harmonicos com correcao
-        [pointarmonic,weightDMP,raioaux]=harmonicopointcorrection(kmap);
+        if strcmp(typecorrection,'firstcorrection')
+            % correcao utilizando express. simplificada
+            [pointarmonic,weightDMP,raioaux]=firstcorrectharmonic(kmap,N);
+        elseif strcmp(typecorrection,'secondcorrection')
+            % correcao ao ponto medio
+            [pointarmonic,weightDMP,raioaux]=secondcorrectharmonic(kmap,N);
+        else
+            % correcao dos pontos harmonicos segundo Kobaise
+            [pointarmonic,weightDMP,raioaux]=thirdcorrectharmonic(kmap);
+        end
+        
     else
-        % calculoa dos pontos harmonicos sem correcao
-        [pointarmonic,weightDMP,raioaux]=harmonicopoint(kmap,N,benchmark);
+        % calculoa dos pontos harmonicos sem correcao 'express. original'
+        [pointarmonic,weightDMP,raioaux]=nocorrectharmonic(kmap);
     end
 elseif strcmp(pmetodo,'nlfvDMPSY')|| strcmp(pmetodo,'lfvHP') || ...
         strcmp(pmetodo,'nlfvDMPV1')|| strcmp(pmetodo,'nlfvHP')
