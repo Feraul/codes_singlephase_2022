@@ -14,12 +14,12 @@
 
 //Do you have a mesh file? [y] ==> "yes"; [n] ==> "no"
 
-n
+y
 
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
 
-Benchmark23_3_FINA36.msh
+HermelineMeshModQuad_48_48.msh
 
 //OBS.: This file must be puted into folder together with *.m files 
 //or in a folder whose path will be declared immediately below:
@@ -170,7 +170,7 @@ y
 //for example, choose "n" when mesh is created outside preprocessor
 //[y] ==> "yes"; [n] ==> "no"
 
-y
+n
 
 //--------------------------------------------------------------------
 //---------------- Physical parameters (DARCY system) ----------------

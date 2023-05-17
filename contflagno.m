@@ -297,22 +297,23 @@ for ifacont=1:size(bedge,1)
             
         case 'gaowu5'
             %%
-            if (((0<x || x==0 )&& (x <0.2 || x==0.2)) && y==0) || (((0<y || y==0 )&& (y <0.2 || y==0.2)) && x==0)
-                nflag(bedge(ifacont,1),1)=101;
-                nflag(bedge(ifacont,1),2)=1;
-            elseif (((0.8<x || x==0.8 )&& (x <1 || x==1)) && y==1) || (((0.8<y || y==0.8 )&& (y <1 || y==1)) && x==1)
-                nflag(bedge(ifacont,1),1)=101;
-                nflag(bedge(ifacont,1),2)=0;
-            elseif (((0.3<x || x==0.3 )&& (x <1 || x==1)) && y==0) || (((0.3<y || y==0.3 )&& (y <1 || y==1)) && x==0)
-                nflag(bedge(ifacont,1),1)=101;
-                nflag(bedge(ifacont,1),2)=0.5;
-            elseif (((0<x || x==0 )&& (x <0.7 || x==0.7)) && y==1) || (((0<y || y==0 )&& (y <0.7 || y==0.7)) && x==1)
-                nflag(bedge(ifacont,1),1)=101;
-                nflag(bedge(ifacont,1),2)=0.5;
-            else
-                nflag(bedge(ifacont,1),1)=101;
-                nflag(bedge(ifacont,1),2)=0.5;
-            end
+             if (((0<x || x==0 )&& (x <0.2 || x==0.2)) && y==0) || (((0<y || y==0 )&& (y <0.2 || y==0.2)) && x==0)
+                 nflag(bedge(ifacont,1),1)=101;
+                 nflag(bedge(ifacont,1),2)=1;
+             elseif (((0.8<x || x==0.8 )&& (x <1 || x==1)) && y==1) || (((0.8<y || y==0.8 )&& (y <1 || y==1)) && x==1)
+                 nflag(bedge(ifacont,1),1)=101;
+                 nflag(bedge(ifacont,1),2)=0;
+             elseif (((0.3<x || x==0.3 )&& (x <1 || x==1)) && y==0) || (((0.3<y || y==0.3 )&& (y <1 || y==1)) && x==0)
+                 nflag(bedge(ifacont,1),1)=101;
+                 nflag(bedge(ifacont,1),2)=0.5;
+             elseif (((0<x || x==0 )&& (x <0.7 || x==0.7)) && y==1) || (((0<y || y==0 )&& (y <0.7 || y==0.7)) && x==1)
+                 nflag(bedge(ifacont,1),1)=101;
+                 nflag(bedge(ifacont,1),2)=0.5;
+             else
+                 nflag(bedge(ifacont,1),1)=101;
+                 nflag(bedge(ifacont,1),2)=0.5;
+             end
+             
             
         case 'gaowu6'
             %%

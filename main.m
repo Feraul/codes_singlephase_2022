@@ -56,13 +56,13 @@ erromethod='erromethod6';
 % nlfvHP    --> metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='nlfvHP';
+pmetodo='nlfvLPEW';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
- iteration='iterbroyden';
+% iteration='iterbroyden';
 % iteration='JFNK';
-% iteration='fullpicard';
+ iteration='fullpicard';
 % iteration='MPE'; 
 % iteration='RRE'; % picard com acelerador rank reduced extrapolation
 %  iteration='AA';  % picard com aceleracao de Anderson
@@ -84,7 +84,8 @@ typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %% digite segundo o benchmark
 % procure no "benchmarks.m" o caso que deseja rodar e logo digite o nome
 % do caso
-benchmark='shenyuan16'; 
+%benchmark='shenyuan16';
+benchmark='gaowu5';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
 gravitational='no';
