@@ -10,7 +10,7 @@ bedgeamount = 1:bedgesize;
 %Initialize "flowrate" and "flowresult"
 flowrate = zeros(bedgesize + inedgesize,1);
 flowresult = zeros(size(centelem,1),1);
-
+m=0;
 for ifacont=1:size(bedge,1)
     lef=bedge(ifacont,3);
     
@@ -22,7 +22,7 @@ for ifacont=1:size(bedge,1)
     else
         if strcmp(gravitational,'yes')
             if strcmp(strategy,'starnoni')
-                m=gravrate(ifacont);
+               m=gravrate(ifacont);
             elseif strcmp(strategy,'inhouse')
                m=0;
             end
@@ -72,7 +72,7 @@ for iface=1:size(inedge,1)
             elseif strcmp(strategy,'inhouse')
                m=0;
             end
-        end
+    end
    flowrate(iface+size(bedge,1),1)=(ALL*p(lef)-ALR*p(rel))-m; 
    
    %Attribute the flow rate to "flowresult"

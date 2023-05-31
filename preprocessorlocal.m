@@ -154,7 +154,7 @@ end
 %% dados inicialização métodos dos volumes finitos não linear
 gamma=0.0;                     % este parametro esta no intervalo [0,1] pode ser utilizado para o método nao linear MPFA
 p_old=1*ones(size(elem,1),1);  % inicializando a presao
-tol=1e-15;                      % tolerancia para metodos não lineares
+tol=1e-08;                      % tolerancia para metodos não lineares
 nit=2000;                      % numero de iteracoes de Picard
 er=1;                          % inicializacao do erro
 end

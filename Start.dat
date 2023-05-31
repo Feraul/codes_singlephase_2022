@@ -26,7 +26,7 @@ HermelineMeshModQuad_48_48.msh
 //IMPORTANT: if the file is puted into folder which contain the *.m
 //files, write in the statment below "no path".
 
-C:\Users\flc59\Documents\GitHub\Malhas2
+C:\Users\flc59\Documents\Malhas2
 
 //If [n] write, immediately below, the path which conduct to  
 //folder where the *.m files is:
