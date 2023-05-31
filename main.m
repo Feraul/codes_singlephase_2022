@@ -1,4 +1,4 @@
-% Simulador para resolver a equacao de eliptica de pressao em 2D 
+% Simulador para resolver a equacao de difusao em 2D 
 % Desenvolvedor: Prof. Fernando R.L. Contreras
 % 
 %% Este codigo roda somente escoamento monofasico
@@ -17,13 +17,13 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
     satlimit,pormap,bcflag,courant,totaltime,filepath,foldername,kmap,...
     wells] = preprocessor;
 
-%% NOTAS 
+%% NOTAS E PENDENCIAS
 % 1. Para o interpolador com correcao de pontos harmonicos precisa ainda
 % implementar o caso artigo Zhang Kobaise figura 12. 
 % 2. Ainda falta investir no termo gravitacional
-% 3. Deve-se investir em precondicionadores
+% 3. Deve-se investir nos precondicionadores
 % 4. Deve-se incluir condicao de contorno de Neumann no eLPEW2
-% 5. Precisa calcular as velocidades analiicas para o caso gravitacional 
+% 5. Precisa calcular as velocidades analiticas para o caso gravitacional 
 % 6. coloquei termo gravitacional na interpolacao e mudei o flag 202 para
 % 202 na montadgem da matriz (MPFAD)
 %% Habilite esta funcao para obter distocao de malhas estruturadas
