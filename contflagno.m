@@ -314,7 +314,8 @@ for ifacont=1:size(bedge,1)
                  nflag(bedge(ifacont,1),2)=0.5;
              end
              
-            
+%             nflag(bedge(ifacont,1),1)=101;
+%             nflag(bedge(ifacont,1),2)=50;
         case 'gaowu6'
             %%
             nflag(bedge(ifacont,1),1)=201;
