@@ -17,8 +17,8 @@ for ifacont=1:size(bedge,1)
         r=find(x==1);
         I(lef)=I(lef)- normcont*bcflag(r,2);
     else
-       
-        %do artigo Gao and Wu 2015 (resp. Gao and Wu 2014)        
+        
+        %do artigo Gao and Wu 2015 (resp. Gao and Wu 2014)
         if strcmp(gravitational,'yes')
             if strcmp(strategy,'starnoni')
                 m=gravrate(ifacont);
@@ -26,10 +26,10 @@ for ifacont=1:size(bedge,1)
                 m=0;
             end
         end
-         % calculo da contribuição do contorno, veja Eq. 2.17 (resp. eq. 24)
+        % calculo da contribuição do contorno, veja Eq. 2.17 (resp. eq. 24)
         alef= normcont*(parameter(1,1,ifacont)*pinterp(parameter(1,3,ifacont))+...
-                    parameter(1,2,ifacont)*pinterp(parameter(1,4,ifacont)));
-                
+            parameter(1,2,ifacont)*pinterp(parameter(1,4,ifacont)));
+        
         Alef=normcont*(parameter(1,1,ifacont)+parameter(1,2,ifacont));
         % implementação da matriz global no contorno
         M(lef,lef)=M(lef,lef)+ Alef;
@@ -73,7 +73,7 @@ for iface=1:size(inedge,1)
     M(rel,rel)=M(rel,rel)+ ARR;
     M(rel,lef)=M(rel,lef)- ALL;
     
-     if strcmp(gravitational,'yes')
+    if strcmp(gravitational,'yes')
         if strcmp(strategy,'starnoni')
             m=gravrate(size(bedge,1)+iface,1);
         elseif strcmp(strategy,'inhouse')

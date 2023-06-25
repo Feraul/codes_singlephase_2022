@@ -56,7 +56,7 @@ erromethod='erromethod6';
 % nlfvHP    --> (NL-TPFA-H) metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='nlfvLPEW';
+pmetodo='nlfvHP';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
@@ -82,13 +82,13 @@ typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %typecorrection= 'secondcorrection'; % correcao utilizando ponto medio da face
 %typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %% digite segundo o benchmark
-% procure no "benchmarks.m" o caso que deseja rodar e logo digite o nome
-% do caso
+% procure o teste que deseja rodar no arquivo "benchmarks.m"
 %benchmark='shenyuan16';
-benchmark='gaowu5'; 
+%benchmark='gaowu5'; 
+benchmark='starnonigrav1';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
-gravitational='no';
+gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse'
 strategy= 'starnoni';

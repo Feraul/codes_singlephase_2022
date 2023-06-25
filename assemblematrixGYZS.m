@@ -1,5 +1,5 @@
 function [M,I]=assemblematrixGYZS(pinterp,parameter,fonte,wells,calnormface,gravrate)
-global inedge coord bedge bcflag elem elemarea gravitational strategy
+global inedge coord bedge bcflag elem gravitational strategy
 I=sparse(size(elem,1),1);
 M=sparse(size(elem,1),size(elem,1));
 
@@ -17,7 +17,8 @@ for ifacont=1:size(bedge,1)
         r=find(x==1);
         I(lef)=I(lef)- normcont*bcflag(r,2);
     else
-        %% calculo da contribuição do contorno, veja Eq. 2.17 (resp. eq. 24) do artigo Gao and Wu 2015 (resp. Gao and Wu 2014)
+        %% calculo da contribuição do contorno, veja Eq. 2.17 (resp. eq. 24)
+        %do artigo Gao and Wu 2015 (resp. Gao and Wu 2014)
         if strcmp(gravitational,'yes')
             if strcmp(strategy,'starnoni')
                 m=gravrate(ifacont);
@@ -33,7 +34,7 @@ for ifacont=1:size(bedge,1)
         
         %% implementação da matriz global no contorno
         M(lef,lef)=M(lef,lef)+ Alef;
-        I(lef,1)=I(lef,1)+alef+m;
+        I(lef,1)=I(lef,1)+alef+ m;
     end
 end
 %% Montagem da matriz global
