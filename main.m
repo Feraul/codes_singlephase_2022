@@ -85,7 +85,7 @@ typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 % procure o teste que deseja rodar no arquivo "benchmarks.m"
 %benchmark='shenyuan16';
 %benchmark='gaowu5'; 
-benchmark='starnonigrav1';
+benchmark='starnonigrav2';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
 gravitational='yes';

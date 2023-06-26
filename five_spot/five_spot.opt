@@ -6,7 +6,7 @@
 
 //Work developed by: Marcio Souza and Luiz E. Queiroz
 //Adviser Professors: Paulo Lyra & Darlan Carvalho
-//Create date: 2022/4/19;	hour: 16:20h
+//Create date: 2023/6/26;	hour: 16:10h
 
 //--------------------------------------------------------------------
 //This file has OPTIONS parameters. Configure GMSH environment
@@ -14,7 +14,7 @@
 //Type of mesh used:
 //0 ==> [AllTriangles]; 1 ==> [AllQuadrangles]
 
-Mesh.SubdivisionAlgorithm = 0;
+Mesh.SubdivisionAlgorithm = 1;
 
 //Type of algorithm used:
 //1 ==> [MeshAdapt]; 5 ==> [Delaunay]; 6 ==> [Frontal]
