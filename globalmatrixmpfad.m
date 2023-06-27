@@ -39,7 +39,7 @@ for ifacont=1:size(bedge,1)
             elseif strcmp(strategy,'inhouse')
                 g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
                 g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
-                m=(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-norm(v0)^2*gravelem(lef))-(g2-g1)*Kt(ifacont));
+                m=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-norm(v0)^2*gravelem(lef))-(g2-g1)*Kt(ifacont));
             end
         else
             m=0;
@@ -142,7 +142,29 @@ for iface=1:size(inedge,1)
         if strcmp(strategy,'starnoni')
             m=gravrate(size(bedge,1)+iface,1);
         elseif strcmp(strategy,'inhouse')
-            m=0;
+            no1=inedge(iface,1);
+            no2=inedge(iface,2);
+            nec1=esurn2(no1+1)-esurn2(no1);
+            nec2=esurn2(no2+1)-esurn2(no2);
+            g1=0;
+            if nflagno(no1,1)<200
+                g1=gravno(no1,1);
+            else
+                for j=1:nec1
+                    element1=esurn1(esurn2(no1)+j);
+                    g1=g1+w(esurn2(no1)+j)*gravelem(element1);
+                end
+            end
+            g2=0;
+            if nflagno(no2,1)<200
+                g2=gravno(no2,1);
+            else
+                for jj=1:nec2
+                    element2=esurn1(esurn2(no2)+jj);
+                    g2=g2+w(esurn2(no2)+jj)*gravelem(element2);
+                end
+            end
+            m= -Kde(iface)*(gravelem(rel,1)-gravelem(lef,1)-Ded(iface)*(g2-g1));
         end
         I(lef)=I(lef)+m;
         I(rel)=I(rel)-m;

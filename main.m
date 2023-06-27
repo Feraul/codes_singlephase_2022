@@ -56,7 +56,7 @@ erromethod='erromethod6';
 % nlfvHP    --> (NL-TPFA-H) metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='nlfvHP';
+pmetodo='mpfad';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
@@ -85,18 +85,18 @@ typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 % procure o teste que deseja rodar no arquivo "benchmarks.m"
 %benchmark='shenyuan16';
 %benchmark='gaowu5'; 
-benchmark='starnonigrav2';
+benchmark='starnonigrav1';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
 gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse'
-strategy= 'starnoni';
+strategy= 'inhouse';
 %strategy='GravConsist';
 
 %% adequacao das permeabilidades e otros parametros fisico-geometricos 
 %segundo cada caso ou problema
-[elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,grav,gravno,...
+[elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,gravelem,gravno,...
     gravface]=benchmarks(kmap,elem,bedge);
    mm=find(bedge(:,4)==202);% ???
    bedge(mm',4)=201; %???
@@ -107,7 +107,7 @@ strategy= 'starnoni';
 %% pre-processador local
 [pointarmonic,parameter,gamma,p_old,tol,nit,er,nflagface,nflagno,...
     weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,gravresult,gravrate,weight,s]=...
-    preprocessorlocal(kmap,N,grav,gravface);
+    preprocessorlocal(kmap,N,gravelem,gravface);
 
 % não habilite
 %[aroundface]=aroundfacelement(F,pointarmonic);
@@ -118,7 +118,7 @@ mobility=1;
 [pressurenum,errorelativo,flowrate,flowresult,tabletol,coercividade]=...
     solverpressure(kmap,nflagface,nflagno,fonte, tol,nit,p_old,mobility,...
     gamma,wells,parameter,Hesq, Kde, Kn, Kt, Ded,weightDMP,auxface,...
-    calnormface,gravresult,gravrate,weight,s,gravno,gravface);
+    calnormface,gravresult,gravrate,weight,s,gravno,gravelem,gravface);
 
 %% pos-processador no visit
 postprocessor(full(abs(pressurenum-pressurexact)),1); 

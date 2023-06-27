@@ -2,12 +2,12 @@ function [pressure,errorelativo,flowrate,flowresult,tabletol,coercividade]=...
     solverpressure(kmap,nflagface,nflagno,fonte,...
     tol, nit,p_old,mobility,gamma,wells,parameter,...
     Hesq, Kde, Kn, Kt, Ded,weightDMP,auxface,...
-    calnormface,gravresult,gravrate,w,s,gravno,gravface)
+    calnormface,gravresult,gravrate,w,s,gravno,gravelem,gravface)
 global iteration pmetodo
 errorelativo=0;
 tabletol=0;
 coercividade=0;
-gravelem=0;
+
 %% calculo da pressao 
 switch pmetodo
     % Calculo da pressao utilizando metodos nao-lineares
