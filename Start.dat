@@ -14,19 +14,19 @@
 
 //Do you have a mesh file? [y] ==> "yes"; [n] ==> "no"
 
-n
+y
 
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
 
-HermelineMeshModQuad_48_48.msh
+est_quad_4.msh
 
 //OBS.: This file must be puted into folder together with *.m files 
 //or in a folder whose path will be declared immediately below:
 //IMPORTANT: if the file is puted into folder which contain the *.m
 //files, write in the statment below "no path".
 
-C:\Users\flc59\Documents\GitHub\Malhas2
+C:\Users\flc59\Desktop\codes_singlephase_2023_thiago\malhas
 
 //If [n] write, immediately below, the path which conduct to  
 //folder where the *.m files is:
@@ -91,13 +91,13 @@ y
 //and two geometric tag)
 
 1
-3 1 1 3
+2 1 1 3
 
 //Direction "y" (number of statments, number of points, growth rate 
 //and two geometric tag)
 
 1
-3 1 2 4
+2 1 2 4
 
 //IMPORTANT: In case where there are two or more properties to long
 //domain, the user must take care during attribution of parameters 

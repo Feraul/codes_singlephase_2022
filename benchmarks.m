@@ -1,13 +1,13 @@
 % este codigo contem todas as informacoes dos diferentes casos, como por
 % exemplo: tensor de permeabilidade (kmap), pressão analitica (u), termos de fonte (fonte),
 % velocidade analitica (vel),gravidade (grav)
-function[elem,kmap,normKmap,u,bedge,fonte,vel,grav,gravno,gravface]=benchmarks(kmap,elem,bedge)
+function[elem,kmap,normKmap,u,bedge,fonte,vel,grav,gravno,gravface,grav_elem_escalar]=benchmarks(kmap,elem,bedge)
 global centelem coord inedge normals elemarea bcflag benchmark
 normKmap=0;
 vel=0;
 u=0;
 fonte=0;
-grav=zeros(size(elem,1),2);
+grav=zeros(size(elem,1),3);
 gravno=0;
 gravface=0;
 
@@ -66,18 +66,19 @@ switch benchmark
                 u(i,1)= 11-h1*y;
                 
                 % calculo do gravidade
-                grav(i,:)=h1*[0,1];
+                grav(i,:)=h1*[0,1,0];
+                grav_elem_escalar(i,1)=(-11+h1*y);
             else
                 % solucao analitica
                 u(i,1)= 6.5-h2*y;
                 % calculo do gravidade
-                grav(i,:)=h2*[0,1];
-                
+                grav(i,:)=h2*[0,1,0];
+                grav_elem_escalar(i,1)=(-6.5+h2*y);
             end
         end
         for jj=1:size(coord,1)
             %Define "x" and "y"
-            
+            h1=10; h2=1;
             y2 = coord(jj,2);
             % parametro segundo  Starnoni
             
@@ -137,10 +138,10 @@ switch benchmark
             
             if y11>=0.5
                 % solucao analitica
-                gravface(j,1:2)= h1*[0,1];
+                gravface(j,1:3)= h1*[0,1,0];
             else
                 % solucao analitica
-                gravface(j,1:2)= h2*[0,1];
+                gravface(j,1:3)= h2*[0,1,0];
             end
         end
 
@@ -160,7 +161,7 @@ switch benchmark
             
             % gravidade
             grav(i,:)=[-cos(x)*cos(y) sin(x)*sin(y)];
-           
+           grav_elem_escalar(i,1)=-1-sin(x)*cos(y);
         end
         for j=1:size(coord,1)
             %Define "x" and "y"
@@ -169,7 +170,7 @@ switch benchmark
             % parametro segundo  Starnoni
             
             % solucao analitica
-            gravno(j,1)=-1+ sin(x1)*cos(y1);
+            gravno(j,1)=-1- sin(x1)*cos(y1);
         end
         
         for j=1:size(bedge,1)+size(inedge,1)

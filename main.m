@@ -90,14 +90,14 @@ benchmark='starnonigrav1';
 % com termo gravitacional 'yes' ou 'no'
 gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
-% 'starnoni' ou 'inhouse'
-strategy= 'inhouse';
+% 'starnoni' ou 'inhouse' ou 'inhouse1'
+strategy= 'inhouse3';
 %strategy='GravConsist';
 
 %% adequacao das permeabilidades e otros parametros fisico-geometricos 
 %segundo cada caso ou problema
 [elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,gravelem,gravno,...
-    gravface]=benchmarks(kmap,elem,bedge);
+    gravface,grav_elem_escalar]=benchmarks(kmap,elem,bedge);
    mm=find(bedge(:,4)==202);% ???
    bedge(mm',4)=201; %???
 % F faces na vizinhanca de um elemento
@@ -118,7 +118,7 @@ mobility=1;
 [pressurenum,errorelativo,flowrate,flowresult,tabletol,coercividade]=...
     solverpressure(kmap,nflagface,nflagno,fonte, tol,nit,p_old,mobility,...
     gamma,wells,parameter,Hesq, Kde, Kn, Kt, Ded,weightDMP,auxface,...
-    calnormface,gravresult,gravrate,weight,s,gravno,gravelem,gravface);
+    calnormface,gravresult,gravrate,weight,s,gravno,gravelem,gravface,grav_elem_escalar);
 
 %% pos-processador no visit
 postprocessor(full(abs(pressurenum-pressurexact)),1); 

@@ -2,7 +2,7 @@
 %equacoes 28 e 29 (heterogeneo) ou 15 e 16 (homogeneo)
 
 function [flowrate, flowresult]=calflowrateMPFAD(p,w,s,Kde,Ded,Kn,Kt,Hesq,...
-    nflagno,mobility,gravresult,gravrate,pinterp,gravno,gravelem)
+    nflagno,mobility,gravresult,gravrate,pinterp,gravno,gravelem,grav_elem_escalar)
 
 global coord esurn1 esurn2 bedge inedge centelem bcflag gravitational strategy
 
@@ -38,7 +38,7 @@ for ifacont=1:size(bedge,1);
             else
             g1=gravno(B1,1); % gravidade no vertice 1
             g2=gravno(B2,1); % gravidade no vertice 2
-            m=-A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-norm(v0)^2*gravelem(lef))-...
+            m=A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-norm(v0)^2*grav_elem_escalar(lef))-...
                 (g2-g1)*Kt(ifacont);
             end
         end
@@ -72,31 +72,11 @@ for iface=1:size(inedge,1)
         elseif strcmp(strategy,'inhouse')
             no1=inedge(iface,1);
             no2=inedge(iface,2);
-            nec1=esurn2(no1+1)-esurn2(no1);
-            nec2=esurn2(no2+1)-esurn2(no2);
-            g1=0;
-            if nflagno(no1,1)<200
-                g1=gravno(no1,1);
-            else
-                for j=1:nec1
-                    element1=esurn1(esurn2(no1)+j);
-                    g1=g1+w(esurn2(no1)+j)*gravelem(element1);
-                end
-            end
-            g2=0;
-            if nflagno(no2,1)<200
-                g2=gravno(no2,1);
-            else
-                for jj=1:nec2
-                    element2=esurn1(esurn2(no2)+jj);
-                    g2=g2+w(esurn2(no2)+jj)*gravelem(element2);
-                end
-            end
-            m= Kde(iface)*(gravelem(rel,1)-gravelem(lef,1)-Ded(iface)*(g2-g1));
+            g1=gravno(no1,1);    
+            g2=gravno(no2,1);
+            m= Kde(iface)*(grav_elem_escalar(rel,1)-grav_elem_escalar(lef,1)-Ded(iface)*(g2-g1));
         end
     end
-    
-    
     flowrate(iface+size(bedge,1))=Kde(iface)*(p(rel)-p(lef)-Ded(iface)*(p2-p1))-m;
     %Attribute the flow rate to "flowresult"
     %On the left:

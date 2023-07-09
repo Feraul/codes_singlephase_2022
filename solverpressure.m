@@ -2,8 +2,8 @@ function [pressure,errorelativo,flowrate,flowresult,tabletol,coercividade]=...
     solverpressure(kmap,nflagface,nflagno,fonte,...
     tol, nit,p_old,mobility,gamma,wells,parameter,...
     Hesq, Kde, Kn, Kt, Ded,weightDMP,auxface,...
-    calnormface,gravresult,gravrate,w,s,gravno,gravelem,gravface)
-global iteration pmetodo
+    calnormface,gravresult,gravrate,w,s,gravno,gravelem,gravface,grav_elem_escalar)
+global iteration pmetodo elemarea gravitational strategy
 errorelativo=0;
 tabletol=0;
 coercividade=0;
@@ -163,8 +163,13 @@ switch pmetodo
         [M_old,RHS_old]=globalmatrix(p_old,pinterp,gamma,nflagface,nflagno,...
             parameter,kmap,fonte,w,s,weightDMP,auxface,wells,...
             mobility,Hesq, Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,...
-            gravno,gravelem,gravface);
-        pressure=M_old\RHS_old;
+            gravno,gravelem,gravface,grav_elem_escalar);
+        
+            if strcmp(strategy,'inhouse1')
+                pressure=M_old\RHS_old - elemarea.*grav_elem_escalar(:);
+            else
+            pressure=M_old\RHS_old;
+           end
         % informacoes da simulacao
         tabletol=0;
         name = pmetodo;
@@ -212,7 +217,7 @@ elseif  strcmp(pmetodo, 'tpfa')
 else
     %calculo das vazões
     [flowrate,flowresult]=calflowrateMPFAD(pressure,w,s,Kde,Ded,Kn,Kt,...
-        Hesq,nflagno,1,gravresult,gravrate,pinterp,gravno,gravelem);
+        Hesq,nflagno,1,gravresult,gravrate,pinterp,gravno,gravelem,grav_elem_escalar);
 end
 
 

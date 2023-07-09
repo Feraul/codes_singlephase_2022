@@ -23,9 +23,9 @@ contrcontor=0;
 
 %% calculo do termo gravitacional
 if strcmp(gravitational,'yes')
-    if strcmp(strategy,'starnoni')
+    
         [gravresult,gravrate]=gravitation(kmap,gravelem,gravface);
-    end
+    
 end
 %% Calculo dos pesos
 
