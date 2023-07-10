@@ -1,13 +1,13 @@
 % este codigo contem todas as informacoes dos diferentes casos, como por
 % exemplo: tensor de permeabilidade (kmap), pressão analitica (u), termos de fonte (fonte),
 % velocidade analitica (vel),gravidade (grav)
-function[elem,kmap,normKmap,u,bedge,fonte,vel,grav,gravno,gravface]=benchmarks(kmap,elem,bedge)
+function[elem,kmap,normKmap,u,bedge,fonte,vel,grav,gravno,gravface,grav_elem_escalar]=benchmarks(kmap,elem,bedge)
 global centelem coord inedge normals elemarea bcflag benchmark
 normKmap=0;
 vel=0;
 u=0;
 fonte=0;
-grav=zeros(size(elem,1),2);
+grav=zeros(size(elem,1),3);
 gravno=0;
 gravface=0;
 
@@ -66,27 +66,28 @@ switch benchmark
                 u(i,1)= 11-h1*y;
                 
                 % calculo do gravidade
-                grav(i,:)=h1*[0,1];
+                grav(i,:)=h1*[0,1,0];
+                grav_elem_escalar(i,1)=(-11+h1*y);
             else
                 % solucao analitica
                 u(i,1)= 6.5-h2*y;
                 % calculo do gravidade
-                grav(i,:)=h2*[0,1];
-                
+                grav(i,:)=h2*[0,1,0];
+                grav_elem_escalar(i,1)=(-6.5+h2*y);
             end
         end
         for jj=1:size(coord,1)
             %Define "x" and "y"
-            
+            h1=10; h2=1;
             y2 = coord(jj,2);
             % parametro segundo  Starnoni
             
             if y2>=0.5
                 % solucao analitica
-                gravno(jj,1)= h1*y2;
+                gravno(jj,1)= -11+h1*y2;
             else
                 % solucao analitica
-                gravno(jj,1)= h2*y2;
+                gravno(jj,1)= -6.5+h2*y2;
             end
         end
         
@@ -137,10 +138,10 @@ switch benchmark
             
             if y11>=0.5
                 % solucao analitica
-                gravface(j,1:2)= h1*[0,1];
+                gravface(j,1:3)= h1*[0,1,0];
             else
                 % solucao analitica
-                gravface(j,1:2)= h2*[0,1];
+                gravface(j,1:3)= h2*[0,1,0];
             end
         end
 
@@ -148,7 +149,7 @@ switch benchmark
         K=kmap;
         elem(:,5)=1;
     case 'starnonigrav2'
-        
+         R=[0 1 0; -1 0 0; 0 0 0];
         for i = 1:size(centelem,1)
             %Define "x" and "y"
             x = centelem(i,1);
@@ -160,7 +161,7 @@ switch benchmark
             
             % gravidade
             grav(i,:)=[-cos(x)*cos(y) sin(x)*sin(y)];
-           
+           grav_elem_escalar(i,1)=-1-sin(x)*cos(y);
         end
         for j=1:size(coord,1)
             %Define "x" and "y"
@@ -169,7 +170,7 @@ switch benchmark
             % parametro segundo  Starnoni
             
             % solucao analitica
-            gravno(j,1)=-1+ sin(x1)*cos(y1);
+            gravno(j,1)=-1- sin(x1)*cos(y1);
         end
         
         for j=1:size(bedge,1)+size(inedge,1)
@@ -187,9 +188,38 @@ switch benchmark
             gravface(j,1:2)= [-cos(x2)*cos(y2) sin(x2)*sin(y2) ];
         end
         
+        for j=1:size(bedge,1)+size(inedge,1)
+            %Define "x" and "y"
+            if j<=size(bedge,1)
+                v1=bedge(j,1);
+                v2=bedge(j,2);
+                a=0.5*(coord(v1,:)+coord(v2,:));
+                % calculo da velocidade
+                IJ=coord(v1,:)-coord(v2,:);
+            else
+                v1=inedge(j-size(bedge,1),1);
+                v2=inedge(j-size(bedge,1),2);
+                a=0.5*(coord(v1,:)+coord(v2,:));
+                % calculo da velocidade
+                IJ=coord(v1,:)-coord(v2,:);  
+            end
+            norma=norm(IJ);
+            nij=R*IJ'/norma;
+            % note que a velocidade analitica: velocidade_pressao +
+            % velocidade_gravitacional, embora essa soma foi zero porque
+            % g=-grad(p).
+            V=-[cos(a(1,1))*cos(a(1,2))-0.1*sin(a(1,1))*sin(a(1,2)),...
+                   0.1*cos(a(1,1))*cos(a(1,2))-sin(a(1,1))*sin(a(1,2)),0]+...
+                   [cos(a(1,1))*cos(a(1,2))-0.1*sin(a(1,1))*sin(a(1,2)),...
+                   0.1*cos(a(1,1))*cos(a(1,2))-sin(a(1,1))*sin(a(1,2)),0];
+            F(j,1) = dot(V,nij'); 
+        end
+
+        vel=F;
         K=kmap;
         elem(:,5)=1;
     case 'starnonigrav3'
+        R=[0 1 0; -1 0 0; 0 0 0];
         h1=10;
         h2=1;
         for i = 1:size(centelem,1)
@@ -254,7 +284,43 @@ switch benchmark
             end
             gravface(jj,1:2)=aaa;
         end
-        
+         for j=1:size(bedge,1)+size(inedge,1)
+            %Define "x" and "y"
+            if j<=size(bedge,1)
+                v1=bedge(j,1);
+                v2=bedge(j,2);
+                a=0.5*(coord(v1,:)+coord(v2,:));
+                % calculo da velocidade
+                IJ=coord(v1,:)-coord(v2,:);
+            else
+                v1=inedge(j-size(bedge,1),1);
+                v2=inedge(j-size(bedge,1),2);
+                a=0.5*(coord(v1,:)+coord(v2,:));
+                % calculo da velocidade
+                IJ=coord(v1,:)-coord(v2,:);  
+            end
+            y111=a(1,2);
+            if single(y111)>0.5
+                V=-[cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h1),...
+                   0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h1),0]+...
+                   [cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h1),...
+                   0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h1),0];
+            else
+               V=-[cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h2),...
+                   0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h2),0]+...
+                   [cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h2),...
+                   0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h2),0]; 
+            end
+            norma=norm(IJ);
+            nij=R*IJ'/norma;
+            % note que a velocidade analitica: velocidade_pressao +
+            % velocidade_gravitacional, embora essa soma sera zero porque
+            % g=-grad(p).
+            
+            F(j,1) = dot(V,nij'); 
+        end
+
+        vel=F;
         K=kmap;
         elem(:,5)=1;
     case 'starnonigrav4'

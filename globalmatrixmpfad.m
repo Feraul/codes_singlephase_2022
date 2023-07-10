@@ -1,9 +1,9 @@
 % objetivo: Montagem da matriz global M e I
 function [ M, I ] = globalmatrixmpfad( w,s, Kde, Ded, Kn, Kt, nflagno, ...
-    Hesq,fonte,gravresult,gravrate,gravno,gravelem)
+    Hesq,fonte,gravresult,gravrate,gravno,gravelem,grav_elem_escalar)
 
 global coord elem esurn1 esurn2  bedge inedge  centelem bcflag gravitational...
-    strategy
+    strategy elemarea
 
 %-----------------------inicio da rutina ----------------------------------%
 %Constroi a matriz global.
@@ -34,12 +34,12 @@ for ifacont=1:size(bedge,1)
         %Preenchimento do termo gravitacional
         
         if strcmp(gravitational,'yes')
-            if strcmp(strategy,'starnoni')
+            if strcmp(strategy,'starnoni')||strcmp(strategy,'inhouse3')
                 m=gravrate(ifacont);
-            elseif strcmp(strategy,'inhouse')
+            elseif strcmp(strategy,'inhouse1')
                 g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
                 g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
-                m=(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-norm(v0)^2*gravelem(lef))-(g2-g1)*Kt(ifacont));
+                m=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(norm(v0)^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
             end
         else
             m=0;
@@ -139,9 +139,23 @@ for iface=1:size(inedge,1)
     end
     % termo gravitacional
     if strcmp(gravitational,'yes')
-        if strcmp(strategy,'starnoni')
+        if strcmp(strategy,'starnoni') ||strcmp(strategy,'inhouse3')
             m=gravrate(size(bedge,1)+iface,1);
         elseif strcmp(strategy,'inhouse')
+            no1=inedge(iface,1);
+            no2=inedge(iface,2);
+            g1=gravno(no1,1);
+            g2=gravno(no2,1);
+            for j=1:nec1
+                    element1=esurn1(esurn2(no1)+j);
+                    g1=g1+w(esurn2(no1)+j)*grav_elem_escalar(element1);
+            end
+            for j=1:nec1
+                    element2=esurn1(esurn2(no2)+j);
+                    g2=g2+w(esurn2(no2)+j)*grav_elem_escalar(element2);
+            end
+            m= -Kde(iface)*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded(iface)*(g2-g1));
+        else
             m=0;
         end
         I(lef)=I(lef)+m;

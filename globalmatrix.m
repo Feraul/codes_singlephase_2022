@@ -2,7 +2,7 @@
 % estudado
 function [M,I]=globalmatrix(p,pinterp,gamma,nflagface,nflagno,parameter,kmap,...
     fonte,w,s,weightDMP,auxface,wells,mobility,Hesq,...
-    Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,gravno,gravelem,gravface)
+    Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,gravno,gravelem,gravface,grav_elem_escalar)
 global pmetodo
 
 if strcmp(pmetodo,'nlfvDMP1')
@@ -39,7 +39,7 @@ elseif strcmp(pmetodo,'lfvHP')
         mobility,gravresult,gravrate,gravelem,gravface);
 elseif strcmp(pmetodo,'mpfad')
     [ M, I ] = globalmatrixmpfad(w,s, Kde, Ded, Kn, Kt, nflagno, Hesq,...
-        fonte,gravresult,gravrate,gravno,gravelem);
+        fonte,gravresult,gravrate,gravno,gravelem,grav_elem_escalar);
 elseif strcmp(pmetodo,'tpfa')
     [ M, I ] = globalmatrixtpfa( Kde, Kn, nflagface, Hesq,gravresult,...
         gravrate,gravno,gravelem,fonte);
