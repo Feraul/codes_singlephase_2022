@@ -60,9 +60,9 @@ pmetodo='nlfvHP';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
-% iteration='iterbroyden';
+ iteration='iterbroyden';
 % iteration='JFNK';
- iteration='fullpicard';
+% iteration='fullpicard';
 % iteration='MPE'; 
 % iteration='RRE'; % picard com acelerador rank reduced extrapolation
 %  iteration='AA';  % picard com aceleracao de Anderson

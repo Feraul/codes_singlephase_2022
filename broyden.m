@@ -28,6 +28,15 @@ R0 = norm(f); %%CÁLCULO DE F(X0) PARA UTILIZAÇÃO E MEDIÇÃO DE UM ERRO APRESENTAD
 if ~(size(x) == size(f))
     error('f must return a column vector of the same size as x0')
 end
+%paticoes
+
+
+
+
+
+
+
+
 %calculo da matriz jacobiana
 %J = jacobi(fun,x);  % Intial Jacobian matrix %%M_OLD E P_OLD
 

@@ -133,7 +133,7 @@ switch pmetodo
                 nflagno,weightDMP,auxface,wells,mobility,Hesq, ...
                 Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,...
             gravno,gravelem,gravface);
-        toc
+   toc
         end
         
         %  % informacoes da simulacao
