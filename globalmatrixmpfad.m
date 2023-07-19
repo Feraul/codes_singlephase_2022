@@ -1,6 +1,6 @@
 % objetivo: Montagem da matriz global M e I
 function [ M, I ] = globalmatrixmpfad( w,s, Kde, Ded, Kn, Kt, nflagno, ...
-    Hesq,fonte,gravresult,gravrate,gravno,gravelem,grav_elem_escalar)
+    Hesq,fonte,gravresult,gravrate,gravno,gravelem,grav_elem_escalar,wg)
 
 global coord elem esurn1 esurn2  bedge inedge  centelem bcflag gravitational...
     strategy elemarea
@@ -39,7 +39,8 @@ for ifacont=1:size(bedge,1)
             elseif strcmp(strategy,'inhouse1')
                 g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
                 g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
-                m=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(norm(v0)^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
+               % m=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(norm(v0)^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
+                m=gravrate(ifacont)+g2+g1;
             end
         else
             m=0;
@@ -114,7 +115,7 @@ for iface=1:size(inedge,1)
     
     %Contabilização das contribuições dos nós que não estão na
     %fronteiras de Dirichlet.
-    
+    % first node
     if nflagno(inedge(iface,1),1)>200
         for j=1:(esurn2(inedge(iface,1)+1)-esurn2(inedge(iface,1)))
             
@@ -123,9 +124,12 @@ for iface=1:size(inedge,1)
             M(lef, esurn1(post_cont))=M(lef,esurn1(post_cont)) + Kde(iface)*Ded(iface)*w(post_cont);
             
             M(rel, esurn1(post_cont))=M(rel,esurn1(post_cont)) - Kde(iface)*Ded(iface)*w(post_cont);
-            
+           
         end
+        %I(lef)=I(lef)+  wg(inedge(iface,1));
+        %I(rel)=I(rel)-   wg(inedge(iface,1));
     end
+    % second node
     if nflagno(inedge(iface,2),1)>200
         for j=1:(esurn2(inedge(iface,2)+1)-esurn2(inedge(iface,2)))
             
@@ -136,6 +140,8 @@ for iface=1:size(inedge,1)
             M(rel, esurn1(post_cont))=M(rel,esurn1(post_cont)) + Kde(iface)*Ded(iface)*w(post_cont);
             
         end
+        %I(lef)=I(lef)-  wg(inedge(iface,2));
+        %I(rel)=I(rel)+  wg(inedge(iface,2));
     end
     % termo gravitacional
     if strcmp(gravitational,'yes')
@@ -144,22 +150,28 @@ for iface=1:size(inedge,1)
         elseif strcmp(strategy,'inhouse')
             no1=inedge(iface,1);
             no2=inedge(iface,2);
-            g1=gravno(no1,1);
-            g2=gravno(no2,1);
+            %g1=gravno(no1,1);
+            %g2=gravno(no2,1);
+            g1=0;
+            nec1=esurn2(no1+1)- esurn2(no1);
+            nec2=esurn2(no2+1)- esurn2(no2);
             for j=1:nec1
                     element1=esurn1(esurn2(no1)+j);
                     g1=g1+w(esurn2(no1)+j)*grav_elem_escalar(element1);
             end
-            for j=1:nec1
+            g2=0;
+            for j=1:nec2
                     element2=esurn1(esurn2(no2)+j);
                     g2=g2+w(esurn2(no2)+j)*grav_elem_escalar(element2);
             end
-            m= -Kde(iface)*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded(iface)*(g2-g1));
+           % m= -Kde(iface)*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded(iface)*(g2-g1));
+            m= gravrate(size(bedge,1)+iface,1)+g2+g1;
         else
             m=0;
         end
-        I(lef)=I(lef)+m;
-        I(rel)=I(rel)-m;
+        
+        I(lef)=I(lef)+m ;
+        I(rel)=I(rel)-m ;
     end
 end
 end

@@ -106,9 +106,12 @@ for iface=1:size(inedge,1)
         gravface1= (H1/Kn1)*dot(((RotH(vd1)')'), grav1);
         grav2=-(Krel*gravelem(rel,:)');
         gravface2= (H2/Kn2)*dot(((-RotH(vd1)')'), grav2);
-        g(iface+size(bedge,1),1)=-Kde*(gravface1-gravface2);
+        %g(iface+size(bedge,1),1)=-Kde*(gravface1-gravface2);
+        
+         g(iface+size(bedge,1),1)=0.5*(dot(normals(iface+size(bedge,1),:)*Klef,gravelem(lef,:))+dot(normals(iface+size(bedge,1),:)*Krel,gravelem(rel,:)));
     end
         
+    
     G(lef,1)=G(lef,1)-g(iface+size(bedge,1),1);
     G(rel,1)=G(rel,1)+g(iface+size(bedge,1),1);
     

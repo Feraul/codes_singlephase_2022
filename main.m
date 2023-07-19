@@ -20,12 +20,9 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
 %% NOTAS E PENDENCIAS
 % 1. Para o interpolador com correcao de pontos harmonicos precisa ainda
 % implementar o caso artigo Zhang Kobaise figura 12. 
-% 2. Ainda falta investir no termo gravitacional
 % 3. Deve-se investir nos precondicionadores
 % 4. Deve-se incluir condicao de contorno de Neumann no eLPEW2
-% 5. Precisa calcular as velocidades analiticas para o caso gravitacional 
-% 6. coloquei termo gravitacional na interpolacao e mudei o flag 202 para
-% 202 na montadgem da matriz (MPFAD)
+% 7. O termo gravitacional consistente necessita trabalhar
 %% Habilite esta funcao para obter distocao de malhas estruturadas
 %[auxcoord]=distortedramd;
 %% funcao que modificacao de bedge
@@ -91,7 +88,7 @@ benchmark='starnonigrav1';
 gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse' ou 'inhouse1'
-strategy= 'inhouse3';
+strategy= 'inhouse';
 %strategy='GravConsist';
 
 %% adequacao das permeabilidades e otros parametros fisico-geometricos 
@@ -106,7 +103,7 @@ strategy= 'inhouse3';
 [F,V,N]=elementface; % falta finalizar o tratamento (05-08-2022)
 %% pre-processador local
 [pointarmonic,parameter,gamma,p_old,tol,nit,er,nflagface,nflagno,...
-    weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,gravresult,gravrate,weight,s]=...
+    weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,gravresult,gravrate,weight,s,wg]=...
     preprocessorlocal(kmap,N,gravelem,gravface);
 
 % não habilite
@@ -118,7 +115,7 @@ mobility=1;
 [pressurenum,errorelativo,flowrate,flowresult,tabletol,coercividade]=...
     solverpressure(kmap,nflagface,nflagno,fonte, tol,nit,p_old,mobility,...
     gamma,wells,parameter,Hesq, Kde, Kn, Kt, Ded,weightDMP,auxface,...
-    calnormface,gravresult,gravrate,weight,s,gravno,gravelem,gravface,grav_elem_escalar);
+    calnormface,gravresult,gravrate,weight,s,gravno,gravelem,gravface,grav_elem_escalar,wg);
 
 %% pos-processador no visit
 postprocessor(full(abs(pressurenum-pressurexact)),1); 

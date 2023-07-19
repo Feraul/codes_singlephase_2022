@@ -67,7 +67,7 @@ for No=1:size(coord,1)
     
     n_pontos=nsurn2(No+1)-nsurn2(No);
     
-    %construção do tensor permeabilidade.%
+    
     
     for k=1:N_element_No
         

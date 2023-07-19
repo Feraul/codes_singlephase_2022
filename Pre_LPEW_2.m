@@ -1,8 +1,9 @@
-function [ w,s] = Pre_LPEW_2(kmap,N,gravrate)
+function [ w,s,wg] = Pre_LPEW_2(kmap,N,gravrate,gravelem)
 global coord bcflag bedge nsurn1 nsurn2 gravitational 
 % devolve os pesos "w" cujos elementos são organizados em um vetor
 %Retorna todos os parâmetros necessários às expressões dos fluxos.
 apw=ones(size(coord,1),1);
+apw1=ones(size(coord,1),1);
 r=zeros(1,2);
 s=zeros(size(bedge,1),1);
 for No=1:size(coord,1)
@@ -23,11 +24,21 @@ for No=1:size(coord,1)
     % calcula os lambdas
     [ lambda,r ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
         theta2, ve1, ve2, neta, P, O,Qo,No,T,r );
+    % gravitational term contribuition
+    [g]=gravnode(N,kmap,No,gravelem);
     for k=0:size(O,1)-1
         w(apw(No)+k,1)=lambda(k+1)/sum(lambda); %calculo dos pesos
+        
     end
     
     apw(No+1)=apw(No)+size(O,1);
+    
+    
+    wg(No,1)=sum(g(:)); %calculo dos pesos
+   
+    
+    %apw1(No+1)=apw1(No)+size(g,1);
+    
     % calculando os pesos nos vertices do contorno de Neumann 
     % N ordena faces na vizinhanca de um vertices, comecando pela face do
     % contorno 
