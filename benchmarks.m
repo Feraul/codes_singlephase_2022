@@ -10,6 +10,7 @@ fonte=0;
 grav=zeros(size(elem,1),3);
 gravno=0;
 gravface=0;
+grav_elem_escalar=0;
 
 switch benchmark
     

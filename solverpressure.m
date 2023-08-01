@@ -3,7 +3,7 @@ function [pressure,errorelativo,flowrate,flowresult,tabletol,coercividade]=...
     tol, nit,p_old,mobility,gamma,wells,parameter,...
     Hesq, Kde, Kn, Kt, Ded,weightDMP,auxface,...
     calnormface,gravresult,gravrate,w,s,gravno,gravelem,gravface,grav_elem_escalar,wg)
-global iteration pmetodo elemarea gravitational strategy
+global iteration pmetodo elemarea strategy
 errorelativo=0;
 tabletol=0;
 coercividade=0;
@@ -21,7 +21,7 @@ switch pmetodo
             mobility,Hesq, Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,...
             gravno,gravelem,gravface);
         if strcmp(iteration,'AA')
-            
+            % calculo das variavel pressao 
             tic
             [pressure,tabletol,iter,ciclos]=picardAA(M_old,RHS_old,nit,tol,kmap,...
                 parameter,w,s,nflagface,fonte,p_old,gamma,...
@@ -30,7 +30,7 @@ switch pmetodo
             gravno,gravelem,gravface);
             toc
         elseif strcmp(iteration,'fullpicard')
-            
+            % calculo das variavel pressao 
             tic
             [pressure,tabletol,iter,ciclos]=fullpicard(M_old,RHS_old,...
                 nit,tol,kmap,parameter,w,s,nflagface,fonte,p_old,gamma,...
@@ -39,15 +39,15 @@ switch pmetodo
             gravno,gravelem,gravface);
             toc
         elseif strcmp(iteration,'iterbroyden')
-            
-            p_old1=M_old\RHS_old;
-                     
+            % calculo das variavel pressao 
+             tic                 
             [pressure, iter,ciclos,tolerancia]=broyden(M_old,RHS_old,...
-                p_old,tol,kmap,parameter,...
-                w,s,nflagface,fonte,gamma,nflagno,p_old1,...
-                weightDMP,auxface,calnormface,wells,mobility,gravresult);
+                p_old,tol,kmap,parameter,w,s,nflagface,fonte,gamma,nflagno,...
+                weightDMP,auxface,calnormface,wells,mobility,gravresult,...
+                gravrate,gravno,gravelem,gravface,grav_elem_escalar,wg,pinterp);
+            toc
         elseif strcmp(iteration,'RRE')
-            
+            % calculo das variavel pressao 
             tic
             [pressure,tabletol,iter,ciclos]=picardRRE(M_old,RHS_old,nit,tol,kmap,...
                 parameter,w,s,nflagface,fonte,p_old,gamma,...
@@ -55,7 +55,7 @@ switch pmetodo
                 Kde, Kn, Kt, Ded,calnormface);
             toc
         elseif strcmp(iteration,'MPE')
-            
+            % calculo das variavel pressao 
             tic
             [pressure,tabletol,iter,ciclos]=picardMPE(M_old,RHS_old,nit,tol,kmap,...
                 parameter,w,s,nflagface,fonte,p_old,gamma,...

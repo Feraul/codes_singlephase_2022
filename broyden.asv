@@ -60,7 +60,8 @@ while  tol<er
         er = abs(R/R0)
     else
         er = 0;
-    end    
+    end
+    x=x;
     i=i+1;
 end
 tolerancia= er;
@@ -107,10 +108,8 @@ function [partic]=particoes(M_old)
         end
         
         nn=nn+1;
-        % coloca o flag do primeiro coluna diferente se zero avaliado
-        v(nn,1)=vv(1,1); 
-        % faz zero a coluna que faz parte da particao
-        M_old1(:,vv(1,1))=0*M_old1(:,vv(1,1)); 
+        v(nn,1)=vv(1,1); % coloca o flag do primeiro coluna diferente se zero avaliado
+        M_old1(:,vv(1,1))=0*M_old1(:,vv(1,1)); % faz zero a coluna que faz parte da familia
         
         if max(max(M_old1))==0
             v(end,:)=[];

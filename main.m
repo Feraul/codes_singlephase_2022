@@ -9,7 +9,7 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
     normals esureface1 esureface2 esurefull1 esurefull2 elemarea dens ...
     visc satlimit pormap bcflag courant totaltime filepath foldername gravitational...
     benchmark pmetodo interpol iteration erromethod correction strategy...
-    typecorrection;
+    typecorrection jacob;
 %%========================================================================%
 
 [coord,centelem,elem,esurn1,esurn2,nsurn1,nsurn2,bedge,inedge,normals,...
@@ -36,12 +36,12 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
 %   d=0;
 %   [elemento]=searchelement(a,b,c,d)
 %% escolha o tipo de erro discreto que deseja usar
-% erromethod1 ---> erro utilizado por Gao e Wu 2010; amplamente utilizado
+% erromethod1 ---> erro utilizado por Gao e Wu 2010;  amplamente utilizado
 % erromethod2 --->  ''     ''     por Lipnikov et al 2010
 % erromethod3 --->  ''     ''     por Eigestad et al 2005
 % erromethod4 --->  ''     ''     por Shen e Yuan 2015
-% erromethod6 --->  ''     ''     por M. Starnoni 2019
-erromethod='erromethod6';
+% erromethod6 --->  ''     ''     por M. Starnoni 2019, para o caso gravitacional
+erromethod='erromethod1';
 %% defina o tipo de metodo  
 % tpfa      --> (TPFA)
 % mpfad     --> (MPFA-D) 
@@ -53,7 +53,7 @@ erromethod='erromethod6';
 % nlfvHP    --> (NL-TPFA-H) metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='mpfad';
+pmetodo='nlfvLPEW';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
@@ -65,6 +65,10 @@ pmetodo='mpfad';
 %  iteration='AA';  % picard com aceleracao de Anderson
 %iteration='iterhybrid';
 %iteration='fsolver';
+%% Para metodo nao-linear e iteracao Broyden ou Newton
+% escolha a estrategia de calculo do jacobiano
+%jacob='classic';
+jacob='nonclassic';
 %% qual tipo de interpolacao deseja utilizar
 interpol='LPEW2';
 %interpol='LPEW1';
@@ -80,12 +84,12 @@ typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %% digite segundo o benchmark
 % procure o teste que deseja rodar no arquivo "benchmarks.m"
-%benchmark='shenyuan16';
+benchmark='shenyuan16';
 %benchmark='gaowu5'; 
-benchmark='starnonigrav1';
+%benchmark='starnonigrav1';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
-gravitational='yes';
+gravitational='no';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse' ou 'inhouse1'
 strategy= 'inhouse';
@@ -95,14 +99,14 @@ strategy= 'inhouse';
 %segundo cada caso ou problema
 [elem,kmap,normKmap,pressurexact,bedge,fonte,velexact,gravelem,gravno,...
     gravface,grav_elem_escalar]=benchmarks(kmap,elem,bedge);
-   mm=find(bedge(:,4)==202);% ???
-   bedge(mm',4)=201; %???
+%   mm=find(bedge(:,4)==202);% ???
+%   bedge(mm',4)=201; %???
 % F faces na vizinhanca de um elemento
 % V 
 % N
 [F,V,N]=elementface; % falta finalizar o tratamento (05-08-2022)
 %% pre-processador local
-[pointarmonic,parameter,gamma,p_old,tol,nit,er,nflagface,nflagno,...
+[pointarmonic,parameter,gamma,p_old,tol,nit,nflagface,nflagno,...
     weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,gravresult,gravrate,weight,s,wg]=...
     preprocessorlocal(kmap,N,gravelem,gravface);
 

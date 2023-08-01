@@ -1,8 +1,8 @@
-function [pointarmonic,parameter,gamma,p_old,tol,nit,er,nflagface,...
+function [pointarmonic,parameter,gamma,p_old,tol,nit,nflagface,...
     nflagno,weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,...
     gravresult,gravrate,weight,contrcontor,wg]=preprocessorlocal(kmap,...
     N,gravelem,gravface)
-global elem gravitational pmetodo interpol correction bedge strategy typecorrection
+global elem gravitational pmetodo interpol correction typecorrection
 % inicializando as variaveis
 nflagno=0;
 nflagface=0;
@@ -20,11 +20,15 @@ gravresult=0;
 gravrate=0;
 weight=0;
 contrcontor=0;
-
+%% dados inicialização métodos dos volumes finitos não linear
+gamma=0.0;                     % este parametro esta no intervalo [0,1] pode ser utilizado para o método nao linear MPFA
+p_old=1*ones(size(elem,1),1);  % inicializando a presao
+tol=1e-10;                      % tolerancia para metodos não lineares
+nit=2000;                      % numero de iteracoes de Picard
 %% calculo do termo gravitacional
 if strcmp(gravitational,'yes')
     
-        [gravresult,gravrate]=gravitation(kmap,gravelem,gravface);
+    [gravresult,gravrate]=gravitation(kmap,gravelem,gravface);
     
 end
 %% Calculo dos pesos
@@ -78,7 +82,7 @@ elseif strcmp(pmetodo,'nlfvLPS')|| strcmp(pmetodo,'lfvLPEW')
     
 elseif strcmp(pmetodo,'interpfree')
     [parameter]=coeffinterpfree(kmap,F);
-
+    
 elseif strcmp(pmetodo,'nlfvPPS')
     %% calculo dos parametros ou constantes (ksi)
     % esta rutina estamos usando de 7/2/2016
@@ -143,7 +147,7 @@ elseif strcmp(pmetodo,'mpfad')
     % calculo das constantes fisicos-geometrico
     [Hesq, Kde, Kn, Kt, Ded] = Kde_Ded_Kt_Kn(kmap);
     % adequação dos flags de contorno
-    nflagno= contflagno; 
+    nflagno= contflagno;
 else
     % calculo das constantes fisicos-geometrico para o TPFA
     [Hesq, Kde, Kn, Kt, Ded] = Kde_Ded_Kt_Kn( kmap);
@@ -151,10 +155,5 @@ else
     % adequação dos flags de contorno
     nflagface= contflagface;
 end
-%% dados inicialização métodos dos volumes finitos não linear
-gamma=0.0;                     % este parametro esta no intervalo [0,1] pode ser utilizado para o método nao linear MPFA
-p_old=1*ones(size(elem,1),1);  % inicializando a presao
-tol=1e-10;                      % tolerancia para metodos não lineares
-nit=2000;                      % numero de iteracoes de Picard
-er=1;                          % inicializacao do erro
+
 end

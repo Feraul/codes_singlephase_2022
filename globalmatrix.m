@@ -2,7 +2,10 @@
 % estudado
 function [M,I]=globalmatrix(p,pinterp,gamma,nflagface,nflagno,parameter,kmap,...
     fonte,w,s,weightDMP,auxface,wells,mobility,Hesq,...
-    Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,gravno,gravelem,gravface,grav_elem_escalar,wg)
+    Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,gravno,...
+    gravelem,gravface,grav_elem_escalar,wg)
+
+            
 global pmetodo
 
 if strcmp(pmetodo,'nlfvDMP1')
