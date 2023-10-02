@@ -27,7 +27,7 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
 %[auxcoord]=distortedramd;
 %% funcao que modificacao de bedge
 % esta funcao deve ser ativado para malhas patologicas
-%[bedge]=modificationbedge(bedge);
+[bedge]=modificationbedge(bedge);
 
 %% calculo o flag do elemento que deseja
 %   a=6287;

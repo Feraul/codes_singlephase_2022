@@ -3,6 +3,23 @@
 function [bedge]=modificationbedge(bedge)
 
 %%
+% problema eduardo queiroz
+%  x=bedge(71:78,1); % UTILIZE Benchmark23_3_18_18.msh
+%  y=bedge(71:78,2);
+%  bedge(71:78,1)=y;
+%  bedge(71:78,2)=x;
+%  bedge(71:78,4:5)=102; % 18x18
+%  bcflag(2,1)=102;
+%  bcflag(2,2)=2;
+%--------------------------------------------------------
+% x=bedge(135:150,1); % UTILIZE Benchmark23_3_FINA36.msh
+%   y=bedge(135:150,2);
+%   bedge(135:150,1)=y;
+%   bedge(135:150,2)=x;
+%   bedge(135:150,4:5)=102; % 36x36
+%   bcflag(2,1)=102;
+%   bcflag(2,2)=2;
+%%
 % bedge(217,4)=102;
 % bedge(223,4)=102;
 % bedge(229,4)=102;
