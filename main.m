@@ -29,6 +29,10 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
 % esta funcao deve ser ativado somente para alguma malhas
 %[bedge]=modificationbedge(bedge);
 
+%  x=bedge(1:62,1);
+%  y=bedge(1:62,2);
+%  bedge(1:62,1)=y;
+%  bedge(1:62,2)=x;
 %% calculo o flag do elemento que deseja
 %   a=6287;
 %   b=445;
@@ -77,11 +81,11 @@ interpol='LPEW2';
 %interpol='eLPEW2';
 %% correcao dos pontos harmonicos
 % digite 'yes' ou 'no'
-correction='no';
+correction='yes';
 % qual tipo de correcao deseja utilizar
-typecorrection='firstcorrection'; % correcao utilizando express. simplif.
+%typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %typecorrection= 'secondcorrection'; % correcao utilizando ponto medio da face
-%typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
+typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %% digite segundo o benchmark
 % procure o teste que deseja rodar no arquivo "benchmarks.m"
 benchmark='edwards';

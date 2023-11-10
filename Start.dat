@@ -14,7 +14,7 @@
 
 //Do you have a mesh file? [y] ==> "yes"; [n] ==> "no"
 
-y
+n
 
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
@@ -26,14 +26,14 @@ Tipo6Malha1.msh
 //IMPORTANT: if the file is puted into folder which contain the *.m
 //files, write in the statment below "no path".
 
-C:\Users\flc59\Documents\GitHub\Malhas2
+C:\Users\flc59\Documents\Malhas2
 
 //If [n] write, immediately below, the path which conduct to  
 //folder where the *.m files is:
 //IMPORTANT: gmsh.exe must be puted in this folder together with
 //the *.m files. Otherwise it does not work.
 
-C:\Users\flc59\Documents\GitHub\codes_singlephase_2022
+C:\Users\flc59\Documents\codes_singlephase_2022
 
 //write the name of BASE geometry file WITHOUT extension *.geo.
 //This file can serve to several simulations. Each one may have 
@@ -73,7 +73,7 @@ five_spot
 
 //Is your mesh structured?  [y] ==> "yes"; [n] ==> "no"
 
-n
+y
 
 //If [y] enter with the informations in the "STRUCTURED MESH": 
 //If [n] enter with the informations in the "UNSTRUCTURED MESH": 
@@ -129,7 +129,7 @@ n
 //or unstructured mesh
 //[0] ==> "Triangles"; [1] ==> "Quadrangles"; [2] ==> "Both"
 
-0
+1
 
 //OBS.: 
 //The option "Both" does not work when the mesh is structured. 
@@ -170,7 +170,7 @@ n
 //for example, choose "n" when mesh is created outside preprocessor
 //[y] ==> "yes"; [n] ==> "no"
 
-n
+y
 
 //--------------------------------------------------------------------
 //---------------- Physical parameters (DARCY system) ----------------

@@ -2,7 +2,7 @@
 % exemplo: tensor de permeabilidade (kmap), pressão analitica (u), termos de fonte (fonte),
 % velocidade analitica (vel),gravidade (grav)
 function[elem,kmap,normKmap,u,bedge,fonte,vel,grav,gravno,gravface,grav_elem_escalar]=benchmarks(kmap,elem,bedge)
-global centelem coord inedge normals elemarea bcflag benchmark
+global centelem coord inedge normals elemarea bcflag benchmark 
 normKmap=0;
 vel=0;
 u=0;
@@ -18,6 +18,7 @@ switch benchmark
             %Define "x" and "y"
             x = centelem(i,1);
             y = centelem(i,2);
+            
             if x<=0.5
                 u(i,1)= 10+2*x*y;
                 kmap(i,:) = [i 1 0.5 0.5 1];

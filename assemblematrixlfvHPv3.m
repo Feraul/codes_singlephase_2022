@@ -85,16 +85,16 @@ for iface=1:size(inedge,1)
     %     M(rel,rel)=M(rel,rel)+ mobility(ifactual)*ARR;
     %     M(rel,lef)=M(rel,lef)- mobility(ifactual)*ALL;
     
-    M(lef,lef)=M(lef,lef)+ 1*ALL;
-    M(lef,rel)=M(lef,rel)- 1*ARR;
+    M(lef,lef)=M(lef,lef)+ ALL;
+    M(lef,rel)=M(lef,rel)- ARR;
     % contribuição da transmisibilidade no elemento direita
-    M(rel,rel)=M(rel,rel)+ 1*ARR;
-    M(rel,lef)=M(rel,lef)- 1*ALL;
+    M(rel,rel)=M(rel,rel)+ ARR;
+    M(rel,lef)=M(rel,lef)- ALL;
     
     % contribuições do elemento a esquerda
     %------------------------ somando 1 ----------------------------------%
     %termo0=mobility(ifactual)*norma*murel*parameter(1,1,ifactual);
-    termo0=1*norma*murel*parameter(1,1,ifactual);
+    termo0=norma*murel*parameter(1,1,ifactual);
     if ifacelef1<size(bedge,1) || ifacelef1==size(bedge,1)
         if nflagface(ifacelef1,1)<200
             % neste caso automaticamente introduzimos o valor dada no
