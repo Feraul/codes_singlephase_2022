@@ -9,7 +9,7 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
     normals esureface1 esureface2 esurefull1 esurefull2 elemarea dens ...
     visc satlimit pormap bcflag courant totaltime filepath foldername gravitational...
     benchmark pmetodo interpol iteration erromethod correction strategy...
-    typecorrection jacob;
+    typecorrection jacobmatrix;
 %%========================================================================%
 
 [coord,centelem,elem,esurn1,esurn2,nsurn1,nsurn2,bedge,inedge,normals,...
@@ -26,8 +26,8 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
 %% Habilite esta funcao para obter distocao de malhas estruturadas
 %[auxcoord]=distortedramd;
 %% funcao que modificacao de bedge
-% esta funcao deve ser ativado para malhas patologicas
-[bedge]=modificationbedge(bedge);
+% esta funcao deve ser ativado somente para alguma malhas
+%[bedge]=modificationbedge(bedge);
 
 %% calculo o flag do elemento que deseja
 %   a=6287;
@@ -53,13 +53,13 @@ erromethod='erromethod1';
 % nlfvHP    --> (NL-TPFA-H) metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='nlfvLPEW';
+pmetodo='lfvHP';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
- iteration='iterbroyden';
+% iteration='iterbroyden';
 % iteration='JFNK';
-% iteration='fullpicard';
+ iteration='fullpicard';
 % iteration='MPE'; 
 % iteration='RRE'; % picard com acelerador rank reduced extrapolation
 %  iteration='AA';  % picard com aceleracao de Anderson
@@ -67,8 +67,8 @@ pmetodo='nlfvLPEW';
 %iteration='fsolver';
 %% Para metodo nao-linear e iteracao Broyden ou Newton
 % escolha a estrategia de calculo do jacobiano
-%jacob='classic';
-jacob='nonclassic';
+%jacobmatrix='classic';
+jacobmatrix='nonclassic';
 %% qual tipo de interpolacao deseja utilizar
 interpol='LPEW2';
 %interpol='LPEW1';
@@ -84,8 +84,12 @@ typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %% digite segundo o benchmark
 % procure o teste que deseja rodar no arquivo "benchmarks.m"
-benchmark='shenyuan16';
-%benchmark='gaowu5'; 
+benchmark='edwards';
+%benchmark='gaowu9';
+%benchmark='gaowu4';
+%benchmark='lepotier';
+%benchmark='shenyuan16';
+%benchmark='guangwei'; 
 %benchmark='starnonigrav1';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'

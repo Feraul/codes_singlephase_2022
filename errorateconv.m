@@ -10,7 +10,8 @@ pressuremin= min(p)
 switch benchmark
     case 'edqueiroz'
         disp('>> nao precissa calcular erro para este problema!!!')
-        
+    case 'guangwei'
+        disp('>> nao precissa calcular erro para este problema!!!')
     otherwise
         
         % recupera as velocidades numéricas

@@ -13,23 +13,7 @@ gravface=0;
 grav_elem_escalar=0;
 
 switch benchmark
-    case 'edwards'
-        for i = 1:size(centelem,1)
-            %Define "x" and "y"
-            x = centelem(i,1);
-            y = centelem(i,2);
-            if x<=0.5
-                u(i,1)= 10+2*x*y;
-                kmap(i,:) = [i 1 0.5 0.5 1];
-                fonte(i,1)=-20*elemarea(i);
-            else
-                u(i,1)= 10.75-1.5*x+9*y+2*x*y;
-                kmap(i,:) = [i 10 2 2 100];
-                fonte(i,1)=-8*elemarea(i);
-            end
-            elem(i,5)=i;
-        end
-        K=kmap;
+    
     case 'miao'
         for i = 1:size(centelem,1)
             %Define "x" and "y"
@@ -2235,6 +2219,9 @@ switch benchmark
                 x=auxpoint(1,1);
                 y=auxpoint(1,2);
                 phi1=y-alfa*(x-0.5)-0.475;
+                if phi1==0
+                    m
+                end
                 phi2=phi1-0.05;
                 theta=atand(alfa);
                 if phi1<0
@@ -2298,7 +2285,7 @@ switch benchmark
                 x=auxpoint(1,1);
                 y=auxpoint(1,2);
                 
-                phi1=y-alfa*(x-0.5)-0.475+1e-8;
+                phi1=y-alfa*(x-0.5)-0.475;
                 phi2=phi1-0.05;
                 theta=atand(alfa);
                 if phi1<0

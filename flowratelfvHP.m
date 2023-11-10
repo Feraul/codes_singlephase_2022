@@ -15,7 +15,7 @@ bedgeamount = 1:bedgesize;
 %Initialize "flowrate" and "flowresult"
 flowrate = zeros(bedgesize + inedgesize,1);
 flowresult = zeros(size(centelem,1),1);
-    
+   m=0;
 for ifacont=1:size(bedge,1)
     lef=bedge(ifacont,3);
     

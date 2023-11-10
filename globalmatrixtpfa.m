@@ -52,10 +52,10 @@ for iface=1:size(inedge,1),
     rel=inedge(iface,4);
     %Contabiliza as contribuições do fluxo numa faces  para os elementos %
     %a direita e a esquerda dela.                                        %
-    M(inedge(iface,3), inedge(iface,3))=M(inedge(iface,3), inedge(iface,3))-Kde(iface,1);
-    M(inedge(iface,3), inedge(iface,4))=M(inedge(iface,3), inedge(iface,4))+Kde(iface,1);
-    M(inedge(iface,4), inedge(iface,4))=M(inedge(iface,4), inedge(iface,4))-Kde(iface,1);
-    M(inedge(iface,4), inedge(iface,3))=M(inedge(iface,4), inedge(iface,3))+Kde(iface,1);
+    M(lef, lef)=M(lef, lef)- Kde(iface);
+    M(lef, rel)=M(lef, rel)+ Kde(iface);
+    M(rel, rel)=M(rel, rel)- Kde(iface);
+    M(rel, lef)=M(rel, lef)+ Kde(iface);
     if strcmp(gravitational,'yes')
         if strcmp(strategy,'starnoni')
             m=gravrate(size(bedge,1)+iface);

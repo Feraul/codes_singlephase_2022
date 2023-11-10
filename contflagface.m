@@ -14,24 +14,35 @@ for ifacont=1:size(bedge,1)
     lef=bedge(ifacont,3);
     switch benchmark
         
+        case 'edwards'
+             xx=bcflag(:,1)==bedge(ifacont,5);
+            rr=find(xx==1);
+            nflag(ifacont,1)=bcflag(rr,1);
+            
+            if x<=0.5
+                nflag(ifacont,2)=10+2*x*y;
+            else
+                nflag(ifacont,2)= 10.75-1.5*x+9*y+2*x*y;
+                
+            end
         case {'miao'}
             xx=bcflag(:,1)==bedge(ifacont,5);
             rr=find(xx==1);
             nflag(ifacont,1)=bcflag(rr,1);
             
             if x<=0.5
-               nflag(ifacont,2)=14*x+y;
+                nflag(ifacont,2)=14*x+y;
             else
-              nflag(ifacont,2)= 4*x+y+5;
-              
+                nflag(ifacont,2)= 4*x+y+5;
+                
             end
         case {'starnonigrav1'}
-             xx=bcflag(:,1)==bedge(ifacont,5);
+            xx=bcflag(:,1)==bedge(ifacont,5);
             rr=find(xx==1);
             nflag(ifacont,1)=bcflag(rr,1);
             
             if nflag(ifacont,1)>200
-               nflag(ifacont,2)=0;
+                nflag(ifacont,2)=0;
             else
                 if single(y)>=0.5
                     nflag(ifacont,2)= 11-10*y;
@@ -40,7 +51,7 @@ for ifacont=1:size(bedge,1)
                     % condicao de contorno de Dirichlet no lado direito e esquerdo
                     nflag(ifacont,2)= 6.5-1*y;
                 end
-                 
+                
             end
         case{'starnonigrav2'}
             xx=bcflag(:,1)==bedge(ifacont,5);
@@ -48,45 +59,45 @@ for ifacont=1:size(bedge,1)
             nflag(ifacont,1)=bcflag(rr,1);
             
             if nflag(ifacont,1)>200
-               nflag(ifacont,2)=0;
+                nflag(ifacont,2)=0;
             else
-               nflag(ifacont,2)=1+sin(x)*cos(y);  
+                nflag(ifacont,2)=1+sin(x)*cos(y);
             end
         case {'starnonigrav3'}
-             xx=bcflag(:,1)==bedge(ifacont,5);
+            xx=bcflag(:,1)==bedge(ifacont,5);
             rr=find(xx==1);
             nflag(ifacont,1)=bcflag(rr,1);
             
             if nflag(ifacont,1)>200
-               nflag(ifacont,2)=0;
+                nflag(ifacont,2)=0;
             else
-               if single(y)>0.5
+                if single(y)>0.5
                     nflag(ifacont,2)=sin(x)*cos(y)+ 11-10*y;
                 else
                     
                     % condicao de contorno de Dirichlet no lado direito e esquerdo
                     nflag(ifacont,2)=sin(x)*cos(y)+ 6.5-1*y;
-                end 
-                 
-            end 
-         case {'starnonigrav4'}
-             xx=bcflag(:,1)==bedge(ifacont,5);
+                end
+                
+            end
+        case {'starnonigrav4'}
+            xx=bcflag(:,1)==bedge(ifacont,5);
             rr=find(xx==1);
             nflag(ifacont,1)=bcflag(rr,1);
             
             if nflag(ifacont,1)>200
-               nflag(ifacont,2)=0;
+                nflag(ifacont,2)=0;
             else
-               if single(y)>0.5
+                if single(y)>0.5
                     nflag(ifacont,2)=100*sin(x)*cos(y)+11- 10*y;
                 else
                     
                     % condicao de contorno de Dirichlet no lado direito e esquerdo
                     nflag(ifacont,2)=100*sin(x)*cos(y)+6.5- 1*y;
-                end 
-                 
-            end   
-        
+                end
+                
+            end
+            
         case{'zhangkobaise'}
             xx=bcflag(:,1)==bedge(ifacont,5);
             rr=find(xx==1);
@@ -189,15 +200,19 @@ for ifacont=1:size(bedge,1)
         case  'gaowu3'
             nflag(ifacont,1)=101;
             nflag(ifacont,2)=exp(-20*pi*((x-0.5)^2 + (y-0.5)^2));
+        case 'gaowu4'
+            
+            nflag(ifacont,1)=101;
+            nflag(ifacont,2)=sin(pi*x)*sin(pi*y);
         case 'lepotier'
             %%
             xx=bcflag(:,1)==bedge(ifacont,5);
             rr=find(xx==1);
             nflag(ifacont,1)=bcflag(rr,1);
             % no artigo de lipnikov
-            %nflag(ifacont,2)=sin(pi*x)*sin(pi*y);
+            nflag(ifacont,2)=sin(pi*x)*sin(pi*y);
             %no artigo Zhang e Kobaise
-            nflag(ifacont,2)=sin(pi*x)*sin(pi*y)+1;
+            %nflag(ifacont,2)=sin(pi*x)*sin(pi*y)+1;
         case 'lipnikov1'
             %%
             if x<0.5 || x==0.5
@@ -327,6 +342,12 @@ for ifacont=1:size(bedge,1)
                 nflag(ifacont,1)=102;
                 nflag(ifacont,2)=2;
             end
+        case 'guangwei'
+            nflag(ifacont,1)=101;
+            nflag(ifacont,2)=0;
+        case 'guangwei1'
+            nflag(ifacont,1)=101;
+            nflag(ifacont,2)=0;
             
     end
     

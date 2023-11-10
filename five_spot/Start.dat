@@ -19,7 +19,7 @@ n
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
 
-HermelineMeshModQuad_48_48.msh
+Tipo6Malha1.msh
 
 //OBS.: This file must be puted into folder together with *.m files 
 //or in a folder whose path will be declared immediately below:
@@ -73,7 +73,7 @@ five_spot
 
 //Is your mesh structured?  [y] ==> "yes"; [n] ==> "no"
 
-y
+n
 
 //If [y] enter with the informations in the "STRUCTURED MESH": 
 //If [n] enter with the informations in the "UNSTRUCTURED MESH": 
@@ -129,7 +129,7 @@ y
 //or unstructured mesh
 //[0] ==> "Triangles"; [1] ==> "Quadrangles"; [2] ==> "Both"
 
-1
+0
 
 //OBS.: 
 //The option "Both" does not work when the mesh is structured. 
@@ -370,7 +370,7 @@ porosity.dat
 //declared below and so on.
 
 1
-101 0
+101 1
 
 //--------------------------------------------------------------------
 //Tratment of boundary points

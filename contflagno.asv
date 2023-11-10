@@ -21,9 +21,9 @@ for ifacont=1:size(bedge,1)
     switch benchmark
         case 'edwards'
             if x<=0.5
-               nflag(bedge(ifacont,1),2)=10+2*x*y;
+               nflag(bedge(ifacont,1),2)=14*x+y;
             else
-              nflag(bedge(ifacont,1),2)= 10.75-1.5*x+9*y+2*x*y;
+              nflag(bedge(ifacont,1),2)= 4*x+y+5;
               
             end
         case 'miao'
