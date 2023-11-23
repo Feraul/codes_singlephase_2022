@@ -2,13 +2,14 @@ function [pressure,errorelativo,flowrate,flowresult,tabletol,coercividade]=...
     solverpressure(kmap,nflagface,nflagno,fonte,...
     tol, nit,p_old,mobility,gamma,wells,parameter,...
     Hesq, Kde, Kn, Kt, Ded,weightDMP,auxface,...
-    calnormface,gravresult,gravrate,w,s,gravno,gravelem,gravface,grav_elem_escalar,wg)
+    calnormface,gravresult,gravrate,w,s,gravno,gravelem,gravface,...
+    grav_elem_escalar,wg,N)
 global iteration pmetodo elemarea strategy
 errorelativo=0;
 tabletol=0;
 coercividade=0;
 
-%% calculo da pressao 
+%% calculo da pressao
 switch pmetodo
     % Calculo da pressao utilizando metodos nao-lineares
     case {'nlfvLPEW', 'nlfvDMPSY','nlfvDMPV1','nlfvHP', 'nlfvPPS','nlfvLPS'}
@@ -21,33 +22,33 @@ switch pmetodo
             mobility,Hesq, Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,...
             gravno,gravelem,gravface);
         if strcmp(iteration,'AA')
-            % calculo das variavel pressao 
+            % calculo das variavel pressao
             tic
             [pressure,tabletol,iter,ciclos]=picardAA(M_old,RHS_old,nit,tol,kmap,...
                 parameter,w,s,nflagface,fonte,p_old,gamma,...
                 nflagno,weightDMP,auxface,wells,mobility,Hesq, ...
                 Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,...
-            gravno,gravelem,gravface);
+                gravno,gravelem,gravface);
             toc
         elseif strcmp(iteration,'fullpicard')
-            % calculo das variavel pressao 
+            % calculo das variavel pressao
             tic
             [pressure,tabletol,iter,ciclos]=fullpicard(M_old,RHS_old,...
                 nit,tol,kmap,parameter,w,s,nflagface,fonte,p_old,gamma,...
                 nflagno,weightDMP,auxface,wells,mobility,Hesq, ...
                 Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,...
-            gravno,gravelem,gravface);
+                gravno,gravelem,gravface);
             toc
         elseif strcmp(iteration,'iterbroyden')
-            % calculo das variavel pressao 
-             tic                 
+            % calculo das variavel pressao
+            tic
             [pressure, iter,ciclos,tolerancia]=broyden(M_old,RHS_old,...
                 p_old,tol,kmap,parameter,w,s,nflagface,fonte,gamma,nflagno,...
                 weightDMP,auxface,calnormface,wells,mobility,gravresult,...
                 gravrate,gravno,gravelem,gravface,grav_elem_escalar,wg,pinterp);
             toc
         elseif strcmp(iteration,'RRE')
-            % calculo das variavel pressao 
+            % calculo das variavel pressao
             tic
             [pressure,tabletol,iter,ciclos]=picardRRE(M_old,RHS_old,nit,tol,kmap,...
                 parameter,w,s,nflagface,fonte,p_old,gamma,...
@@ -55,7 +56,7 @@ switch pmetodo
                 Kde, Kn, Kt, Ded,calnormface);
             toc
         elseif strcmp(iteration,'MPE')
-            % calculo das variavel pressao 
+            % calculo das variavel pressao
             tic
             [pressure,tabletol,iter,ciclos]=picardMPE(M_old,RHS_old,nit,tol,kmap,...
                 parameter,w,s,nflagface,fonte,p_old,gamma,...
@@ -128,12 +129,12 @@ switch pmetodo
                 auxface,wells,mobility,Hesq, Kde, Kn, Kt, Ded,calnormface);
         elseif strcmp(iteration, 'fsolver')
             tic
-           [pressure,tabletol,iter,ciclos]=fsolver(M_old,RHS_old,...
+            [pressure,tabletol,iter,ciclos]=fsolver(M_old,RHS_old,...
                 nit,tol,kmap,parameter,w,s,nflagface,fonte,p_old,gamma,...
                 nflagno,weightDMP,auxface,wells,mobility,Hesq, ...
                 Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,...
-            gravno,gravelem,gravface);
-           toc
+                gravno,gravelem,gravface);
+            toc
         end
         
         %  % informacoes da simulacao
@@ -154,7 +155,7 @@ switch pmetodo
         y=['>> Iteration numbers:',num2str(niteracoes)];
         disp(y);
         
-    % Calculo da pressao utilizando metodos lineares (MPFAs)    
+        % Calculo da pressao utilizando metodos lineares (MPFAs)
     case {'lfvHP','lfvLPEW','mpfad','tpfa'}
         % incializando variaveis
         
@@ -163,20 +164,20 @@ switch pmetodo
         [M_old,RHS_old]=globalmatrix(p_old,pinterp,gamma,nflagface,nflagno,...
             parameter,kmap,fonte,w,s,weightDMP,auxface,wells,...
             mobility,Hesq, Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,...
-            gravno,gravelem,gravface,grav_elem_escalar,wg);
+            gravno,gravelem,gravface,grav_elem_escalar,wg,N);
         
-            if strcmp(strategy,'inhouse1')
-                pressure=M_old\RHS_old - elemarea.*grav_elem_escalar(:);
-            else
+        if strcmp(strategy,'inhouse1')
+            pressure=M_old\RHS_old - elemarea.*grav_elem_escalar(:);
+        else
             pressure=M_old\RHS_old;
-           end
+        end
         % informacoes da simulacao
         tabletol=0;
         name = pmetodo;
         X = sprintf('>> Pressure field calculation according to the method: %s ',name);
-        disp(X)  
+        disp(X)
 end
-%% calculo das vazoes 
+%% calculo das vazoes
 % intepolacao dos pontos auxiliare a com o novo campo de pressao
 pinterp=pressureinterp(pressure,nflagface,nflagno,w,s,parameter,weightDMP);
 % flowrate: vazoes

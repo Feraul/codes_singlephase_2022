@@ -88,19 +88,19 @@ correction='yes';
 typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %% digite segundo o benchmark
 % procure o teste que deseja rodar no arquivo "benchmarks.m"
-benchmark='edwards';
+%benchmark='edwards';
 %benchmark='gaowu9';
 %benchmark='gaowu4';
 %benchmark='lepotier';
 %benchmark='shenyuan16';
 %benchmark='guangwei'; 
-%benchmark='starnonigrav1';
+benchmark='starnonigrav1';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
-gravitational='no';
+gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse' ou 'inhouse1'
-strategy= 'inhouse';
+strategy= 'starnoni';
 %strategy='GravConsist';
 
 %% adequacao das permeabilidades e otros parametros fisico-geometricos 
@@ -127,7 +127,8 @@ mobility=1;
 [pressurenum,errorelativo,flowrate,flowresult,tabletol,coercividade]=...
     solverpressure(kmap,nflagface,nflagno,fonte, tol,nit,p_old,mobility,...
     gamma,wells,parameter,Hesq, Kde, Kn, Kt, Ded,weightDMP,auxface,...
-    calnormface,gravresult,gravrate,weight,s,gravno,gravelem,gravface,grav_elem_escalar,wg);
+    calnormface,gravresult,gravrate,weight,s,gravno,gravelem,gravface,...
+    grav_elem_escalar,wg,N);
 
 %% pos-processador no visit
 postprocessor(full(abs(pressurenum-pressurexact)),1); 

@@ -20,14 +20,16 @@ for ifacont=1:size(bedge,1)
     Klef(2,2)=kmap(elem(lef,5),5);
     
     Keq=Klef;
-    if  strcmp(strategy,'starnoni')
+    if  strcmp(strategy,'starnoni')|| strcmp(strategy,'GravConsist')
         if bedge(ifacont,5)>200
             g(ifacont,1)=dot((R*ve1')'*Keq,(gravface(ifacont,:)));
         else
             g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
+            g(ifacont,2)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
         end
     else
         g(ifacont,1)=dot((R*ve1')'*Keq,(gravface(ifacont,:)));
+        
     end
     G(lef,1)=G(lef,1)-g(ifacont,1);
     
@@ -45,7 +47,7 @@ for iface=1:size(inedge,1)
     dj2=norm(centelem(rel,:)-vm);
     
     
-    if  strcmp(strategy,'starnoni')
+    if  strcmp(strategy,'starnoni')|| strcmp(strategy,'GravConsist')
         % tensor de permeabilidade do elemento a esquerda
         R1=[0 1 ;-1 0 ];
         K1(1,1)=kmap(elem(lef,5),2);
@@ -63,6 +65,9 @@ for iface=1:size(inedge,1)
         Keq=inv((dj1*inv(K1)+dj2*inv(K2))); % equation 21
         graveq=((dj1*gravelem(lef,1:2)+dj2*gravelem(rel,1:2))'); % equation 22
         g(iface+size(bedge,1),1)=dot(((R1*vd1')')*Keq, graveq);% equation 20
+        %------------------------------------------------------------------
+        graveq1=K1*gravelem(lef,1:2)'+K2*gravelem(rel,1:2)';
+        g(iface+size(bedge,1),2)=dot(((R1*vd1')'), graveq1');% equation 20
     else
         
         % tensor de permeabilidade do elemento a esquerda
