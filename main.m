@@ -100,7 +100,8 @@ benchmark='starnonigrav1';
 gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse' ou 'inhouse1'
-strategy= 'starnoni';
+%strategy= 'starnoni';
+strategy= 'inhouse'
 %strategy='GravConsist';
 
 %% adequacao das permeabilidades e otros parametros fisico-geometricos 

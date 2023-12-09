@@ -33,7 +33,7 @@ C:\Users\flc59\Documents\Malhas2
 //IMPORTANT: gmsh.exe must be puted in this folder together with
 //the *.m files. Otherwise it does not work.
 
-C:\Users\MPFAD\Documents\GitHub\codes_singlephase_2022
+C:\Users\flc59\Documents\GitHub\codes_singlephase_2022
 
 //write the name of BASE geometry file WITHOUT extension *.geo.
 //This file can serve to several simulations. Each one may have 

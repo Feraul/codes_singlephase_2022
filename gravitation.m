@@ -28,8 +28,8 @@ for ifacont=1:size(bedge,1)
             g(ifacont,2)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
         end
     else
-        g(ifacont,1)=dot((R*ve1')'*Keq,(gravface(ifacont,:)));
-        
+        %g(ifacont,1)=dot((R*ve1')'*Keq,(gravface(ifacont,:)));
+        g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
     end
     G(lef,1)=G(lef,1)-g(ifacont,1);
     
@@ -107,13 +107,16 @@ for iface=1:size(inedge,1)
         
         % calculo das constantes nas faces internas
         Kde = ((Kn1*Kn2))/(Kn1*H2 + Kn2*H1);
-        grav1=-(Klef*gravelem(lef,:)');
+        grav1=(Klef*gravelem(lef,:)');
+        %grav1=(Klef*gravface(iface+size(bedge,1),:)');
         gravface1= (H1/Kn1)*dot(((RotH(vd1)')'), grav1);
-        grav2=-(Krel*gravelem(rel,:)');
-        gravface2= (H2/Kn2)*dot(((-RotH(vd1)')'), grav2);
+        grav2=(Krel*gravelem(rel,:)');
+        %grav2=(Krel*gravface(iface+size(bedge,1),:)');
+        gravface2= (H2/Kn2)*dot(((RotH(vd1)')'), grav2);
         %g(iface+size(bedge,1),1)=-Kde*(gravface1-gravface2);
         
-         g(iface+size(bedge,1),1)=0.5*(dot(normals(iface+size(bedge,1),:)*Klef,gravelem(lef,:))+dot(normals(iface+size(bedge,1),:)*Krel,gravelem(rel,:)));
+         %g(iface+size(bedge,1),1)=Kde*((H2/Kn2)*dot(normals(iface+size(bedge,1),:)*Krel,gravelem(rel,:))+(H1/Kn1)*dot(normals(iface+size(bedge,1),:)*Klef,gravelem(lef,:)));
+         g(iface+size(bedge,1),1)=Kde*(gravface1+gravface2);
     end
         
     

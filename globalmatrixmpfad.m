@@ -34,11 +34,9 @@ for ifacont=1:size(bedge,1)
         
         %Preenchimento do termo gravitacional
         
-        if strcmp(gravitational,'yes')
-            
+        if strcmp(gravitational,'yes') 
             if strcmp(strategy,'starnoni')||strcmp(strategy,'inhouse3')
-                m=gravrate(ifacont,1)+grav_no1+grav_no2;
-                
+                m=gravrate(ifacont,1);
             elseif  strcmp(strategy,'GravConsist')
                 %---------------------------------------
                 bb1=nonzeros(N(bedge(ifacont,1),:));
@@ -49,11 +47,11 @@ for ifacont=1:size(bedge,1)
                 grav_no2=sum(gravrate(cc2,1));
                 %--------------------------------------
                 m=gravrate(ifacont,2)+grav_no1+grav_no2;
-            elseif strcmp(strategy,'inhouse1')
+            elseif strcmp(strategy,'inhouse')
                 g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
                 g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
-                % m=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(norm(v0)^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
-                m=gravrate(ifacont,1)+g2+g1;
+                 m=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(norm(v0)^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
+                %m=gravrate(ifacont,1);%+g2+g1;
             end
         else
             m=0;
@@ -80,6 +78,7 @@ for ifacont=1:size(bedge,1)
             end
         end
     else
+         
         % Contorno de Neumann
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
@@ -189,8 +188,8 @@ for iface=1:size(inedge,1)
                 element2=esurn1(esurn2(no2)+j);
                 g2=g2+w(esurn2(no2)+j)*grav_elem_escalar(element2);
             end
-            % m= -Kde(iface)*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded(iface)*(g2-g1));
-            m= gravrate(size(bedge,1)+iface,1)+g2+g1;
+             m= -Kde(iface)*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded(iface)*(g2-g1));
+            %m= gravrate(size(bedge,1)+iface,1);%+g2+g1;
         else
             m=0;
         end
