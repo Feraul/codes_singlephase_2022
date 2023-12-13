@@ -178,7 +178,7 @@ switch benchmark
             u(i,1)=1+sin(x)*cos(y);
             
             % gravidade
-            grav(i,:)=[-cos(x)*cos(y) sin(x)*sin(y)];
+            grav(i,:)=[-cos(x)*cos(y) sin(x)*sin(y) 0];
            grav_elem_escalar(i,1)=-1-sin(x)*cos(y);
         end
         for j=1:size(coord,1)

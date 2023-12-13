@@ -6,10 +6,20 @@
 
 //Work developed by: Marcio Souza and Luiz E. Queiroz
 //Adviser Professors: Paulo Lyra & Darlan Carvalho
-//Create date: 2023/12/8;	hour: 14:20h
+//Create date: 2023/12/13;	hour: 16:59h
 
 //--------------------------------------------------------------------
 //This file has OPTIONS parameters. Configure GMSH environment
+
+//Maximum mesh element size:
+//1e+22 ==> [Default]
+
+Mesh.CharacteristicLengthMax = 10000000000000000000000.000000;
+
+//Minimum mesh element size:
+//0 ==> [Default]
+
+Mesh.CharacteristicLengthMin = 0.000000;
 
 //Type of mesh used:
 //0 ==> [AllTriangles]; 1 ==> [AllQuadrangles]

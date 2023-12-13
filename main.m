@@ -102,7 +102,7 @@ gravitational='yes';
 % 'starnoni' ou 'inhouse' ou 'inhouse1'
 %strategy= 'starnoni';
 strategy= 'inhouse'
-%strategy='GravConsist';
+%strategy='GravConsist'; % ainda nao funciona
 
 %% adequacao das permeabilidades e otros parametros fisico-geometricos 
 %segundo cada caso ou problema

@@ -1,17 +1,17 @@
 function [ w,s,wg] = Pre_LPEW_2(kmap,N,gravrate,gravelem)
 global coord bcflag bedge nsurn1 nsurn2 gravitational 
-% devolve os pesos "w" cujos elementos s„o organizados em um vetor
-%Retorna todos os par‚metros necess·rios ‡s expressıes dos fluxos.
+% devolve os pesos "w" cujos elementos s√£o organizados em um vetor
+%Retorna todos os par√¢metros necess√°rios √†s express√µes dos fluxos.
 apw=ones(size(coord,1),1);
 apw1=ones(size(coord,1),1);
 r=zeros(1,2);
 s=zeros(size(bedge,1),1);
 for No=1:size(coord,1)
     % calcula
-    % O--> coordenadas do baricentro na vizinhanÁa do nÛ "No"
-    % P--> coordenadas dos vÈrtices na vizinhanÁa do nÛ "No"
-    % T--> coordenadas dos pontos medios nas vizinhas ao nÛ "No"
-    % Qo-> coordenada do nÛ em quest„o
+    % O--> coordenadas do baricentro na vizinhan√ßa do n√≥ "No"
+    % P--> coordenadas dos v√©rtices na vizinhan√ßa do n√≥ "No"
+    % T--> coordenadas dos pontos medios nas vizinhas ao n√≥ "No"
+    % Qo-> coordenada do n√≥ em quest√£o
     [ O, P, T, Qo ] = OPT_Interp_LPEW(No);
     % calcula os angulos apropiados para calculas os pesos
     
@@ -19,7 +19,7 @@ for No=1:size(coord,1)
     % calculas as netas uma relacao de de alturas
     
     [ neta ] = netas_Interp_LPEW( O, P, T, Qo, No );
-    % calculas as projecoes normais em torno do nÛ "No"
+    % calculas as projecoes normais em torno do n√≥ "No"
     [ Kt1, Kt2, Kn1, Kn2 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, No);
     % calcula os lambdas
     [ lambda,r ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
@@ -64,8 +64,8 @@ for No=1:size(coord,1)
                 m2=0;
             end
             % da errado quando colocamos o termo gravitacional
-            %s(No,1) = -(1/sum(lambda))*(r(1,1)*(norm1*bcflag(s1,2) + m1)+...
-            %                            r(1,2)*(norm2*bcflag(s2,2) + m2));
+            s(No,1) = -(1/sum(lambda))*(r(1,1)*(norm1*bcflag(s1,2) + m1)+...
+                                        r(1,2)*(norm2*bcflag(s2,2) + m2));
             %esta rutina funciona quando o vertice da quina da malha
             %computacional pertence ao contorno de Dirichlet
              s(No,1) = -(1/sum(lambda))*(r(1,1)*bcflag(s1,2) + ...

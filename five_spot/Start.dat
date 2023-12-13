@@ -19,21 +19,21 @@ n
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
 
-Tipo6Malha1.msh
+HomegeneoLitology64.msh
 
 //OBS.: This file must be puted into folder together with *.m files 
 //or in a folder whose path will be declared immediately below:
 //IMPORTANT: if the file is puted into folder which contain the *.m
 //files, write in the statment below "no path".
 
-C:\Users\flc59\Documents\Malhas2
+C:\Users\flc59\Documents\codes_singlephase_2022
 
 //If [n] write, immediately below, the path which conduct to  
 //folder where the *.m files is:
 //IMPORTANT: gmsh.exe must be puted in this folder together with
 //the *.m files. Otherwise it does not work.
 
-C:\Users\flc59\Documents\GitHub\codes_singlephase_2022
+C:\Users\flc59\Documents\codes_singlephase_2022
 
 //write the name of BASE geometry file WITHOUT extension *.geo.
 //This file can serve to several simulations. Each one may have 
@@ -73,7 +73,7 @@ five_spot
 
 //Is your mesh structured?  [y] ==> "yes"; [n] ==> "no"
 
-y
+n
 
 //If [y] enter with the informations in the "STRUCTURED MESH": 
 //If [n] enter with the informations in the "UNSTRUCTURED MESH": 
@@ -90,14 +90,16 @@ y
 //Direction "x" (number of statments, number of points, growth rate 
 //and two geometric tag)
 
-1
-2 1 1 3
+2
+1 1 1 7
+1 1 4 7
 
 //Direction "y" (number of statments, number of points, growth rate 
 //and two geometric tag)
 
-1
-2 1 2 4
+2
+1 1 2 6
+1 1 3 5
 
 //IMPORTANT: In case where there are two or more properties to long
 //domain, the user must take care during attribution of parameters 
@@ -170,7 +172,7 @@ y
 //for example, choose "n" when mesh is created outside preprocessor
 //[y] ==> "yes"; [n] ==> "no"
 
-y
+n
 
 //--------------------------------------------------------------------
 //---------------- Physical parameters (DARCY system) ----------------
@@ -387,7 +389,7 @@ porosity.dat
 //below.
 
 1
-101 
+101  
 
 //--------------------------------------------------------------------
 //----------------------- Convergence criteria -----------------------
