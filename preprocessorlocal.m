@@ -1,7 +1,7 @@
 function [pointarmonic,parameter,gamma,p_old,tol,nit,nflagface,...
     nflagno,weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,...
     gravresult,gravrate,weight,contrcontor,wg]=preprocessorlocal(kmap,...
-    N,gravelem,gravface)
+    N,gravelem,gravface,gravno,grav_elem_escalar)
 global elem gravitational pmetodo interpol correction typecorrection
 % inicializando as variaveis
 nflagno=0;
@@ -26,12 +26,7 @@ gamma=0.0;                     % este parametro esta no intervalo [0,1] pode ser
 p_old=1*ones(size(elem,1),1);  % inicializando a presao
 tol=1e-10;                      % tolerancia para metodos não lineares
 nit=2000;                      % numero de iteracoes de Picard
-%% calculo do termo gravitacional
-if strcmp(gravitational,'yes')
-    
-    [gravresult,gravrate]=gravitation(kmap,gravelem,gravface);
-    
-end
+
 %% Calculo dos pesos
 
 if strcmp(pmetodo,'nlfvLPEW')|| strcmp(pmetodo,'nlfvLPS') || ...
@@ -156,5 +151,11 @@ else
     % adequação dos flags de contorno
     nflagface= contflagface;
 end
-
+%% calculo do termo gravitacional
+if strcmp(gravitational,'yes')
+    
+    [gravresult,gravrate]=gravitation(kmap,gravelem,gravface,Hesq, Kde,...
+                                     Kn,Kt,Ded,grav_elem_escalar,gravno,weight,nflagno);
+    
+end
 end

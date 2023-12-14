@@ -1,5 +1,6 @@
-function [G,g]=gravitation(kmap,gravelem,gravface)
-global inedge bedge elem centelem coord normals strategy
+function [G,g]=gravitation(kmap,gravelem,gravface,Hesq, Kde,Kn,Kt,Ded,...
+                           grav_elem_escalar,gravno,w,nflagno)
+global inedge bedge elem centelem coord normals strategy esurn1 esurn2
 Klef=zeros(3,3);
 Krel=zeros(3,3);
 G=zeros(size(elem,1),1);
@@ -27,6 +28,18 @@ for ifacont=1:size(bedge,1)
             g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
             g(ifacont,2)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
         end
+    elseif strcmp(strategy,'inhouse')
+        v0=coord(bedge(ifacont,2),:)-coord(bedge(ifacont,1),:); %fase.
+        v1=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,1),:);
+        v2=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,2),:);
+        normcont=norm(v0);
+        
+        % Tratamento do nó nos vértices 2 e 4%
+        A=-Kn(ifacont)/(Hesq(ifacont)*norm(v0));
+        g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
+        g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
+        g(ifacont,1)=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(normcont^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
+        
     else
         %g(ifacont,1)=dot((R*ve1')'*Keq,(gravface(ifacont,:)));
         g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
@@ -70,55 +83,32 @@ for iface=1:size(inedge,1)
         g(iface+size(bedge,1),2)=dot(((R1*vd1')'), graveq1');% equation 20
     else
         
-        % tensor de permeabilidade do elemento a esquerda
+        no1=inedge(iface,1);
+        no2=inedge(iface,2);
+        g1=0;
+        nec1=esurn2(no1+1)- esurn2(no1);
+        nec2=esurn2(no2+1)- esurn2(no2);
+        if nflagno(no1,1)>200
+            for j=1:nec1
+                element1=esurn1(esurn2(no1)+j);
+                g1=g1+w(esurn2(no1)+j)*grav_elem_escalar(element1);
+            end
+        else
+            g1=gravno(no1,1);
+        end
+        g2=0;
         
-        Klef(1,1)=kmap(elem(lef,5),2);
-        Klef(1,2)=kmap(elem(lef,5),3);
-        Klef(2,1)=kmap(elem(lef,5),4);
-        Klef(2,2)=kmap(elem(lef,5),5);
+        if nflagno(no2,1)>200
+            for j=1:nec2
+                element2=esurn1(esurn2(no2)+j);
+                g2=g2+w(esurn2(no2)+j)*grav_elem_escalar(element2);
+            end
+        else
+            g2=gravno(no2,1);
+        end
         
-        % tensor de permeabilidade do elemento a direita
-        
-        Krel(1,1)=kmap(elem(rel,5),2);
-        Krel(1,2)=kmap(elem(rel,5),3);
-        Krel(2,1)=kmap(elem(rel,5),4);
-        Krel(2,2)=kmap(elem(rel,5),5);
-        %Determinação dos centróides dos elementos à direita e à esquerda.%
-        C1 = centelem(inedge(iface,3),:); % baricentro do elemento a esquerda
-        C2 = centelem(inedge(iface,4),:); % baricentro do elemento direito
-        
-        vd1 = coord(inedge(iface,2),:) - coord(inedge(iface,1),:);
-        
-        %Determinação das alturas dos centróides dos elementos à direita e à%
-        %esquerda.                                                          %
-        
-        vd2 = C2 - coord(inedge(iface,1),:);     %Do início da aresta até o
-        %centro da célula da direita.
-        cd = cross(vd1,vd2);
-        H2 = norm(cd)/norm(vd1); % altura a direita
-        
-        ve2 = C1 - coord(inedge(iface,1),:);
-        
-        ce = cross(vd1,ve2);
-        H1 = norm(ce)/norm(vd1); % altura a esquerda
-        
-        Kn1 = (RotH(vd1)'*Klef*RotH(vd1))/norm(vd1)^2;
-        Kn2 = (RotH(vd1)'*Krel*RotH(vd1))/norm(vd1)^2;
-        
-        % calculo das constantes nas faces internas
-        Kde = ((Kn1*Kn2))/(Kn1*H2 + Kn2*H1);
-        grav1=(Klef*gravelem(lef,:)');
-        %grav1=(Klef*gravface(iface+size(bedge,1),:)');
-        gravface1= (H1/Kn1)*dot(((RotH(vd1)')'), grav1);
-        grav2=(Krel*gravelem(rel,:)');
-        %grav2=(Krel*gravface(iface+size(bedge,1),:)');
-        gravface2= (H2/Kn2)*dot(((RotH(vd1)')'), grav2);
-        %g(iface+size(bedge,1),1)=-Kde*(gravface1-gravface2);
-        
-         %g(iface+size(bedge,1),1)=Kde*((H2/Kn2)*dot(normals(iface+size(bedge,1),:)*Krel,gravelem(rel,:))+(H1/Kn1)*dot(normals(iface+size(bedge,1),:)*Klef,gravelem(lef,:)));
-         g(iface+size(bedge,1),1)=Kde*(gravface1+gravface2);
+        g(iface+size(bedge,1),1)= -Kde(iface)*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded(iface)*(g2-g1));
     end
-        
     
     G(lef,1)=G(lef,1)-g(iface+size(bedge,1),1);
     G(rel,1)=G(rel,1)+g(iface+size(bedge,1),1);

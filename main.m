@@ -94,12 +94,12 @@ typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %benchmark='lepotier';
 %benchmark='shenyuan16';
 %benchmark='guangwei'; 
-benchmark='starnonigrav1';
+benchmark='starnonigrav2';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
 gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
-% 'starnoni' ou 'inhouse' ou 'inhouse1'
+% 'starnoni' ou 'inhouse' 
 %strategy= 'starnoni';
 strategy= 'inhouse'
 %strategy='GravConsist'; % ainda nao funciona
@@ -117,7 +117,7 @@ strategy= 'inhouse'
 %% pre-processador local
 [pointarmonic,parameter,gamma,p_old,tol,nit,nflagface,nflagno,...
     weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,gravresult,gravrate,weight,s,wg]=...
-    preprocessorlocal(kmap,N,gravelem,gravface);
+    preprocessorlocal(kmap,N,gravelem,gravface,gravno,grav_elem_escalar);
 
 % não habilite
 %[aroundface]=aroundfacelement(F,pointarmonic);

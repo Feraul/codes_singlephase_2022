@@ -55,14 +55,14 @@ for No=1:size(coord,1)
             s1 = find(a == 1);
             b = bcflag(:,1) == bedge(comp2,5);
             s2 = find(b == 1);
-            if strcmp(gravitational,'yes')
-                % contribuicoes do termo gravitacional
-                m1= gravrate(comp1,1); 
-                m2= gravrate(comp2,1);
-            else
-                m1=0;
-                m2=0;
-            end
+%             if strcmp(gravitational,'yes')
+%                 % contribuicoes do termo gravitacional
+%                 m1= gravrate(comp1,1); 
+%                 m2= gravrate(comp2,1);
+%             else
+%                 m1=0;
+%                 m2=0;
+%             end
             % da errado quando colocamos o termo gravitacional
             %s(No,1) = -(1/sum(lambda))*(r(1,1)*(norm1*bcflag(s1,2) + m1)+...
             %                            r(1,2)*(norm2*bcflag(s2,2) + m2));

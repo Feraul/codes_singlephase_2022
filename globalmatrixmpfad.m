@@ -18,24 +18,24 @@ m=0;
 
 for ifacont=1:size(bedge,1)
     lef=bedge(ifacont,3);
-
+    
     v0=coord(bedge(ifacont,2),:)-coord(bedge(ifacont,1),:); %fase.
     v1=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,1),:);
     v2=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,2),:);
     normcont=norm(v0);
-
+    
     % Tratamento do nó nos vértices 2 e 4%
     A=-Kn(ifacont)/(Hesq(ifacont)*norm(v0));
-
+    
     if bedge(ifacont,5)<200
         % Contorno de Dirichlet
         c1=nflagno(bedge(ifacont,1),2);
         c2=nflagno(bedge(ifacont,2),2);
-
+        
         %Preenchimento do termo gravitacional
-
+        
         if strcmp(gravitational,'yes')
-            if strcmp(strategy,'starnoni')||strcmp(strategy,'inhouse3')
+            if strcmp(strategy,'starnoni')||strcmp(strategy,'inhouse')
                 m=gravrate(ifacont,1);
             elseif  strcmp(strategy,'GravConsist')
                 %---------------------------------------
@@ -47,11 +47,6 @@ for ifacont=1:size(bedge,1)
                 grav_no2=sum(gravrate(cc2,1));
                 %--------------------------------------
                 m=gravrate(ifacont,2)+grav_no1+grav_no2;
-            elseif strcmp(strategy,'inhouse')
-                g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
-                g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
-                m=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(norm(v0)^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
-                %m=gravrate(ifacont,1);%+g2+g1;
             end
         else
             m=0;
@@ -78,31 +73,8 @@ for ifacont=1:size(bedge,1)
             end
         end
     else
-        no1=bedge(ifacont,1);
-        no2=bedge(ifacont,2);
-        nec1=esurn2(no1+1)- esurn2(no1);
-        nec2=esurn2(no2+1)- esurn2(no2);
-        g1=0;
-        if nflagno(no1,1)>200
-            for j=1:nec1
-                element1=esurn1(esurn2(no1)+j);
-                g1=g1+w(esurn2(no1)+j)*grav_elem_escalar(element1);
-            end
-        else
-            g1=gravno(no1,1);
-        end
-        g2=0;
-
-        if nflagno(no2,1)>200
-            for j=1:nec2
-                element2=esurn1(esurn2(no2)+j);
-                g2=g2+w(esurn2(no2)+j)*grav_elem_escalar(element2);
-            end
-        else
-            g2=gravno(no2,1);
-        end
-
-        m=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(norm(v0)^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
+        
+        m=gravrate(ifacont,1);
         % Contorno de Neumann
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
@@ -114,18 +86,18 @@ end
 for iface=1:size(inedge,1)
     lef=inedge(iface,3);
     rel=inedge(iface,4);
-
+    
     %Contabiliza as contribuições do fluxo numa aresta para os elementos %
     %a direita e a esquerda dela.                                        %
-
+    
     M(lef, lef)=M(lef, lef)- Kde(iface);
     M(lef, rel)=M(lef, rel)+ Kde(iface);
     M(rel, rel)=M(rel, rel)- Kde(iface);
     M(rel, lef)=M(rel, lef)+ Kde(iface);
-
+    
     %Se os nós das arestas estiverem em fronteiras de Dirichlet, suas
     %contribuições serão contabilizadas logo abaixo.
-
+    
     if nflagno(inedge(iface,1),1)<200
         I(lef)=I(lef)-Kde(iface)*Ded(iface)*nflagno(inedge(iface,1),2);
         I(rel)=I(rel)+Kde(iface)*Ded(iface)*nflagno(inedge(iface,1),2);
@@ -136,54 +108,44 @@ for iface=1:size(inedge,1)
     end
     % quando o nó pertece ao contorno de Neumann
     if nflagno(inedge(iface,1),1)==201
-
+        
         I(inedge(iface,3))=I(inedge(iface,3))-Kde(iface)*Ded(iface)*s(inedge(iface,1)); %ok
-
         I(inedge(iface,4))=I(inedge(iface,4))+Kde(iface)*Ded(iface)*s(inedge(iface,1)); %ok
     end
     if nflagno(inedge(iface,2),1)==201
-
+        
         I(inedge(iface,3))=I(inedge(iface,3))+Kde(iface)*Ded(iface)*s(inedge(iface,2)); %ok
-
         I(inedge(iface,4))=I(inedge(iface,4))-Kde(iface)*Ded(iface)*s(inedge(iface,2)); %ok
-
+        
     end
-
+    
     %Contabilização das contribuições dos nós que não estão na
     %fronteiras de Dirichlet.
     % first node
     if nflagno(inedge(iface,1),1)>200
         for j=1:(esurn2(inedge(iface,1)+1)-esurn2(inedge(iface,1)))
-
+            
             post_cont=esurn2(inedge(iface,1))+j;
-
+            
             M(lef, esurn1(post_cont))=M(lef,esurn1(post_cont)) + Kde(iface)*Ded(iface)*w(post_cont);
-
             M(rel, esurn1(post_cont))=M(rel,esurn1(post_cont)) - Kde(iface)*Ded(iface)*w(post_cont);
-
+            
         end
-
+        
     end
     % second node
     if nflagno(inedge(iface,2),1)>200
         for j=1:(esurn2(inedge(iface,2)+1)-esurn2(inedge(iface,2)))
-
             post_cont=esurn2(inedge(iface,2))+j;
-
+            
             M(lef, esurn1(post_cont))=M(lef,esurn1(post_cont)) - Kde(iface)*Ded(iface)*w(post_cont);
-
             M(rel, esurn1(post_cont))=M(rel,esurn1(post_cont)) + Kde(iface)*Ded(iface)*w(post_cont);
-
         end
-
     end
-
+    
     % termo gravitacional
     if strcmp(gravitational,'yes')
-
-
-
-        if strcmp(strategy,'starnoni') ||strcmp(strategy,'inhouse3')
+        if strcmp(strategy,'starnoni') || strcmp(strategy,'inhouse')
             m=gravrate(size(bedge,1)+iface,1);
         elseif strcmp(strategy,'GravConsist')
             bb1=nonzeros(N(inedge(iface,1),:));
@@ -195,37 +157,10 @@ for iface=1:size(inedge,1)
             grav_no2=sum(gravrate(cc2,1));
             %---------------------------------
             m=gravrate(size(bedge,1)+iface,1)+grav_no1+grav_no2;
-        elseif strcmp(strategy,'inhouse')
-            no1=inedge(iface,1);
-            no2=inedge(iface,2);
-            %g1=gravno(no1,1);
-            %g2=gravno(no2,1);
-            g1=0;
-            nec1=esurn2(no1+1)- esurn2(no1);
-            nec2=esurn2(no2+1)- esurn2(no2);
-            if nflagno(no1,1)>200
-                for j=1:nec1
-                    element1=esurn1(esurn2(no1)+j);
-                    g1=g1+w(esurn2(no1)+j)*grav_elem_escalar(element1);
-                end
-            else
-                g1=gravno(no1,1);
-            end
-            g2=0;
-
-            if nflagno(no2,1)>200
-                for j=1:nec2
-                    element2=esurn1(esurn2(no2)+j);
-                    g2=g2+w(esurn2(no2)+j)*grav_elem_escalar(element2);
-                end
-            else
-                g2=gravno(no2,1);
-            end
-            m= -Kde(iface)*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded(iface)*(g2-g1));
         else
             m=0;
         end
-
+        
         I(lef)=I(lef)+m ;
         I(rel)=I(rel)-m ;
     end
