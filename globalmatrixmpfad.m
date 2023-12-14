@@ -78,35 +78,35 @@ for ifacont=1:size(bedge,1)
             end
         end
     else
-%         no1=bedge(ifacont,1);
-%         no2=bedge(ifacont,2);
-%         nec1=esurn2(no1+1)- esurn2(no1);
-%         nec2=esurn2(no2+1)- esurn2(no2);
-%         g1=0;
-%         if nflagno(no1,1)>200
-%             for j=1:nec1
-%                 element1=esurn1(esurn2(no1)+j);
-%                 g1=g1+w(esurn2(no1)+j)*grav_elem_escalar(element1);
-%             end
-%         else
-%             g1=gravno(no1,1);
-%         end
-%         g2=0;
-% 
-%         if nflagno(no2,1)>200
-%             for j=1:nec2
-%                 element2=esurn1(esurn2(no2)+j);
-%                 g2=g2+w(esurn2(no2)+j)*grav_elem_escalar(element2);
-%             end
-%         else
-%             g2=gravno(no2,1);
-%         end
-% 
-%         m=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(norm(v0)^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
+        no1=bedge(ifacont,1);
+        no2=bedge(ifacont,2);
+        nec1=esurn2(no1+1)- esurn2(no1);
+        nec2=esurn2(no2+1)- esurn2(no2);
+        g1=0;
+        if nflagno(no1,1)>200
+            for j=1:nec1
+                element1=esurn1(esurn2(no1)+j);
+                g1=g1+w(esurn2(no1)+j)*grav_elem_escalar(element1);
+            end
+        else
+            g1=gravno(no1,1);
+        end
+        g2=0;
+
+        if nflagno(no2,1)>200
+            for j=1:nec2
+                element2=esurn1(esurn2(no2)+j);
+                g2=g2+w(esurn2(no2)+j)*grav_elem_escalar(element2);
+            end
+        else
+            g2=gravno(no2,1);
+        end
+
+        m=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(norm(v0)^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
         % Contorno de Neumann
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
-        I(lef)=I(lef) -normcont*bcflag(r,2);%+m;
+        I(lef)=I(lef) -normcont*bcflag(r,2)+m;
     end
 end
 
