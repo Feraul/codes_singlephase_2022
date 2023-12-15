@@ -100,9 +100,9 @@ benchmark='starnonigrav1';
 gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse' 
-%strategy= 'starnoni';
+strategy= 'starnoni';
 %strategy= 'inhouse';
-strategy='GravConsist'; % ainda nao funciona
+%strategy='GravConsist'; % ainda nao funciona
 
 %% adequacao das permeabilidades e otros parametros fisico-geometricos 
 %segundo cada caso ou problema
@@ -117,7 +117,7 @@ strategy='GravConsist'; % ainda nao funciona
 %% pre-processador local
 [pointarmonic,parameter,gamma,p_old,tol,nit,nflagface,nflagno,...
     weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,gravresult,gravrate,weight,s,wg]=...
-    preprocessorlocal(kmap,N,gravelem,gravface,gravno,grav_elem_escalar);
+    preprocessorlocal(kmap,N,gravelem,gravface,gravno,grav_elem_escalar,V);
 
 % não habilite
 %[aroundface]=aroundfacelement(F,pointarmonic);

@@ -1,5 +1,5 @@
 function [ lambda,r,gaux2 ] = Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
-                                         theta2, ve1, ve2, netas, P, O,Qo,No,T,r,gaux )
+                                         theta2, ve1, ve2, netas, P, O,r,gaux )
 %Determina os lambdas.
 nec=size(O,1);
 lambda=zeros(nec,1);
@@ -44,10 +44,10 @@ end
 for k=1:nec,
     if (k==nec)&&(size(P,1)==size(O,1))
         lambda(k)=Kn1(k,1)*netas(k,1)*zeta(k)+Kn1(k,2)*netas(k,2)*zeta(1);
-        gaux2(k)=gaux(k,1)*zeta(k)+gaux(k,2)*zeta(1);
+        gaux2(k)=zeta(k)*gaux(k,1)+zeta(1)*gaux(k,2);
     else
         lambda(k)=Kn1(k,1)*netas(k,1)*zeta(k)+Kn1(k,2)*netas(k,2)*zeta(k+1);
-        gaux2(k)=gaux(k,1)*zeta(k)+gaux(k,2)*zeta(k+1);
+        gaux2(k)=zeta(k)*gaux(k,1)+zeta(k+1)*gaux(k,2);
     end
 end
 

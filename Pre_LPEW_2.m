@@ -1,4 +1,4 @@
-function [ w,s,wg] = Pre_LPEW_2(kmap,N,gravrate,gravelem)
+function [ w,s,wg] = Pre_LPEW_2(kmap,N,gravrate,gravelem,V)
 global coord bcflag bedge nsurn1 nsurn2 gravitational 
 % devolve os pesos "w" cujos elementos são organizados em um vetor
 %Retorna todos os parâmetros necessários às expressões dos fluxos.
@@ -8,6 +8,7 @@ r=zeros(1,2);
 s=zeros(size(bedge,1),1);
 for No=1:size(coord,1)
     
+    [g]=gravnode(N,kmap,No,gravelem);
     % calcula
     % O--> coordenadas do baricentro na vizinhança do nó "No"
     % P--> coordenadas dos vértices na vizinhança do nó "No"
@@ -24,7 +25,7 @@ for No=1:size(coord,1)
     [ Kt1, Kt2, Kn1, Kn2 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, No);
     % calcula os lambdas
     [ lambda,r,gaux2 ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
-        theta2, ve1, ve2, neta, P, O,Qo,No,T,r,gaux );
+        theta2, ve1, ve2, neta, P, O,r,gaux );
     for k=0:size(O,1)-1
         w(apw(No)+k,1)=lambda(k+1)/sum(lambda); %calculo dos pesos
         

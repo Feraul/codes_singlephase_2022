@@ -24,14 +24,14 @@ for k=1:size(netas,1),
         ce=cross(v1,v2); % produto vetorial
         H2=norm(ce)/norm(v2); % altura
         netas(k,2)=norm(T(1,:)-Qo)/H2;
-        gaux(k,2)=dot((R*(T(1,:)-Qo)')'*K,gravelem(k,:));
+        gaux(k,2)=dot((R*-(T(1,:)-Qo)')'*K,gravelem(k,:));
     else
         v1=O(k,:)-Qo;
         v2=P(k+1,:)-Qo;
         ce=cross(v1,v2);
         H2=norm(ce)/norm(v2); % altura
         netas(k,2)=norm(T(k+1,:)-Qo)/H2;
-        gaux(k,2)=dot((R*(T(k+1,:)-Qo)')'*K,gravelem(k,:));
+        gaux(k,2)=dot((R*-(T(k+1,:)-Qo)')'*K,gravelem(k,:));
     end
     
     %%%%%%%Fim do Preenchimento da segunda coluna do vetor "netas".%%%%%%%
@@ -44,7 +44,7 @@ for k=1:size(netas,1),
     ce=cross(v1,v2); % produto vetorial
     H1=norm(ce)/norm(v2); % altura
     netas(k,1)=norm(T(k,:)-Qo)/H1;
-    gaux(k,1)=dot((R*-(T(k,:)-Qo)')'*K,gravelem(k,:));
+    gaux(k,1)=dot((R*(T(k,:)-Qo)')'*K,gravelem(k,:));
     %%%%%Fim do Preenchimento da primeira coluna do vetor "netas".%%%%%%%
 
 end

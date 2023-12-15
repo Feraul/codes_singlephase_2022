@@ -170,7 +170,7 @@ y
 //for example, choose "n" when mesh is created outside preprocessor
 //[y] ==> "yes"; [n] ==> "no"
 
-y
+n
 
 //--------------------------------------------------------------------
 //---------------- Physical parameters (DARCY system) ----------------
@@ -370,7 +370,7 @@ porosity.dat
 //declared below and so on.
 
 1
-101 1
+101 0
 
 //--------------------------------------------------------------------
 //Tratment of boundary points

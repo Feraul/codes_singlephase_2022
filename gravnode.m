@@ -1,6 +1,6 @@
 function [g]=gravnode(N,kmap,No,gravelem)
 
-global inedge bedge normals elem coord
+global inedge bedge normals elem coord centelem
 
 faces=N(No,:);
 R=[0 1 ; -1 0 ];
@@ -27,6 +27,8 @@ for i=faces
         else
             no1= inedge(i-size(bedge,1),1);
             no2= inedge(i-size(bedge,1),2);
+            lef=inedge(i-size(bedge,1),3);
+            rel=inedge(i-size(bedge,1),4);
             T=(coord(no1,1:2)+coord(no2,1:2))*0.5; 
             Normal=R*(coord(No,1:2)-T)';
             ielem1=inedge(i-size(bedge,1),3);
@@ -41,7 +43,18 @@ for i=faces
             Krel(2,1)=kmap(elem(ielem2,5),4);
             Krel(2,2)=kmap(elem(ielem2,5),5);
             
-          g(j)=0.5*(dot(Normal'*Klef,gravelem(ielem1,1:2))+dot(Normal'*Krel,gravelem(ielem2,1:2)));  
+            
+    % calculo do ponto meio da face
+    vm=(coord(no1,:)+coord(no2,:))*0.5;
+    
+    % calculo da distancia do centro ao ponto meio da face
+    dj1=norm(centelem(lef,:)-vm);
+    dj2=norm(centelem(rel,:)-vm);
+    
+    
+            Keq=inv((dj1*inv(Klef)+dj2*inv(Krel))); % equation 21
+            graveq=((dj1*gravelem(lef,1:2)+dj2*gravelem(rel,1:2))'); % equation 22
+            g(j)=dot(Normal'*Keq, graveq);% equation 20
          % G=G-g;
         end
         j=j+1;

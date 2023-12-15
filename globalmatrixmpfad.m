@@ -35,9 +35,7 @@ for ifacont=1:size(bedge,1)
         %Preenchimento do termo gravitacional
         
         if strcmp(gravitational,'yes')
-            if strcmp(strategy,'starnoni')||strcmp(strategy,'inhouse')|| strcmp(strategy,'GravConsist')
-                m=gravrate(ifacont,1);
-            end
+            m=gravrate(ifacont,1);
         end
         %montagem da matriz global
         M(lef,lef)=M(lef,lef)-A*(norm(v0)^2);
@@ -53,7 +51,7 @@ for ifacont=1:size(bedge,1)
         % Contorno de Neumann
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
-        I(lef)=I(lef) -normcont*bcflag(r,2)+m;
+        I(lef)=I(lef) -normcont*bcflag(r,2);%+m;
     end
 end
 

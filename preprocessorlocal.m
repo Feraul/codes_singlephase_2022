@@ -1,7 +1,7 @@
 function [pointarmonic,parameter,gamma,p_old,tol,nit,nflagface,...
     nflagno,weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,...
     gravresult,gravrate,weight,contrcontor,wg]=preprocessorlocal(kmap,...
-    N,gravelem,gravface,gravno,grav_elem_escalar)
+    N,gravelem,gravface,gravno,grav_elem_escalar,V)
 global elem gravitational pmetodo interpol correction typecorrection
 % inicializando as variaveis
 nflagno=0;
@@ -48,7 +48,7 @@ if strcmp(pmetodo,'nlfvLPEW')|| strcmp(pmetodo,'nlfvLPS') || ...
         disp('>> falta implementar!')
     else
         % interpolaca LPEW2 proposto por Gao e Wu 2010
-        [weight,contrcontor,wg] = Pre_LPEW_2(kmap,N,gravrate,gravelem);
+        [weight,contrcontor,wg] = Pre_LPEW_2(kmap,N,gravrate,gravelem,V);
     end
     
 end
