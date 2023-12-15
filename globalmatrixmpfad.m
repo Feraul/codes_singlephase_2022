@@ -35,18 +35,8 @@ for ifacont=1:size(bedge,1)
         %Preenchimento do termo gravitacional
         
         if strcmp(gravitational,'yes')
-            if strcmp(strategy,'starnoni')||strcmp(strategy,'inhouse')
+            if strcmp(strategy,'starnoni')||strcmp(strategy,'inhouse')|| strcmp(strategy,'GravConsist')
                 m=gravrate(ifacont,1);
-            elseif  strcmp(strategy,'GravConsist')
-                %---------------------------------------
-                bb1=nonzeros(N(bedge(ifacont,1),:));
-                cc1=bb1(find(bb1(:)~=ifacont));
-                grav_no1=sum(gravrate(cc1,2));
-                bb2=nonzeros(N(bedge(ifacont,2),:));
-                cc2=bb2(find(bb2(:)~=ifacont));
-                grav_no2=sum(gravrate(cc2,2));
-                %--------------------------------------
-                m=gravrate(ifacont,2)+grav_no1+grav_no2;
             end
         end
         %montagem da matriz global
@@ -55,11 +45,15 @@ for ifacont=1:size(bedge,1)
         I(lef)=I(lef)-A*(dot(v2,-v0)*c1+dot(v1,v0)*c2)+(c2-c1)*Kt(ifacont)+m;
     else
         
-        %m=gravrate(ifacont,1);
+        if strcmp(gravitational,'yes')
+            if strcmp(strategy,'starnoni')||strcmp(strategy,'inhouse')|| strcmp(strategy,'GravConsist')
+                m=gravrate(ifacont,1);
+            end
+        end
         % Contorno de Neumann
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
-        I(lef)=I(lef) -normcont*bcflag(r,2);%+m;
+        I(lef)=I(lef) -normcont*bcflag(r,2)+m;
     end
 end
 
@@ -126,20 +120,7 @@ for iface=1:size(inedge,1)
     
     % termo gravitacional
     if strcmp(gravitational,'yes')
-        if strcmp(strategy,'starnoni') || strcmp(strategy,'inhouse')
-            m=gravrate(size(bedge,1)+iface,1);
-        elseif strcmp(strategy,'GravConsist')
-            bb1=nonzeros(N(inedge(iface,1),:));
-            cc1=bb1(find(bb1(:)~=size(bedge,1)+iface));
-            grav_no1=sum(gravrate(cc1,2));
-            %----------------------------------
-            bb2=nonzeros(N(inedge(iface,2),:));
-            cc2=bb2(find(bb2(:)~=size(bedge,1)+iface));
-            grav_no2=sum(gravrate(cc2,2));
-            %---------------------------------
-            m=gravrate(size(bedge,1)+iface,2)+grav_no1+grav_no2;
-        end
-        
+        m=gravrate(size(bedge,1)+iface,1);
         I(lef)=I(lef)+m ;
         I(rel)=I(rel)-m ;
     end

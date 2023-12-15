@@ -24,11 +24,11 @@ for ifacont=1:size(bedge,1)
     if  strcmp(strategy,'starnoni') 
         if bedge(ifacont,5)>200
             g(ifacont,1)=dot((R*ve1')'*Keq,(gravface(ifacont,:)));
-            
+            g(ifacont,2)=dot((R*ve1')'*Keq,(gravface(ifacont,:)));
 
         else
             g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
-           
+            g(ifacont,2)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
         end
     elseif strcmp(strategy,'GravConsist')
         v0=coord(bedge(ifacont,2),:)-coord(bedge(ifacont,1),:); %fase.
@@ -58,8 +58,8 @@ for ifacont=1:size(bedge,1)
                 g2=gravno(no2,1);
             end
         end
-        g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
-        %g(ifacont,1)=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(normcont^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
+        %g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
+        g(ifacont,1)=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(normcont^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
     elseif strcmp(strategy,'inhouse')
         v0=coord(bedge(ifacont,2),:)-coord(bedge(ifacont,1),:); %fase.
         v1=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,1),:);
@@ -140,7 +140,9 @@ for iface=1:size(inedge,1)
         Keq=inv((dj1*inv(K1)+dj2*inv(K2))); % equation 21
         graveq=((dj1*gravelem(lef,1:2)+dj2*gravelem(rel,1:2))'); % equation 22
         g(iface+size(bedge,1),1)=dot(((R1*vd1')')*Keq, graveq);% equation 20
-       
+        %------------------------------------------------------------------
+        graveq1=K1*gravelem(lef,1:2)'+K2*gravelem(rel,1:2)';
+        g(iface+size(bedge,1),2)=dot(((R1*vd1')'), graveq1');% equation 20
     elseif strcmp(strategy,'GravConsist')
         % tensor de permeabilidade do elemento a esquerda
         R1=[0 1 ;-1 0 ];

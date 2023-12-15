@@ -7,6 +7,7 @@ apw1=ones(size(coord,1),1);
 r=zeros(1,2);
 s=zeros(size(bedge,1),1);
 for No=1:size(coord,1)
+    
     % calcula
     % O--> coordenadas do baricentro na vizinhança do nó "No"
     % P--> coordenadas dos vértices na vizinhança do nó "No"
@@ -18,14 +19,12 @@ for No=1:size(coord,1)
     [ ve2, ve1, theta2, theta1 ] = angulos_Interp_LPEW2( O, P, T, Qo,No );
     % calculas as netas uma relacao de de alturas
     
-    [ neta ] = netas_Interp_LPEW( O, P, T, Qo, No );
+    [ neta, gaux] = netas_Interp_LPEW( O, P, T, Qo, No,kmap,gravelem );
     % calculas as projecoes normais em torno do nó "No"
     [ Kt1, Kt2, Kn1, Kn2 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, No);
     % calcula os lambdas
-    [ lambda,r ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
-        theta2, ve1, ve2, neta, P, O,Qo,No,T,r );
-    % gravitational term contribuition
-    [g]=gravnode(N,kmap,No,gravelem);
+    [ lambda,r,gaux2 ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
+        theta2, ve1, ve2, neta, P, O,Qo,No,T,r,gaux );
     for k=0:size(O,1)-1
         w(apw(No)+k,1)=lambda(k+1)/sum(lambda); %calculo dos pesos
         
@@ -34,7 +33,7 @@ for No=1:size(coord,1)
     apw(No+1)=apw(No)+size(O,1);
     
     
-    wg(No,1)=sum(g(:)); %calculo dos pesos
+    wg(No,1)=sum(gaux2)/sum(lambda); %calculo dos pesos
    
     
     %apw1(No+1)=apw1(No)+size(g,1);

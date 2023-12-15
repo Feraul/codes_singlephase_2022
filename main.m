@@ -94,15 +94,15 @@ typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %benchmark='lepotier';
 %benchmark='shenyuan16';
 %benchmark='guangwei'; 
-benchmark='starnonigrav2';
+benchmark='starnonigrav1';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
 gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse' 
 %strategy= 'starnoni';
-strategy= 'inhouse';
-%strategy='GravConsist'; % ainda nao funciona
+%strategy= 'inhouse';
+strategy='GravConsist'; % ainda nao funciona
 
 %% adequacao das permeabilidades e otros parametros fisico-geometricos 
 %segundo cada caso ou problema
