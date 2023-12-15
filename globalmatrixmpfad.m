@@ -1,6 +1,6 @@
 % objetivo: Montagem da matriz global M e I
 function [ M, I ] = globalmatrixmpfad( w,s, Kde, Ded, Kn, Kt, nflagno, ...
-    Hesq,fonte,gravresult,gravrate,gravno,gravelem,grav_elem_escalar,wg,N)
+    Hesq,fonte,gravresult,gravrate,N)
 
 global coord elem esurn1 esurn2  bedge inedge  centelem bcflag gravitational...
     strategy elemarea
@@ -41,44 +41,25 @@ for ifacont=1:size(bedge,1)
                 %---------------------------------------
                 bb1=nonzeros(N(bedge(ifacont,1),:));
                 cc1=bb1(find(bb1(:)~=ifacont));
-                grav_no1=sum(gravrate(cc1,1));
+                grav_no1=sum(gravrate(cc1,2));
                 bb2=nonzeros(N(bedge(ifacont,2),:));
                 cc2=bb2(find(bb2(:)~=ifacont));
-                grav_no2=sum(gravrate(cc2,1));
+                grav_no2=sum(gravrate(cc2,2));
                 %--------------------------------------
                 m=gravrate(ifacont,2)+grav_no1+grav_no2;
             end
-        else
-            m=0;
         end
-        % ambos os vertices pertenecem ao contorno de Dirichlet
-        if nflagno(bedge(ifacont,2),1)<200 && nflagno(bedge(ifacont,1),1)<200
-            %montagem da matriz global
-            M(lef,lef)=M(lef,lef)-A*(norm(v0)^2);
-            % termo de fonte
-            I(lef)=I(lef)-A*(dot(v2,-v0)*c1+dot(v1,v0)*c2)+(c2-c1)*Kt(ifacont)+m;
-        else
-            % quando um dos vertices da quina da malha computacional
-            % pertence ao contorno de Neumann
-            if nflagno(bedge(ifacont,1),1)>200
-                %montagem da matriz global
-                M(lef,lef)=M(lef,lef)-A*(norm(v0)^2)+Kt(ifacont)+A*dot(v2,-v0);
-                % termo de fonte
-                I(lef)=I(lef)-A*(dot(v1,v0)*c2)+(c2)*Kt(ifacont)+m;
-            elseif nflagno(bedge(ifacont,2),1)>200
-                %montagem da matriz global
-                M(lef,lef)=M(lef,lef)-A*(norm(v0)^2)-Kt(ifacont)+A*dot(v1,v0);
-                % termo de fonte
-                I(lef)=I(lef)-A*(dot(v2,-v0)*c1)+(-c1)*Kt(ifacont)+m;
-            end
-        end
+        %montagem da matriz global
+        M(lef,lef)=M(lef,lef)-A*(norm(v0)^2);
+        % termo de fonte
+        I(lef)=I(lef)-A*(dot(v2,-v0)*c1+dot(v1,v0)*c2)+(c2-c1)*Kt(ifacont)+m;
     else
         
-        m=gravrate(ifacont,1);
+        %m=gravrate(ifacont,1);
         % Contorno de Neumann
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
-        I(lef)=I(lef) -normcont*bcflag(r,2)+m;
+        I(lef)=I(lef) -normcont*bcflag(r,2);%+m;
     end
 end
 
@@ -150,15 +131,13 @@ for iface=1:size(inedge,1)
         elseif strcmp(strategy,'GravConsist')
             bb1=nonzeros(N(inedge(iface,1),:));
             cc1=bb1(find(bb1(:)~=size(bedge,1)+iface));
-            grav_no1=sum(gravrate(cc1,1));
+            grav_no1=sum(gravrate(cc1,2));
             %----------------------------------
             bb2=nonzeros(N(inedge(iface,2),:));
             cc2=bb2(find(bb2(:)~=size(bedge,1)+iface));
-            grav_no2=sum(gravrate(cc2,1));
+            grav_no2=sum(gravrate(cc2,2));
             %---------------------------------
-            m=gravrate(size(bedge,1)+iface,1)+grav_no1+grav_no2;
-        else
-            m=0;
+            m=gravrate(size(bedge,1)+iface,2)+grav_no1+grav_no2;
         end
         
         I(lef)=I(lef)+m ;

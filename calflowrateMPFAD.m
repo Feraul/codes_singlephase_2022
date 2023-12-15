@@ -22,10 +22,6 @@ for ifacont=1:size(bedge,1);
     B2=bedge(ifacont,2);
     nor=norm(coord(B1,:)-coord(B2,:));
     
-    v0=coord(bedge(ifacont,2),:)-coord(bedge(ifacont,1),:); %fase.
-    v1=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,1),:);
-    v2=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,2),:);
-    
     if bedge(ifacont,5)<200 % se os nós esteverem na fronteira de DIRICHLET
         
         c1=nflagno(B1,2);
@@ -33,13 +29,8 @@ for ifacont=1:size(bedge,1);
         
         A=(Kn(ifacont)/(Hesq(ifacont)*nor));
         if strcmp(gravitational,'yes')
-            if strcmp(strategy,'starnoni')
+            if strcmp(strategy,'starnoni')||strcmp(strategy,'inhouse')
                 m=gravrate(ifacont);
-            else
-            g1=gravno(B1,1); % gravidade no vertice 1
-            g2=gravno(B2,1); % gravidade no vertice 2
-            m=A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-norm(v0)^2*grav_elem_escalar(lef))-...
-                (g2-g1)*Kt(ifacont);
             end
         end
         auxflowrate=-A*(((O-coord(B2,:)))*(coord(B1,:)-coord(B2,:))'*c1+...
@@ -67,14 +58,8 @@ for iface=1:size(inedge,1)
     %calculo das vazões
         
     if strcmp(gravitational,'yes')
-        if strcmp(strategy,'starnoni')
+        if strcmp(strategy,'starnoni')||strcmp(strategy,'inhouse')
             m=gravrate(size(bedge,1)+iface,1);
-        elseif strcmp(strategy,'inhouse')
-            no1=inedge(iface,1);
-            no2=inedge(iface,2);
-            g1=gravno(no1,1);    
-            g2=gravno(no2,1);
-            m= Kde(iface)*(grav_elem_escalar(rel,1)-grav_elem_escalar(lef,1)-Ded(iface)*(g2-g1));
         end
     end
     flowrate(iface+size(bedge,1))=Kde(iface)*(p(rel)-p(lef)-Ded(iface)*(p2-p1))-m;

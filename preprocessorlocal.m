@@ -153,9 +153,8 @@ else
 end
 %% calculo do termo gravitacional
 if strcmp(gravitational,'yes')
-    
     [gravresult,gravrate]=gravitation(kmap,gravelem,gravface,Hesq, Kde,...
-                                     Kn,Kt,Ded,grav_elem_escalar,gravno,weight,nflagno);
-    
+                                     Kn,Kt,Ded,grav_elem_escalar,gravno,...
+                                     weight,nflagno); 
 end
 end

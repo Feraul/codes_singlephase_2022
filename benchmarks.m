@@ -203,7 +203,7 @@ switch benchmark
             a=0.5*(coord(v1,:)+coord(v2,:));
             x2=a(1,1);
             y2=a(1,2);
-            gravface(j,1:2)= [-cos(x2)*cos(y2) sin(x2)*sin(y2) ];
+            gravface(j,1:3)= [-cos(x2)*cos(y2) sin(x2)*sin(y2) 0];
         end
         
         for j=1:size(bedge,1)+size(inedge,1)
