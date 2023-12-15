@@ -164,13 +164,9 @@ switch pmetodo
         [M_old,RHS_old]=globalmatrix(p_old,pinterp,gamma,nflagface,nflagno,...
             parameter,kmap,fonte,w,s,weightDMP,auxface,wells,...
             mobility,Hesq, Kde, Kn, Kt, Ded,calnormface,gravresult,gravrate,...
-            gravno,gravelem,gravface,grav_elem_escalar,wg,N);
+            gravno,gravelem,gravface,N);
+        pressure=M_old\RHS_old;
         
-        if strcmp(strategy,'inhouse1')
-            pressure=M_old\RHS_old - elemarea.*grav_elem_escalar(:);
-        else
-            pressure=M_old\RHS_old;
-        end
         % informacoes da simulacao
         tabletol=0;
         name = pmetodo;
