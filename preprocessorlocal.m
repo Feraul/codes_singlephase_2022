@@ -27,31 +27,6 @@ p_old=1*ones(size(elem,1),1);  % inicializando a presao
 tol=1e-10;                      % tolerancia para metodos não lineares
 nit=2000;                      % numero de iteracoes de Picard
 
-%% Calculo dos pesos
-
-if strcmp(pmetodo,'nlfvLPEW')|| strcmp(pmetodo,'nlfvLPS') || ...
-        strcmp(pmetodo,'nlfvHP')||strcmp(pmetodo,'nlfvDMPSY')||...
-        strcmp(pmetodo,'lfvHP')|| strcmp(pmetodo,'lfvLPEW')|| ...
-        strcmp(pmetodo,'mpfad')
-    % adequação dos flags de contorno
-    nflagface= contflagface;
-    % calculo dos pesos que correspondem aos metodos de interpolacao
-    if strcmp(interpol,'LPEW1')
-        % interpolaca LPEW1 proposto por Gao e Wu 2010
-        [weight,contrcontor] = Pre_LPEW_1(kmap,N);
-    elseif strcmp(interpol,'eLPEW2')
-        % interpolaca LPEW2 modificado por proposto por Miao e Wu 2021
-        [weight,contrcontor] = Pre_ELPEW_2(kmap,N,gravrate);
-    elseif strcmp(interpol,'LS')
-        [ weight,contrcontor] = LS(kmap);
-    elseif strcmp(interpol,'eLS')
-        disp('>> falta implementar!')
-    else
-        % interpolaca LPEW2 proposto por Gao e Wu 2010
-        [weight,contrcontor,wg] = Pre_LPEW_2(kmap,N,gravrate,gravelem,V);
-    end
-    
-end
 %% calculo dos variavei inherentes ao metodo
 if strcmp(pmetodo,'nlfvLPEW')
     %% calculo dos parametros ou constantes (ksi)
@@ -152,6 +127,35 @@ else
     nflagface= contflagface;
 end
 %% calculo do termo gravitacional
+if strcmp(gravitational,'yes')
+[~,gravrateaux]=gravitationaux(kmap,gravelem);
+end
+
+%% Calculo dos pesos
+
+if strcmp(pmetodo,'nlfvLPEW')|| strcmp(pmetodo,'nlfvLPS') || ...
+        strcmp(pmetodo,'nlfvHP')||strcmp(pmetodo,'nlfvDMPSY')||...
+        strcmp(pmetodo,'lfvHP')|| strcmp(pmetodo,'lfvLPEW')|| ...
+        strcmp(pmetodo,'mpfad')
+    % adequação dos flags de contorno
+    nflagface= contflagface;
+    % calculo dos pesos que correspondem aos metodos de interpolacao
+    if strcmp(interpol,'LPEW1')
+        % interpolaca LPEW1 proposto por Gao e Wu 2010
+        [weight,contrcontor] = Pre_LPEW_1(kmap,N);
+    elseif strcmp(interpol,'eLPEW2')
+        % interpolaca LPEW2 modificado por proposto por Miao e Wu 2021
+        [weight,contrcontor] = Pre_ELPEW_2(kmap,N,gravrate);
+    elseif strcmp(interpol,'LS')
+        [ weight,contrcontor] = LS(kmap);
+    elseif strcmp(interpol,'eLS')
+        disp('>> falta implementar!')
+    else
+        % interpolaca LPEW2 proposto por Gao e Wu 2010
+        [weight,contrcontor,wg] = Pre_LPEW_2(kmap,N,gravrateaux,gravelem,V);
+    end
+    
+end
 if strcmp(gravitational,'yes')
     [gravresult,gravrate]=gravitation(kmap,gravelem,gravface,Hesq, Kde,...
                                      Kn,Kt,Ded,grav_elem_escalar,gravno,...

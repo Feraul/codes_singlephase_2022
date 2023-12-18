@@ -17,6 +17,7 @@ Qo=coord(ni,:);                     % coordenada do nó "ni".
 for i=1:size(P,1),
     P(i,:)=coord(nsurn1(nsurn2(ni)+i),:);
     T(i,:)=(P(i,:)+Qo)/2;
+    
 end
 
 %Construção do vetor O, dos centróides (pontos de colocação) dos elementos%

@@ -44,9 +44,9 @@ for ifacont=1:size(bedge,1)
     else
         
         if strcmp(gravitational,'yes')
-            if strcmp(strategy,'starnoni')||strcmp(strategy,'inhouse')|| strcmp(strategy,'GravConsist')
+           
                 m=gravrate(ifacont,1);
-            end
+            
         end
         % Contorno de Neumann
         x=bcflag(:,1)==bedge(ifacont,5);

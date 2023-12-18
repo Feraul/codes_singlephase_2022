@@ -8,7 +8,8 @@ r=zeros(1,2);
 s=zeros(size(bedge,1),1);
 for No=1:size(coord,1)
     
-    [g]=gravnode(N,kmap,No,gravelem);
+    %[g]=gravnode(N,kmap,No,gravelem);
+    [gaux]=gravrateno(No,gravrate,V);
     % calcula
     % O--> coordenadas do baricentro na vizinhança do nó "No"
     % P--> coordenadas dos vértices na vizinhança do nó "No"
@@ -20,12 +21,12 @@ for No=1:size(coord,1)
     [ ve2, ve1, theta2, theta1 ] = angulos_Interp_LPEW2( O, P, T, Qo,No );
     % calculas as netas uma relacao de de alturas
     
-    [ neta, gaux] = netas_Interp_LPEW( O, P, T, Qo, No,kmap,gravelem );
+    [ neta,gaux1] = netas_Interp_LPEW( O, P, T, Qo, No,kmap,gaux);
     % calculas as projecoes normais em torno do nó "No"
     [ Kt1, Kt2, Kn1, Kn2 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, No);
     % calcula os lambdas
     [ lambda,r,gaux2 ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
-        theta2, ve1, ve2, neta, P, O,r,gaux );
+        theta2, ve1, ve2, neta, P, O,r,gaux1 );
     for k=0:size(O,1)-1
         w(apw(No)+k,1)=lambda(k+1)/sum(lambda); %calculo dos pesos
         
