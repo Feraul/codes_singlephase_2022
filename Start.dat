@@ -39,7 +39,7 @@ C:\Users\flc59\Documents\codes_singlephase_2022
 //This file can serve to several simulations. Each one may have 
 //a different configuration. Therefore is a BASE file. 
 
-HomegeneoLitology
+five_spot
 
 //Write either a number or other reference to feature the CAD above:
 //OBS.: If you do not want a complementar label, leave "0" below:
@@ -369,10 +369,8 @@ porosity.dat
 //group seted into "*.geo" file will be associated with the 1st code 
 //declared below and so on.
 
-3
-201 0
+1
 101 1
-102 0
 
 //--------------------------------------------------------------------
 //Tratment of boundary points
@@ -388,8 +386,8 @@ porosity.dat
 //group reported to points will be associated with 1st code written
 //below.
 
-2
-101 102
+1
+101 
 
 //--------------------------------------------------------------------
 //----------------------- Convergence criteria -----------------------

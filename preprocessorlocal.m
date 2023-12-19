@@ -126,7 +126,7 @@ else
     % adequação dos flags de contorno
     nflagface= contflagface;
 end
-%% calculo do termo gravitacional
+%% calculo do termo gravitacional auxiliar
 if strcmp(gravitational,'yes')
 [~,gravrateaux]=gravitationaux(kmap,gravelem);
 end

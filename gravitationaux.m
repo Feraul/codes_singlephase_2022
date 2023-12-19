@@ -1,5 +1,7 @@
 function [G,g]=gravitationaux(kmap,gravelem)
-global inedge bedge elem centelem coord normals strategy esurn1 esurn2
+% Objetivo: calculamos os termos gravitacionais nas semi interfaces das superficies
+% de controle
+global inedge bedge elem centelem coord 
 Klef=zeros(3,3);
 G=zeros(size(elem,1),1);
 R=[0 1 0;-1 0 0 ; 0 0 0];
@@ -11,7 +13,7 @@ for ifacont=1:size(bedge,1)
     % elemento a esquerda
     lef=bedge(ifacont,3);
     % vetor de orientacao da face em questao
-    ve1=0.5*(coord(bedge(ifacont,2),:)-coord(bedge(ifacont,1),:));
+    ve1=coord(bedge(ifacont,2),:)-coord(bedge(ifacont,1),:);
 
     % tensor de permeabilidade do elemento a esquerda
     Klef(1,1)=kmap(elem(lef,5),2);
@@ -21,7 +23,7 @@ for ifacont=1:size(bedge,1)
 
     Keq=Klef;
 
-    g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
+    g(ifacont,1)=0.5*dot((R*ve1')'*Keq,(gravelem(lef,:)));
 
     G(lef,1)=G(lef,1)-g(ifacont,1);
 
@@ -50,10 +52,10 @@ for iface=1:size(inedge,1)
     K4(1,2)=kmap(elem(rel,5),3);
     K4(2,1)=kmap(elem(rel,5),4);
     K4(2,2)=kmap(elem(rel,5),5);
-    vd1=0.5*(coord(inedge(iface,2),1:2)-coord(inedge(iface,1),1:2));
+    vd1=coord(inedge(iface,2),1:2)-coord(inedge(iface,1),1:2);
     Keq=inv((dj1*inv(K3)+dj2*inv(K4))); % equation 21
     graveq=((dj1*gravelem(lef,1:2)+dj2*gravelem(rel,1:2))'); % equation 22
-    g(iface+size(bedge,1),1)=dot(((R1*vd1')')*Keq, graveq);% equation 20
+    g(iface+size(bedge,1),1)=0.5*dot(((R1*vd1')')*Keq, graveq);% equation 20
 
     G(lef,1)=G(lef,1)-g(iface+size(bedge,1),1);
     G(rel,1)=G(rel,1)+g(iface+size(bedge,1),1);

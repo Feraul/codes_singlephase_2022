@@ -20,15 +20,14 @@ for ifacont=1:size(bedge,1)
     Klef(2,1)=kmap(elem(lef,5),4);
     Klef(2,2)=kmap(elem(lef,5),5);
     
-    Keq=Klef;
     if  strcmp(strategy,'starnoni')
         if bedge(ifacont,5)>200
-            g(ifacont,1)=dot((R*ve1')'*Keq,(gravface(ifacont,:)));
+            g(ifacont,1)=dot((R*ve1')'*Klef,(gravface(ifacont,:)));
         else
-            g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
+            g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
         end
     elseif strcmp(strategy,'GravConsist')
-        g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
+        g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
     elseif strcmp(strategy,'inhouse')
         v0=coord(bedge(ifacont,2),:)-coord(bedge(ifacont,1),:); %fase.
         v1=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,1),:);
@@ -69,8 +68,8 @@ for ifacont=1:size(bedge,1)
         g(ifacont,1)=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(normcont^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
         
     else
-        %g(ifacont,1)=dot((R*ve1')'*Keq,(gravface(ifacont,:)));
-        g(ifacont,1)=dot((R*ve1')'*Keq,(gravelem(lef,:)));
+        %g(ifacont,1)=dot((R*ve1')'*Klef,(gravface(ifacont,:)));
+        g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
     end
     G(lef,1)=G(lef,1)-g(ifacont,1);
     
@@ -165,7 +164,7 @@ for iface=1:size(inedge,1)
         %end
         %------------------------------------------------------------------
         g(iface+size(bedge,1),1)=-(Kde*((H2/Kn2)*gright-(H1/Kn1)*gleft-Ded*(g2-g1)));
-        %g(iface+size(bedge,1),1)= Kde*norm(vd1)*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded*(g2-g1));
+        %g(iface+size(bedge,1),1)= -Kde*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded*(g2-g1));
     else
         
         no1=inedge(iface,1);

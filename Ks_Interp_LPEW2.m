@@ -1,6 +1,6 @@
-function [ Kt1, Kt2, Kn1, Kn2 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, ni)
+function [ Kt1, Kt2, Kn1, Kn2,gaux3 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, ni,gravelem)
 
-global esurn2 esurn1 elem 
+global esurn2 esurn1 elem  gravitational
 %Retorna os K(n ou t) necessários para a obtenção dos weights. kmap é a
 %matriz de permeabilidade; Ex: Kt1->linhaN=Kt1(cellN);
 
@@ -13,7 +13,7 @@ Kn2=zeros(nec,1);
 K=zeros(3);
 K1=zeros(3);
 R=[0 1 0; -1 0 0; 0 0 0];
-
+gaux3=0;
 %Construção do tensor permeabilidade.%
 
 %Cálculo das primeiras constantes, para todas as células que concorrem num%
@@ -56,10 +56,16 @@ j=esurn1(esurn2(ni)+k);
     
         Kn2(k)=((R*(T(1,:)-T(k,:))')'*K1*(R*(T(1,:)-T(k,:))'))/norm(T(1,:)-T(k,:))^2;
         Kt2(k)=((R*(T(1,:)-T(k,:))')'*K1*(T(1,:)-T(k,:))')/norm(T(1,:)-T(k,:))^2;
+        if strcmp(gravitational,'yes')
+        gaux3(k)=dot((R*(T(1,:)-T(k,:))')'*K1,gravelem(j,:));
+        end
     else
         
         Kn2(k)=(R*(T(k+1,:)-T(k,:))')'*K1*(R*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
         Kt2(k)=((R*(T(k+1,:)-T(k,:))')'*K1*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
+        if strcmp(gravitational,'yes')
+        gaux3(k)=dot((R*(T(k+1,:)-T(k,:))')'*K1,gravelem(j,:));
+        end
     end
 
 end
