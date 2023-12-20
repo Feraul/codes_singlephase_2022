@@ -9,9 +9,9 @@ s=zeros(size(bedge,1),1);
 for No=1:size(coord,1)
     
     %[g]=gravnode(N,kmap,No,gravelem);
-    %if strcmp(gravitational,'yes')
+    if strcmp(gravitational,'yes')
     [gaux1]=gravrateno(No,gravrate,V);
-    %end
+    end
     % calcula
     % O--> coordenadas do baricentro na vizinhança do nó "No"
     % P--> coordenadas dos vértices na vizinhança do nó "No"
@@ -28,7 +28,7 @@ for No=1:size(coord,1)
     [ Kt1, Kt2, Kn1, Kn2,gaux3 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, No,gravelem);
     % calcula os lambdas
     [ lambda,r,gaux2 ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
-        theta2, ve1, ve2, neta, P, O,r,gaux);
+        theta2, ve1, ve2, neta, P, O,r,gaux1);
     for k=0:size(O,1)-1
         w(apw(No)+k,1)=lambda(k+1)/sum(lambda); %calculo dos pesos
         
@@ -36,11 +36,9 @@ for No=1:size(coord,1)
     
     apw(No+1)=apw(No)+size(O,1);
     
-    
-    wg(No,1)=(sum(gaux2)-sum(gaux3))/sum(lambda); %calculo dos pesos
+    wg(No,1)=(sum(gaux2))/sum(lambda); 
+    %wg(No,1)=(sum(gaux2)-sum(gaux3))/sum(lambda); 
    
-    
-    %apw1(No+1)=apw1(No)+size(g,1);
     
     % calculando os pesos nos vertices do contorno de Neumann 
     % N ordena faces na vizinhanca de um vertices, comecando pela face do
