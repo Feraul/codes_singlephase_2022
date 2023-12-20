@@ -85,13 +85,13 @@ switch benchmark
                 
                 % calculo do gravidade
                 grav(i,:)=h1*[0,1,0];
-                grav_elem_escalar(i,1)=(11-h1*y);
+                grav_elem_escalar(i,1)=-(11-h1*y);
             else
                 % solucao analitica
                 u(i,1)= 6.5-h2*y;
                 % calculo do gravidade
                 grav(i,:)=h2*[0,1,0];
-                grav_elem_escalar(i,1)=(6.5-h2*y);
+                grav_elem_escalar(i,1)=-(6.5-h2*y);
             end
         end
         for jj=1:size(coord,1)
@@ -102,10 +102,10 @@ switch benchmark
             
             if y2>=0.5
                 % solucao analitica
-                gravno(jj,1)= 11-h1*y2;
+                gravno(jj,1)= -11+h1*y2;
             else
                 % solucao analitica
-                gravno(jj,1)= 6.5-h2*y2;
+                gravno(jj,1)= -6.5+h2*y2;
             end
         end
         
