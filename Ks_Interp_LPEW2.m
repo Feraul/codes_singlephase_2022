@@ -19,16 +19,16 @@ gaux3=0;
 %Cálculo das primeiras constantes, para todas as células que concorrem num%
 %nó "ni".                                                                 %
 for k=1:nec
- 
-j=esurn1(esurn2(ni)+k);
-    
+
+    j=esurn1(esurn2(ni)+k);
+
     for i=1:2
         if (size(T,1)==size(O,1))&&(k==nec)&&(i==2)
             K(1,1)=kmap(elem(j,5),2);
             K(1,2)=kmap(elem(j,5),3);
             K(2,1)=kmap(elem(j,5),4);
             K(2,2)=kmap(elem(j,5),5);
-            
+
             Kn1(k,i)=((R*(T(1,:)-Qo)')'*K*(R*(T(1,:)-Qo)'))/norm(T(1,:)-Qo)^2;
             Kt1(k,i)=((R*(T(1,:)-Qo)')'*K*(T(1,:)-Qo)')/norm(T(1,:)-Qo)^2;
         else
@@ -36,35 +36,35 @@ j=esurn1(esurn2(ni)+k);
             K(1,2)=kmap(elem(j,5),3);
             K(2,1)=kmap(elem(j,5),4);
             K(2,2)=kmap(elem(j,5),5);
-            
+
             Kn1(k,i)=((R*(T(k+i-1,:)-Qo)')'*K*(R*(T(k+i-1,:)-Qo)'))/norm(T(k+i-1,:)-Qo)^2;
             Kt1(k,i)=((R*(T(k+i-1,:)-Qo)')'*K*(T(k+i-1,:)-Qo)')/norm(T(k+i-1,:)-Qo)^2;
         end
     end
-     
-    
+
+
     %------------------------- Tensores ----------------------------------%
-    
+
     K1(1,1)= kmap(elem(j,5),2);
     K1(1,2)= kmap(elem(j,5),3);
     K1(2,1)= kmap(elem(j,5),4);
     K1(2,2)= kmap(elem(j,5),5);
-    
+
     if (size(T,1)==size(O,1))&&(k==nec)
-        
+
         %------------ Calculo dos K's internos no elemento ---------------%
-    
+
         Kn2(k)=((R*(T(1,:)-T(k,:))')'*K1*(R*(T(1,:)-T(k,:))'))/norm(T(1,:)-T(k,:))^2;
         Kt2(k)=((R*(T(1,:)-T(k,:))')'*K1*(T(1,:)-T(k,:))')/norm(T(1,:)-T(k,:))^2;
         if strcmp(gravitational,'yes')
-        gaux3(k)=dot((R*(T(1,:)-T(k,:))')'*K1,gravelem(j,:));
+            gaux3(k)=dot((R*(T(1,:)-T(k,:))')'*K1,gravelem(j,:));
         end
     else
-        
+
         Kn2(k)=(R*(T(k+1,:)-T(k,:))')'*K1*(R*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
         Kt2(k)=((R*(T(k+1,:)-T(k,:))')'*K1*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
         if strcmp(gravitational,'yes')
-        gaux3(k)=dot((R*(T(k+1,:)-T(k,:))')'*K1,gravelem(j,:));
+            gaux3(k)=dot((R*(T(k+1,:)-T(k,:))')'*K1,gravelem(j,:));
         end
     end
 

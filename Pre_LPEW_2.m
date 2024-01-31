@@ -28,7 +28,7 @@ for No=1:size(coord,1)
     [ Kt1, Kt2, Kn1, Kn2,gaux3 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, No,gravelem);
     % calcula os lambdas
     [ lambda,r,gaux2 ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
-        theta2, ve1, ve2, neta, P, O,r,gaux1);
+        theta2, ve1, ve2, neta, P, O,r,gaux);
     for k=0:size(O,1)-1
         w(apw(No)+k,1)=lambda(k+1)/sum(lambda); %calculo dos pesos
         
@@ -65,12 +65,12 @@ for No=1:size(coord,1)
                 m2=0;
             end
             % da errado quando colocamos o termo gravitacional
-            s(No,1) = -(1/sum(lambda))*(r(1,1)*(norm1*bcflag(s1,2) + m1)+...
-                                        r(1,2)*(norm2*bcflag(s2,2) + m2));
+            %s(No,1) = -(1/sum(lambda))*(r(1,1)*(norm1*bcflag(s1,2) + m1)+...
+            %                            r(1,2)*(norm2*bcflag(s2,2) + m2));
             %esta rutina funciona quando o vertice da quina da malha
             %computacional pertence ao contorno de Dirichlet
-             %s(No,1) = -(1/sum(lambda))*(r(1,1)*bcflag(s1,2) + ...
-             %   r(1,2)*bcflag(s2,2));
+             s(No,1) = -(1/sum(lambda))*(r(1,1)*bcflag(s1,2) + ...
+                r(1,2)*bcflag(s2,2));
             %esta rutina funciona quando o vertice da quina da malha
             %computacional pertence ao contorno de Dirichlet ou Neumann
             %s(No,1) = -(1/sum(lambda))*(r(No,1)*m11 + ...

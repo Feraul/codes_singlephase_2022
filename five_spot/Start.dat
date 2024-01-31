@@ -170,7 +170,7 @@ y
 //for example, choose "n" when mesh is created outside preprocessor
 //[y] ==> "yes"; [n] ==> "no"
 
-n
+y
 
 //--------------------------------------------------------------------
 //---------------- Physical parameters (DARCY system) ----------------
