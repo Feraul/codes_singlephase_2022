@@ -37,7 +37,7 @@ for No=1:size(coord,1)
     apw(No+1)=apw(No)+size(O,1);
     
     wg(No,1)=(sum(gaux2))/sum(lambda); 
-    %wg(No,1)=(sum(gaux2)-sum(gaux3))/sum(lambda); 
+    %wg(No,1)=(sum(gaux3)+sum(gaux2))/sum(lambda); 
    
     
     % calculando os pesos nos vertices do contorno de Neumann 
