@@ -38,7 +38,7 @@ for ifacont=1:size(bedge,1)
         %montagem da matriz global
         M(lef,lef)=M(lef,lef)-A*(norm(v0)^2);
         % termo de fonte
-        I(lef)=I(lef)-A*(dot(v2,-v0)*c1+dot(v1,v0)*c2)+(c2-c1)*Kt(ifacont)+m;
+        I(lef)=I(lef)-A*(dot(v2,-v0)*c1+dot(v1,v0)*c2)+(c2-c1)*Kt(ifacont)-m;
     else
 
         if strcmp(gravitational,'yes')
@@ -115,8 +115,8 @@ for iface=1:size(inedge,1)
     % termo gravitacional
     if strcmp(gravitational,'yes')
         m=gravrate(size(bedge,1)+iface,1);
-        I(lef)=I(lef)+m ;
-        I(rel)=I(rel)-m ;
+        I(lef)=I(lef)-m ;
+        I(rel)=I(rel)+m ;
     end
 end
 end

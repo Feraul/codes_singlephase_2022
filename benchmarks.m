@@ -84,14 +84,14 @@ switch benchmark
                 u(i,1)= 11-h1*y;
                 
                 % calculo do gravidade
-                grav(i,:)=h1*[0,1,0];
-                grav_elem_escalar(i,1)=-(11-h1*y);
+                grav(i,:)=-h1*[0,1,0];
+                grav_elem_escalar(i,1)=-11+h1*y;
             else
                 % solucao analitica
                 u(i,1)= 6.5-h2*y;
                 % calculo do gravidade
-                grav(i,:)=h2*[0,1,0];
-                grav_elem_escalar(i,1)=-(6.5-h2*y);
+                grav(i,:)=-h2*[0,1,0];
+                grav_elem_escalar(i,1)=-6.5+h2*y;
             end
         end
         for jj=1:size(coord,1)

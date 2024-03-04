@@ -19,14 +19,14 @@ n
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
 
-Benchmark23_3_FINA36.msh
+est_quad_4.msh
 
 //OBS.: This file must be puted into folder together with *.m files 
 //or in a folder whose path will be declared immediately below:
 //IMPORTANT: if the file is puted into folder which contain the *.m
 //files, write in the statment below "no path".
 
-C:\Users\flc59\Documents\GitHub\Malhas2
+C:\Users\flc59\Documents\codes_singlephase_2022
 
 //If [n] write, immediately below, the path which conduct to  
 //folder where the *.m files is:
@@ -39,7 +39,7 @@ C:\Users\flc59\Documents\codes_singlephase_2022
 //This file can serve to several simulations. Each one may have 
 //a different configuration. Therefore is a BASE file. 
 
-HomegeneoLitology
+homegeneoLitology
 
 //Write either a number or other reference to feature the CAD above:
 //OBS.: If you do not want a complementar label, leave "0" below:
@@ -335,7 +335,7 @@ y
 //OBS.: The second row must store all porosity values in sequence. 
 
 1
-1
+0.2
 
 //If [n], in principle, each element will has a porosity value. These
 //value will came of a external file. His name will be written below:
@@ -389,7 +389,7 @@ porosity.dat
 //below.
 
 2
-101 102 
+101 102
 
 //--------------------------------------------------------------------
 //----------------------- Convergence criteria -----------------------

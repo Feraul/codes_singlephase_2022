@@ -6,28 +6,8 @@
 
 //Work developed by: Marcio Souza and Luiz E. Queiroz
 //Adviser Professors: Paulo Lyra & Darlan Carvalho
-//Create date: 2024/2/26;	hour: 16:8h
+//Create date: 2024/2/26;	hour: 16:3h
 
 //--------------------------------------------------------------------
-//This file has OPTIONS parameters. Configure GMSH environment
-
-//Type of mesh used:
-//0 ==> [AllTriangles]; 1 ==> [AllQuadrangles]
-
-Mesh.SubdivisionAlgorithm = 1;
-
-//Type of algorithm used:
-//1 ==> [MeshAdapt]; 5 ==> [Delaunay]; 6 ==> [Frontal]
-
-Mesh.Algorithm = 5;
-
-//Type of remeshing algorithm:
-//0 ==> [No split]; 1 ==> [Automatic]
-
-Mesh.RemeshAlgorithm = 0;
-
-//Factor applied to all element sizes:
-//1 ==> [Default]
-
-Mesh.CharacteristicLengthFactor = 1.000000;
+//This file has CAD parameters. It is related to building of domain
 
