@@ -20,13 +20,9 @@ for ifacont=1:size(bedge,1)
         I(lef)=I(lef)- normcont*bcflag(r,2);
     else
         if strcmp(gravitational,'yes')
-            if strcmp(strategy,'starnoni')
-                m=gravrate(ifacont);
-            elseif strcmp(strategy,'inhouse')
-               m=0;
-            end
-            
+            m=gravrate(ifacont,1);
         end
+       
         %-------------------------------------------------------------%
         % somando 1
         ifacelef1=parameter(1,3,ifacont);
@@ -41,7 +37,7 @@ for ifacont=1:size(bedge,1)
             normcont,mobility,auxparameter2,auxmobility,lef,weightDMP,M,I);
         
         M(lef,lef)=M(lef,lef)+ auxmobility*normcont*(auxparameter1 + auxparameter2);
-        I(lef)=I(lef)+m;
+        I(lef)=I(lef)-m;
        
     end
     
@@ -778,18 +774,11 @@ for iface=1:size(inedge,1)
         M(rel,[auxlef,auxrel])=  M(rel,[auxlef,auxrel])- termo0*[auxweightrel1,auxweightrel2];
         
     end
+    % termo gravitacional
     if strcmp(gravitational,'yes')
-        
-        if strcmp(strategy,'starnoni')
-            m=gravrate(size(bedge,1)+iface);
-        elseif strcmp(strategy,'inhouse')
-            m=0;
-        end
-        
-        I(lef)=I(lef)+m;
-       
-        I(rel)=I(rel)-m;
-       
+        m=gravrate(size(bedge,1)+iface,1);
+        I(lef)=I(lef)-m ;
+        I(rel)=I(rel)+m ;
     end
 end
 %

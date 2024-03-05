@@ -113,9 +113,9 @@ elseif strcmp(pmetodo,'nlfvDMPSY')|| strcmp(pmetodo,'lfvHP') || ...
     % adequação dos nos flags de contorno
     nflagno= contflagno;
     %calculo de parametros
-    if strcmp(pmetodo,'lfvHP')
+    if strcmp(pmetodo,'nlfvHP')
         [gravresult,gravrate]=gravitationHP(kmap,grav_elem_escalar,...
-            gravface,pointarmonic,weightDMP,gravelem,parameter,nflagface);
+            gravface,pointarmonic,weightDMP,gravelem,parameter);
     end
 elseif strcmp(pmetodo,'mpfad')
     

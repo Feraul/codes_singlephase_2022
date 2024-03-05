@@ -1,5 +1,6 @@
-function [M,I]=assemblematrixGYZS(pinterp,parameter,fonte,wells,calnormface,gravrate)
-global inedge coord bedge bcflag elem gravitational strategy
+function [M,I]=assemblematrixGYZS(pinterp,parameter,fonte,...
+                               wells,calnormface,gravrate)
+global inedge coord bedge bcflag elem gravitational
 I=sparse(size(elem,1),1);
 M=sparse(size(elem,1),size(elem,1));
 
@@ -19,12 +20,10 @@ for ifacont=1:size(bedge,1)
     else
         %% calculo da contribuição do contorno, veja Eq. 2.17 (resp. eq. 24)
         %do artigo Gao and Wu 2015 (resp. Gao and Wu 2014)
+        %Preenchimento do termo gravitacional
+
         if strcmp(gravitational,'yes')
-            if strcmp(strategy,'starnoni')
-                m=gravrate(ifacont);
-            else
-                m=0;
-            end
+            m=gravrate(ifacont,1);
         end
         
         alef=normcont*(parameter(1,1,ifacont)*pinterp(parameter(1,3,ifacont))+...
@@ -34,7 +33,7 @@ for ifacont=1:size(bedge,1)
         
         %% implementação da matriz global no contorno
         M(lef,lef)=M(lef,lef)+ Alef;
-        I(lef,1)=I(lef,1)+alef+ m;
+        I(lef,1)=I(lef,1)+alef-m;
     end
 end
 %% Montagem da matriz global
@@ -78,14 +77,11 @@ for iface=1:size(inedge,1)
     % contribuição da transmisibilidade no elemento direita
     M(rel,rel)=M(rel,rel)+ ARR;
     M(rel,lef)=M(rel,lef)- ALL;
+    % termo gravitacional
     if strcmp(gravitational,'yes')
-        if strcmp(strategy,'starnoni')
-            m=gravrate(size(bedge,1)+iface);
-        else
-            m=0;
-        end
-        I(lef)=I(lef)+m;
-        I(rel)=I(rel)-m;
+        m=gravrate(size(bedge,1)+iface,1);
+        I(lef)=I(lef)-m ;
+        I(rel)=I(rel)+m ;
     end
 end
 %% malha 23x23

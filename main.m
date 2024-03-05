@@ -57,16 +57,16 @@ erromethod='erromethod1';
 % nlfvHP    --> (NL-TPFA-H) metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='mpfad';
+pmetodo='lfvHP';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos não lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
 % iteration='iterbroyden';
 % iteration='JFNK';
- iteration='fullpicard';
+% iteration='fullpicard';
 % iteration='MPE'; 
 % iteration='RRE'; % picard com acelerador rank reduced extrapolation
-%  iteration='AA';  % picard com aceleracao de Anderson
+  iteration='AA';  % picard com aceleracao de Anderson
 %iteration='iterhybrid';
 %iteration='fsolver';
 %% Para metodo nao-linear e iteracao Broyden ou Newton
@@ -94,7 +94,7 @@ typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %benchmark='lepotier';
 %benchmark='shenyuan16';
 %benchmark='guangwei'; 
-benchmark='starnonigrav4';
+benchmark='starnonigrav1';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
 gravitational='yes';
