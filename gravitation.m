@@ -37,44 +37,6 @@ for ifacont=1:size(bedge,1)
                 g(ifacont,1)=-dot((R*ve1')'*Klef,(gravelem(lef,:)));
             end
         end
-    elseif strcmp(strategy,'inhouse')
-        v0=coord(bedge(ifacont,2),:)-coord(bedge(ifacont,1),:); %fase.
-        v1=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,1),:);
-        v2=centelem(bedge(ifacont,3),:)-coord(bedge(ifacont,2),:);
-        normcont=norm(v0);
-        
-        % Tratamento do nó nos vértices 2 e 4%
-        A=-Kn(ifacont)/(Hesq(ifacont)*norm(v0));
-        
-        if bedge(ifacont,5)<200
-            g1=gravno(bedge(ifacont,1),1); % gravidade no vertice 1
-            g2=gravno(bedge(ifacont,2),1); % gravidade no vertice 2
-        else
-            no1=bedge(ifacont,1);
-            no2=bedge(ifacont,2);
-            
-            nec1=esurn2(no1+1)- esurn2(no1);
-            nec2=esurn2(no2+1)- esurn2(no2);
-            g1=0;
-            if nflagno(no1,1)>200
-                for j=1:nec1
-                    element1=esurn1(esurn2(no1)+j);
-                    g1=g1+w(esurn2(no1)+j)*grav_elem_escalar(element1);
-                end
-            else
-                g1=gravno(no1,1);
-            end
-            g2=0;
-            if nflagno(no2,1)>200
-                for j=1:nec2
-                    element2=esurn1(esurn2(no2)+j);
-                    g2=g2+w(esurn2(no2)+j)*grav_elem_escalar(element2);
-                end
-            else
-                g2=gravno(no2,1);
-            end
-        end
-        g(ifacont,1)=-(A*(dot(v2,-v0)*g1+dot(v1,v0)*g2-(normcont^2*grav_elem_escalar(lef)))-(g2-g1)*Kt(ifacont));
         
     else
         %g(ifacont,1)=dot((R*ve1')'*Klef,(gravface(ifacont,:)));
@@ -87,9 +49,6 @@ for iface=1:size(inedge,1)
     % elementos a esquerda e a direita
     lef=inedge(iface,3);
     rel=inedge(iface,4);
-    % vertices
-    no1=inedge(iface,1);
-    no2=inedge(iface,2);
     
     % calculo do ponto meio da face
     vm=(coord(inedge(iface,1),:)+coord(inedge(iface,2),:))*0.5;
@@ -202,32 +161,6 @@ for iface=1:size(inedge,1)
         %g(iface+size(bedge,1),1)=Kde*((H2/Kn2)*gright+(H1/Kn1)*gleft)-Kde*Ded*norm(vd1)*(g2-g1);
         %========================================================================================
         g(iface+size(bedge,1),1)= Kde(iface)*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded(iface)*(g2-g1));
-    else
-        
-        no1=inedge(iface,1);
-        no2=inedge(iface,2);
-        g1=0;
-        nec1=esurn2(no1+1)- esurn2(no1);
-        nec2=esurn2(no2+1)- esurn2(no2);
-        if nflagno(no1,1)>200
-            for j=1:nec1
-                element1=esurn1(esurn2(no1)+j);
-                g1=g1+w(esurn2(no1)+j)*grav_elem_escalar(element1);
-            end
-        else
-            g1=gravno(no1,1);
-        end
-        g2=0;
-        
-        if nflagno(no2,1)>200
-            for j=1:nec2
-                element2=esurn1(esurn2(no2)+j);
-                g2=g2+w(esurn2(no2)+j)*grav_elem_escalar(element2);
-            end
-        else
-            g2=gravno(no2,1);
-        end
-        g(iface+size(bedge,1),1)= -Kde(iface)*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded(iface)*(g2-g1));
     end
     G(lef,1)=G(lef,1)-g(iface+size(bedge,1),1);
     G(rel,1)=G(rel,1)+g(iface+size(bedge,1),1);
