@@ -19,21 +19,21 @@ n
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
 
-Benchmark23_3_FINA36.msh
+est_quad_4_Neum.msh
 
 //OBS.: This file must be puted into folder together with *.m files 
 //or in a folder whose path will be declared immediately below:
 //IMPORTANT: if the file is puted into folder which contain the *.m
 //files, write in the statment below "no path".
 
-C:\Users\flc59\Documents\GitHub\Malhas2
+C:\Users\flc59\Documents\GitHub\codes_singlephase_2022
 
 //If [n] write, immediately below, the path which conduct to  
 //folder where the *.m files is:
 //IMPORTANT: gmsh.exe must be puted in this folder together with
 //the *.m files. Otherwise it does not work.
 
-C:\Users\flc59\Documents\codes_singlephase_2022
+C:\Users\flc59\Documents\GitHub\codes_singlephase_2022
 
 //write the name of BASE geometry file WITHOUT extension *.geo.
 //This file can serve to several simulations. Each one may have 
@@ -170,7 +170,7 @@ y
 //for example, choose "n" when mesh is created outside preprocessor
 //[y] ==> "yes"; [n] ==> "no"
 
-y
+n
 
 //--------------------------------------------------------------------
 //---------------- Physical parameters (DARCY system) ----------------
@@ -335,7 +335,7 @@ y
 //OBS.: The second row must store all porosity values in sequence. 
 
 1
-1
+0.2
 
 //If [n], in principle, each element will has a porosity value. These
 //value will came of a external file. His name will be written below:
@@ -369,8 +369,10 @@ porosity.dat
 //group seted into "*.geo" file will be associated with the 1st code 
 //declared below and so on.
 
-1
+3
+201 0
 101 1
+102 0
 
 //--------------------------------------------------------------------
 //Tratment of boundary points
@@ -386,8 +388,8 @@ porosity.dat
 //group reported to points will be associated with 1st code written
 //below.
 
-1
-101 
+2
+101 102
 
 //--------------------------------------------------------------------
 //----------------------- Convergence criteria -----------------------

@@ -57,14 +57,14 @@ for k=1:nec
         Kn2(k)=((R*(T(1,:)-T(k,:))')'*K1*(R*(T(1,:)-T(k,:))'))/norm(T(1,:)-T(k,:))^2;
         Kt2(k)=((R*(T(1,:)-T(k,:))')'*K1*(T(1,:)-T(k,:))')/norm(T(1,:)-T(k,:))^2;
         if strcmp(gravitational,'yes')
-            gaux3(k)=dot((R*(T(1,:)-T(k,:))')'*K1,gravelem(j,:));
+            gaux3(k)=dot((R*(-T(1,:)+T(k,:))')'*K1,gravelem(j,:));
         end
     else
 
         Kn2(k)=(R*(T(k+1,:)-T(k,:))')'*K1*(R*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
         Kt2(k)=((R*(T(k+1,:)-T(k,:))')'*K1*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
         if strcmp(gravitational,'yes')
-            gaux3(k)=dot((R*(T(k+1,:)-T(k,:))')'*K1,gravelem(j,:));
+            gaux3(k)=dot((R*(-T(k+1,:)+T(k,:))')'*K1,gravelem(j,:));
         end
     end
 

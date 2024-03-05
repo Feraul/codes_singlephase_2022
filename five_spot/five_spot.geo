@@ -6,7 +6,7 @@
 
 //Work developed by: Marcio Souza and Luiz E. Queiroz
 //Adviser Professors: Paulo Lyra & Darlan Carvalho
-//Create date: 2024/2/26;	hour: 16:8h
+//Create date: 2024/3/5;	hour: 16:6h
 
 //--------------------------------------------------------------------
 //This file has CAD parameters. It is related to building of domain
@@ -23,7 +23,7 @@ Line(4) = {4, 1};
 Line Loop(6) = {2, 3, 4, 1};
 Plane Surface(6) = {6};
 Physical Point(101) = {1, 2, 3, 4};
-Physical Line(101) = {1, 2, 3, 4};
+Physical Line(201) = {1, 2, 3, 4};
 Physical Surface(1) = {6};
 
 

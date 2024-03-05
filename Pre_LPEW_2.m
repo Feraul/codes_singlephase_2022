@@ -9,9 +9,9 @@ s=zeros(size(bedge,1),1);
 for No=1:size(coord,1)
 
     %[g]=gravnode(N,kmap,No,gravelem);
-    if strcmp(gravitational,'yes')
-        [gaux1]=gravrateno(No,gravrate,V);
-    end
+%     if strcmp(gravitational,'yes')
+%         [gaux1]=gravrateno(No,gravrate,V);
+%     end
     % calcula
     % O--> coordenadas do baricentro na vizinhança do nó "No"
     % P--> coordenadas dos vértices na vizinhança do nó "No"
@@ -36,8 +36,8 @@ for No=1:size(coord,1)
 
     apw(No+1)=apw(No)+size(O,1);
 
-    wg(No,1)=(sum(gaux2))/sum(lambda);
-    %wg(No,1)=(sum(gaux3)+sum(gaux2))/sum(lambda);
+    %wg(No,1)=(sum(gaux2))/sum(lambda);
+    wg(No,1)=(sum(gaux3))/sum(lambda);
 
 
     % calculando os pesos nos vertices do contorno de Neumann

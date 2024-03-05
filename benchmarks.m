@@ -179,7 +179,7 @@ switch benchmark
             
             % gravidade
             grav(i,:)=[-cos(x)*cos(y) sin(x)*sin(y) 0];
-           grav_elem_escalar(i,1)=-1-sin(x)*cos(y);
+            grav_elem_escalar(i,1)=-1-sin(x)*cos(y);
         end
         for j=1:size(coord,1)
             %Define "x" and "y"
@@ -252,13 +252,14 @@ switch benchmark
                 u(i,1)= sin(x)*cos(y)+11-h1*y;
                 
                 % calculo do gravidade
-                grav(i,:)=[-cos(x)*cos(y) h1+sin(x)*sin(y)];
+                grav(i,:)=[-cos(x)*cos(y) h1+sin(x)*sin(y) 0];
+                grav_elem_escalar(i,1)=-sin(x)*cos(y)-11+h1*y;
             else
                 % solucao analitica
                 u(i,1)= sin(x)*cos(y)+6.5-h2*y;
                 % calculo do gravidade
-                grav(i,:)=[-cos(x)*cos(y) h2+sin(x)*sin(y)];
-                
+                grav(i,:)=[-cos(x)*cos(y) h2+sin(x)*sin(y) 0];
+                grav_elem_escalar(i,1)=-sin(x)*cos(y)-6.5+h2*y;
             end
         end
         for j=1:size(coord,1)
@@ -269,76 +270,76 @@ switch benchmark
             if single(y21)>0.5
                 
                 % solucao analitica
-                gravno(j,1)= sin(x21)*cos(y21)-h1*y21;
+                gravno(j,1)= -sin(x21)*cos(y21)-11+h1*y21;
             else
                 % solucao analitica
-                gravno(j,1)= sin(x21)*cos(y21)-h2*y21;
+                gravno(j,1)= -sin(x21)*cos(y21)-6.5+h2*y21;
                 
             end
             
         end
-        
-        for jj=1:size(bedge,1)+size(inedge,1)
-            %Define "x" and "y"
-            if jj<=size(bedge,1)
-                v1=bedge(jj,1);
-                v2=bedge(jj,2);
-            else
-                v1=inedge(jj-size(bedge,1),1);
-                v2=inedge(jj-size(bedge,1),2);
-            end
-            a=0.5*(coord(v1,:)+coord(v2,:));
-            x11=a(1,1);
-            y11=a(1,2);
-           
-            if single(y11)>0.5
-                
-                % solucao analitica
-                aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h1];
-            else
-                % solucao analitica
-               aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h2];
-                
-            end
-            gravface(jj,1:2)=aaa;
-        end
-         for j=1:size(bedge,1)+size(inedge,1)
-            %Define "x" and "y"
-            if j<=size(bedge,1)
-                v1=bedge(j,1);
-                v2=bedge(j,2);
-                a=0.5*(coord(v1,:)+coord(v2,:));
-                % calculo da velocidade
-                IJ=coord(v1,:)-coord(v2,:);
-            else
-                v1=inedge(j-size(bedge,1),1);
-                v2=inedge(j-size(bedge,1),2);
-                a=0.5*(coord(v1,:)+coord(v2,:));
-                % calculo da velocidade
-                IJ=coord(v1,:)-coord(v2,:);  
-            end
-            y111=a(1,2);
-            if single(y111)>0.5
-                V=-[cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h1),...
-                   0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h1),0]+...
-                   [cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h1),...
-                   0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h1),0];
-            else
-               V=-[cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h2),...
-                   0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h2),0]+...
-                   [cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h2),...
-                   0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h2),0]; 
-            end
-            norma=norm(IJ);
-            nij=R*IJ'/norma;
-            % note que a velocidade analitica: velocidade_pressao +
-            % velocidade_gravitacional, embora essa soma sera zero porque
-            % g=-grad(p).
-            
-            F(j,1) = dot(V,nij'); 
-        end
-
-        vel=F;
+%         
+%         for jj=1:size(bedge,1)+size(inedge,1)
+%             %Define "x" and "y"
+%             if jj<=size(bedge,1)
+%                 v1=bedge(jj,1);
+%                 v2=bedge(jj,2);
+%             else
+%                 v1=inedge(jj-size(bedge,1),1);
+%                 v2=inedge(jj-size(bedge,1),2);
+%             end
+%             a=0.5*(coord(v1,:)+coord(v2,:));
+%             x11=a(1,1);
+%             y11=a(1,2);
+%            
+%             if single(y11)>0.5
+%                 
+%                 % solucao analitica
+%                 aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h1, 0];
+%             else
+%                 % solucao analitica
+%                aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h2,0];
+%                 
+%             end
+%             gravface(jj,:)=aaa;
+%         end
+%          for j=1:size(bedge,1)+size(inedge,1)
+%             %Define "x" and "y"
+%             if j<=size(bedge,1)
+%                 v1=bedge(j,1);
+%                 v2=bedge(j,2);
+%                 a=0.5*(coord(v1,:)+coord(v2,:));
+%                 % calculo da velocidade
+%                 IJ=coord(v1,:)-coord(v2,:);
+%             else
+%                 v1=inedge(j-size(bedge,1),1);
+%                 v2=inedge(j-size(bedge,1),2);
+%                 a=0.5*(coord(v1,:)+coord(v2,:));
+%                 % calculo da velocidade
+%                 IJ=coord(v1,:)-coord(v2,:);  
+%             end
+%             y111=a(1,2);
+%             if single(y111)>0.5
+%                 V=-[cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h1),...
+%                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h1),0]+...
+%                    [cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h1),...
+%                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h1),0];
+%             else
+%                V=-[cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h2),...
+%                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h2),0]+...
+%                    [cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h2),...
+%                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h2),0]; 
+%             end
+%             norma=norm(IJ);
+%             nij=R*IJ'/norma;
+%             % note que a velocidade analitica: velocidade_pressao +
+%             % velocidade_gravitacional, embora essa soma sera zero porque
+%             % g=-grad(p).
+%             
+%             F(j,1) = dot(V,nij'); 
+%         end
+% 
+%         vel=F;
         K=kmap;
         elem(:,5)=1;
     case 'starnonigrav4'
@@ -356,13 +357,14 @@ switch benchmark
                 u(i,1)= 100*sin(x)*cos(y)+11-h1*y;
                
                 % calculo do gravidade
-                grav(i,:)=[-100*cos(x)*cos(y) h1+100*sin(x)*sin(y)];
+                grav(i,:)=[-100*cos(x)*cos(y) h1+100*sin(x)*sin(y) 0];
+                grav_elem_escalar(i,1)=-100*sin(x)*cos(y)-11+h1*y;
             else
                 % solucao analitica
                 u(i,1)= 100*sin(x)*cos(y)+6.5-h2*y;
                 % calculo do gravidade
-                grav(i,:)=[-100*cos(x)*cos(y) h2+100*sin(x)*sin(y)];
-                
+                grav(i,:)=[-100*cos(x)*cos(y) h2+100*sin(x)*sin(y) 0];
+                grav_elem_escalar(i,1)=-100*sin(x)*cos(y)-6.5+h2*y;
             end
         end
         for j=1:size(coord,1)
@@ -373,36 +375,36 @@ switch benchmark
             if single(y21)>0.5
                 
                 % solucao analitica
-                gravno(j,1)= 100*sind(x21)*cosd(y21)-h1*y21;
+                gravno(j,1)= -100*sin(x21)*cos(y21)-11+h1*y21;
             else
                 % solucao analitica
-                gravno(j,1)= 100*sind(x21)*cosd(y21)-h2*y21;
+                gravno(j,1)= -100*sin(x21)*cos(y21)-6.5+h2*y21;
                 
             end
             
         end
         
-        for jj=1:size(bedge,1)+size(inedge,1)
-            %Define "x" and "y"
-            if jj<=size(bedge,1)
-                v1=bedge(jj,1);
-                v2=bedge(jj,2);                
-            else
-                v1=inedge(jj-size(bedge,1),1);
-                v2=inedge(jj-size(bedge,1),2);
-            end
-            a=0.5*(coord(v1,:)+coord(v2,:));
-            x11=a(1,1);
-            y11=a(1,2);
-            
-            if single(y11)>0.5
-               bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h1];
-            else
-               bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h2];
-                
-            end           
-           gravface(jj,1:2)=bbb; 
-        end
+%         for jj=1:size(bedge,1)+size(inedge,1)
+%             %Define "x" and "y"
+%             if jj<=size(bedge,1)
+%                 v1=bedge(jj,1);
+%                 v2=bedge(jj,2);                
+%             else
+%                 v1=inedge(jj-size(bedge,1),1);
+%                 v2=inedge(jj-size(bedge,1),2);
+%             end
+%             a=0.5*(coord(v1,:)+coord(v2,:));
+%             x11=a(1,1);
+%             y11=a(1,2);
+%             
+%             if single(y11)>0.5
+%                bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h1];
+%             else
+%                bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h2];
+%                 
+%             end           
+%            gravface(jj,1:2)=bbb; 
+%         end
         
         K=kmap;
         elem(:,5)=1;
