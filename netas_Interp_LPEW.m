@@ -6,6 +6,7 @@ global esurn2 elem esurn1
 
 %Prealocação do vetore.%
 netas=zeros(esurn2(ni+1)-esurn2(ni),2);
+gaux=zeros(esurn2(ni+1)-esurn2(ni),6);
 R=[0 1 0; -1 0 0; 0 0 0];
 %Loop que percorre os elementos em torno do nó "ni".%
 K=zeros(3);
@@ -24,14 +25,15 @@ for k=1:size(netas,1),
         ce=cross(v1,v2); % produto vetorial
         H2=norm(ce)/norm(v2); % altura
         netas(k,2)=norm(T(1,:)-Qo)/H2;
-        gaux(k,2)=dot((R*(Qo-T(1,:))')'*K,gravelem(j,:));
+        gaux(k,4:6)=(R*(Qo-T(1,:))')';
     else
         v1=O(k,:)-Qo;
         v2=P(k+1,:)-Qo;
         ce=cross(v1,v2);
         H2=norm(ce)/norm(v2); % altura
         netas(k,2)=norm(T(k+1,:)-Qo)/H2;
-        gaux(k,2)=dot((R*(Qo-T(k+1,:))')'*K,gravelem(j,:));
+        gaux(k,4:6)=(R*(Qo-T(k+1,:))')';
+        
     end
     
     %%%%%%%Fim do Preenchimento da segunda coluna do vetor "netas".%%%%%%%
@@ -44,7 +46,7 @@ for k=1:size(netas,1),
     ce=cross(v1,v2); % produto vetorial
     H1=norm(ce)/norm(v2); % altura
     netas(k,1)=norm(T(k,:)-Qo)/H1;
-    gaux(k,1)=dot((R*(T(k,:)-Qo)')'*K,gravelem(j,:));
+    gaux(k,1:3)=(R*(T(k,:)-Qo)')';
     %%%%%Fim do Preenchimento da primeira coluna do vetor "netas".%%%%%%%
 
 end

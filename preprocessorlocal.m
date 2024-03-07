@@ -113,21 +113,17 @@ elseif strcmp(pmetodo,'nlfvDMPSY')|| strcmp(pmetodo,'lfvHP') || ...
     % adequação dos nos flags de contorno
     nflagno= contflagno;
     %calculo de parametros
-    if strcmp(pmetodo,'lfvHP')
-        [gravresult,gravrate]=gravitationHP(kmap,grav_elem_escalar,...
-            gravface,pointarmonic,weightDMP,gravelem,parameter,nflagface);
-    end
+%     if strcmp(pmetodo,'lfvHP')
+%         [gravresult,gravrate]=gravitationHP(kmap,grav_elem_escalar,...
+%             gravface,pointarmonic,weightDMP,gravelem,parameter,nflagface);
+%     end
 elseif strcmp(pmetodo,'mpfad')
     
     % calculo das constantes fisicos-geometrico
     [Hesq, Kde, Kn, Kt, Ded] = Kde_Ded_Kt_Kn(kmap);
     % adequação dos flags de contorno
     nflagno= contflagno;
-    if strcmp(gravitational,'yes')
-    [gravresult,gravrate]=gravitation(kmap,gravelem,gravface,Hesq, Kde,...
-                                     Kn,Kt,Ded,grav_elem_escalar,gravno,...
-                                     weight,nflagno,wg); 
-    end
+    
 else
     % calculo das constantes fisicos-geometrico para o TPFA
     [Hesq, Kde, Kn, Kt, Ded] = Kde_Ded_Kt_Kn( kmap);
@@ -164,6 +160,22 @@ if strcmp(pmetodo,'nlfvLPEW')|| strcmp(pmetodo,'nlfvLPS') || ...
         [weight,contrcontor,wg] = Pre_LPEW_2(kmap,N,gravrateaux,gravelem,V);
     end
     
+    if strcmp(gravitational,'yes')
+        if strcmp(pmetodo,'mpfad')
+            
+                 [gravresult,gravrate]=gravitationD(kmap,gravelem,gravface,Hesq, Kde,...
+                                                  Kn,Kt,Ded,grav_elem_escalar,gravno,...
+                                                  weight,nflagno,wg);
+            
+            %[gravresult,gravrate]=gravitation(kmap,gravelem,gravface,Hesq, Kde,...
+            %    Kn,Kt,Ded,grav_elem_escalar,gravno,...
+            %    weight,nflagno,wg);
+        else
+            [gravresult,gravrate]=gravitationHP(kmap,grav_elem_escalar,...
+                gravface,pointarmonic,weightDMP,gravelem,parameter,nflagface);
+        end
+    end
+
 end
 
 end

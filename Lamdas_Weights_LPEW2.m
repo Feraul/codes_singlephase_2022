@@ -42,24 +42,25 @@ else %Se for um nó do contorno.
 end
 
 if size(P,1)==size(O,1)
-    for k=1:nec,
+    for k=1:nec
         if (k==nec)&&(size(P,1)==size(O,1))
             lambda(k)=Kn1(k,1)*netas(k,1)*zeta(k)+Kn1(k,2)*netas(k,2)*zeta(1);
-            gaux2(k)=zeta(k)*gaux(k,1)+zeta(1)*gaux(k,2);
+            gaux2(k,1:3)=zeta(k)*gaux(k,1:3)+zeta(1)*gaux(k,4:6);
         else
             lambda(k)=Kn1(k,1)*netas(k,1)*zeta(k)+Kn1(k,2)*netas(k,2)*zeta(k+1);
-            gaux2(k)=zeta(k)*gaux(k,1)+zeta(k+1)*gaux(k,2);
+            gaux2(k,1:3)=zeta(k)*gaux(k,1:3)+zeta(k+1)*gaux(k,4:6);
         end
     end
 else
-    for k=1:nec,
+    for k=1:nec
         if (k==nec)&&(size(P,1)==size(O,1))
             lambda(k)=Kn1(k,1)*netas(k,1)*zeta(k)+Kn1(k,2)*netas(k,2)*zeta(1);
         else
             lambda(k)=Kn1(k,1)*netas(k,1)*zeta(k)+Kn1(k,2)*netas(k,2)*zeta(k+1); 
         end
+        gaux2(k,1:3)=r(1,1)*gaux(k,1:3)+r(1,2)*gaux(k,4:6);
     end
-    gaux2(k)=r(1,1)*gaux(k,1)+r(1,2)*gaux(k,2);
+    
 end
 
 end

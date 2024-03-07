@@ -1,17 +1,19 @@
 function [ w,s,wg] = Pre_LPEW_2(kmap,N,gravrate,gravelem,V)
-global coord bcflag bedge nsurn1 nsurn2 gravitational
+global coord bcflag bedge nsurn1 nsurn2 gravitational esurn1 esurn2 elem
 % devolve os pesos "w" cujos elementos são organizados em um vetor
 %Retorna todos os parâmetros necessários às expressões dos fluxos.
+
 apw=ones(size(coord,1),1);
 apw1=ones(size(coord,1),1);
 r=zeros(1,2);
 s=zeros(size(bedge,1),1);
+K=zeros(3);
 for No=1:size(coord,1)
-
+    
     %[g]=gravnode(N,kmap,No,gravelem);
-%     if strcmp(gravitational,'yes')
-%         [gaux1]=gravrateno(No,gravrate,V);
-%     end
+    %     if strcmp(gravitational,'yes')
+    %         [gaux1]=gravrateno(No,gravrate,V);
+    %     end
     % calcula
     % O--> coordenadas do baricentro na vizinhança do nó "No"
     % P--> coordenadas dos vértices na vizinhança do nó "No"
@@ -19,10 +21,10 @@ for No=1:size(coord,1)
     % Qo-> coordenada do nó em questão
     [ O, P, T, Qo ] = OPT_Interp_LPEW(No);
     % calcula os angulos apropiados para calculas os pesos
-
+    
     [ ve2, ve1, theta2, theta1 ] = angulos_Interp_LPEW2( O, P, T, Qo,No );
     % calculas as netas uma relacao de de alturas
-
+    
     [ neta,gaux] = netas_Interp_LPEW( O, P, T, Qo, No,kmap,gravelem);
     % calculas as projecoes normais em torno do nó "No"
     [ Kt1, Kt2, Kn1, Kn2,gaux3 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, No,gravelem);
@@ -30,16 +32,25 @@ for No=1:size(coord,1)
     [ lambda,r,gaux2 ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
         theta2, ve1, ve2, neta, P, O,r,gaux);
     for k=0:size(O,1)-1
-        w(apw(No)+k,1)=lambda(k+1)/sum(lambda); %calculo dos pesos
-
+        w(apw(No)+k,1)=lambda(k+1)/sum(lambda); %calculo dos pesos 
     end
-
+    
     apw(No+1)=apw(No)+size(O,1);
-
-    %wg(No,1)=(sum(gaux2))/sum(lambda);
-    wg(No,1)=(sum(gaux3))/sum(lambda);
-
-
+    c=esurn2(No+1)-esurn2(No);
+    m=0;
+    for i=1:c
+        j=esurn1(esurn2(No)+i);
+        %Essa é UMA maneira de construir os tensores
+        K(1,1) = kmap(elem(j,5),2);
+        K(1,2) = kmap(elem(j,5),3);
+        K(2,1) = kmap(elem(j,5),4);
+        K(2,2) = kmap(elem(j,5),5);
+        m=m+dot((K*gravelem(j,:)')',gaux2(i,:));
+    end
+    wg(No,1)=m/sum(lambda);
+    %wg(No,1)=(sum(gaux3)+m)/sum(lambda);
+    
+    
     % calculando os pesos nos vertices do contorno de Neumann
     % N ordena faces na vizinhanca de um vertices, comecando pela face do
     % contorno
