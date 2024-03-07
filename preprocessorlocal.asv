@@ -37,7 +37,7 @@ if strcmp(pmetodo,'nlfvLPEW')
     % adequação dos flags de contorno
     nflagno= contflagno;
     if strcmp(gravitational,'yes')
-       [Hesq, Kde, Kn, Kt, Ded] = Kde_Ded_Kt_Kn(kmap);  
+        [Hesq, Kde, Kn, Kt, Ded] = Kde_Ded_Kt_Kn(kmap);
     end
     
 elseif strcmp(pmetodo,'nlfvLPS')|| strcmp(pmetodo,'lfvLPEW')
@@ -113,10 +113,10 @@ elseif strcmp(pmetodo,'nlfvDMPSY')|| strcmp(pmetodo,'lfvHP') || ...
     % adequação dos nos flags de contorno
     nflagno= contflagno;
     %calculo de parametros
-    if strcmp(pmetodo,'lfvHP')
-        [gravresult,gravrate]=gravitationHP(kmap,grav_elem_escalar,...
-            gravface,pointarmonic,weightDMP,gravelem,parameter,nflagface);
-    end
+    %     if strcmp(pmetodo,'lfvHP')
+    %         [gravresult,gravrate]=gravitationHP(kmap,grav_elem_escalar,...
+    %             gravface,pointarmonic,weightDMP,gravelem,parameter,nflagface);
+    %     end
 elseif strcmp(pmetodo,'mpfad')
     
     % calculo das constantes fisicos-geometrico
@@ -133,7 +133,7 @@ else
 end
 %% calculo do termo gravitacional auxiliar
 if strcmp(gravitational,'yes')
-[~,gravrateaux]=gravitationaux(kmap,gravelem);
+    [~,gravrateaux]=gravitationaux(kmap,gravelem);
 end
 
 %% Calculo dos pesos
@@ -161,21 +161,21 @@ if strcmp(pmetodo,'nlfvLPEW')|| strcmp(pmetodo,'nlfvLPS') || ...
     end
     
     if strcmp(gravitational,'yes')
-    if strcmp(pmetodo,'mpfad')
-        
-            %     [gravresult,gravrate]=gravitationD(kmap,gravelem,gravface,Hesq, Kde,...
-            %                                      Kn,Kt,Ded,grav_elem_escalar,gravno,...
-            %                                      weight,nflagno,wg);
+        if strcmp(pmetodo,'mpfad')
             
-            [gravresult,gravrate]=gravitation(kmap,gravelem,gravface,Hesq, Kde,...
+            [gravresult,gravrate]=gravitationD(kmap,gravelem,gravface,Hesq, Kde,...
                 Kn,Kt,Ded,grav_elem_escalar,gravno,...
                 weight,nflagno,wg);
-    else
-        [gravresult,gravrate]=gravitationHP(kmap,grav_elem_escalar,...
-            gravface,pointarmonic,weightDMP,gravelem,parameter,nflagface); 
-    end
+            
+            %[gravresult,gravrate]=gravitation(kmap,gravelem,gravface,Hesq, Kde,...
+            %    Kn,Kt,Ded,grav_elem_escalar,gravno,...
+            %    weight,nflagno,wg);
+        else
+            [gravresult,gravrate]=gravitationHP(kmap,grav_elem_escalar,...
+                gravface,pointarmonic,weightDMP,gravelem,parameter,nflagface);
         end
     end
+    
 end
 
 end
