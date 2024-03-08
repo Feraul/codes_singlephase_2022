@@ -39,7 +39,7 @@ if strcmp(pmetodo,'nlfvLPEW')
     if strcmp(gravitational,'yes')
         [Hesq, Kde, Kn, Kt, Ded] = Kde_Ded_Kt_Kn(kmap);
     end
-    
+
 elseif strcmp(pmetodo,'nlfvLPS')|| strcmp(pmetodo,'lfvLPEW')
     %% calculo dos parametros ou constantes (ksi)
     % esta rutina estamos usando de 7/2/2016
@@ -53,10 +53,10 @@ elseif strcmp(pmetodo,'nlfvLPS')|| strcmp(pmetodo,'lfvLPEW')
         % outra maneira de calcular os pesos proposto no artigo
         %[weightDMP]=weightlfv(parameter);
     end
-    
+
 elseif strcmp(pmetodo,'interpfree')
     [parameter]=coeffinterpfree(kmap,F);
-    
+
 elseif strcmp(pmetodo,'nlfvPPS')
     %% calculo dos parametros ou constantes (ksi)
     % esta rutina estamos usando de 7/2/2016
@@ -65,7 +65,7 @@ elseif strcmp(pmetodo,'nlfvPPS')
     [parameter,calnormface]=coefficientLPSangle(kmap);
     % adequação dos flags de contorno
     nflagno= contflagno;
-    
+
     if strcmp(correction,'yes')
         if strcmp(typecorrection,'firstcorrection')
             % correcao utilizando express. simplificada
@@ -77,7 +77,7 @@ elseif strcmp(pmetodo,'nlfvPPS')
             % correcao dos pontos harmonicos segundo Kobaise
             [pointarmonic,weightDMP,raioaux]=thirdcorrectharmonic(kmap);
         end
-        
+
     else
         % calculoa dos pontos harmonicos sem correcao 'express. original'
         [pointarmonic,weightDMP,raioaux]=nocorrectharmonic(kmap);
@@ -86,7 +86,7 @@ elseif strcmp(pmetodo,'nlfvDMPSY')|| strcmp(pmetodo,'lfvHP') || ...
         strcmp(pmetodo,'nlfvDMPV1')|| strcmp(pmetodo,'nlfvHP')
     %% faces alrededor de um elemento
     [facelement]=element_face;
-    
+
     if strcmp(correction,'yes')
         if strcmp(typecorrection,'firstcorrection')
             % correcao utilizando express. simplificada
@@ -98,7 +98,7 @@ elseif strcmp(pmetodo,'nlfvDMPSY')|| strcmp(pmetodo,'lfvHP') || ...
             % correcao dos pontos harmonicos segundo Kobaise
             [pointarmonic,weightDMP,raioaux]=thirdcorrectharmonic(kmap);
         end
-        
+
     else
         % calculoa dos pontos harmonicos sem correcao 'express. original'
         [pointarmonic,weightDMP,raioaux]=nocorrectharmonic(kmap);
@@ -118,16 +118,16 @@ elseif strcmp(pmetodo,'nlfvDMPSY')|| strcmp(pmetodo,'lfvHP') || ...
     %             gravface,pointarmonic,weightDMP,gravelem,parameter,nflagface);
     %     end
 elseif strcmp(pmetodo,'mpfad')
-    
+
     % calculo das constantes fisicos-geometrico
     [Hesq, Kde, Kn, Kt, Ded] = Kde_Ded_Kt_Kn(kmap);
     % adequação dos flags de contorno
     nflagno= contflagno;
-    
+
 else
     % calculo das constantes fisicos-geometrico para o TPFA
     [Hesq, Kde, Kn, Kt, Ded] = Kde_Ded_Kt_Kn( kmap);
-    
+
     % adequação dos flags de contorno
     nflagface= contflagface;
 end
@@ -159,23 +159,23 @@ if strcmp(pmetodo,'nlfvLPEW')|| strcmp(pmetodo,'nlfvLPS') || ...
         % interpolaca LPEW2 proposto por Gao e Wu 2010
         [weight,contrcontor,wg] = Pre_LPEW_2(kmap,N,gravrateaux,gravelem,V);
     end
-    
+
     if strcmp(gravitational,'yes')
         if strcmp(pmetodo,'mpfad')
-            
-            [gravresult,gravrate]=gravitationD(kmap,gravelem,gravface,Hesq, Kde,...
+
+           % [gravresult,gravrate]=gravitationD(kmap,gravelem,gravface,Hesq, Kde,...
+           %     Kn,Kt,Ded,grav_elem_escalar,gravno,...
+           %     weight,nflagno,wg);
+
+            [gravresult,gravrate]=gravitation(kmap,gravelem,gravface,Hesq, Kde,...
                 Kn,Kt,Ded,grav_elem_escalar,gravno,...
                 weight,nflagno,wg);
-            
-            %[gravresult,gravrate]=gravitation(kmap,gravelem,gravface,Hesq, Kde,...
-            %    Kn,Kt,Ded,grav_elem_escalar,gravno,...
-            %    weight,nflagno,wg);
         else
             [gravresult,gravrate]=gravitationHP(kmap,grav_elem_escalar,...
                 gravface,pointarmonic,weightDMP,gravelem,parameter,nflagface);
         end
     end
-    
+
 end
 
 end

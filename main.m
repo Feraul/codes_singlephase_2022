@@ -57,7 +57,7 @@ erromethod='erromethod1';
 % nlfvHP    --> (NL-TPFA-H) metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='lfvHP';
+pmetodo='mpfad';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos nao lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
@@ -100,8 +100,8 @@ benchmark='starnonigrav1';
 gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
 % 'starnoni' ou 'inhouse' 
-strategy= 'starnoni';
-%strategy='GravConsist'; % ainda nao funciona
+%strategy= 'starnoni';
+strategy='GravConsist'; % ainda nao funciona
 
 %% adequacao das permeabilidades e otros parametros fisico-geometricos 
 %segundo cada caso ou problema
@@ -115,8 +115,9 @@ strategy= 'starnoni';
 [F,V,N]=elementface; % falta finalizar o tratamento (05-08-2022)
 %% pre-processador local
 [pointarmonic,parameter,gamma,p_old,tol,nit,nflagface,nflagno,...
-    weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,gravresult,gravrate,weight,s,wg]=...
-    preprocessorlocal(kmap,N,gravelem,gravface,gravno,grav_elem_escalar,V);
+    weightDMP,Hesq,Kde,Kn,Kt,Ded,auxface,calnormface,...
+    gravresult,gravrate,weight,s,wg]=preprocessorlocal(kmap,N,...
+    gravelem,gravface,gravno,grav_elem_escalar,V);
 
 % nao habilite
 %[aroundface]=aroundfacelement(F,pointarmonic);

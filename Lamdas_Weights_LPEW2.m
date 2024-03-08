@@ -41,7 +41,7 @@ else %Se for um nó do contorno.
     end
 end
 
-if size(P,1)==size(O,1)
+if size(P,1)==size(O,1) % quando o vertice estiver no interior da malha
     for k=1:nec
         if (k==nec)&&(size(P,1)==size(O,1))
             lambda(k)=Kn1(k,1)*netas(k,1)*zeta(k)+Kn1(k,2)*netas(k,2)*zeta(1);
