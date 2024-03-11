@@ -31,7 +31,7 @@ for ifacont=1:size(bedge,1)
             g(ifacont,1)=0;
         else
             if strcmp(benchmark,'starnonigrav1')
-                g(ifacont,1)=-dot((R*ve1')'*Klef,(gravelem(lef,:)));
+                g(ifacont,1)=dot((R*ve1')'*Klef,gravelem(lef,:));
                 
             else
                 g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
@@ -124,26 +124,19 @@ for iface=1:size(inedge,1)
         %aproximacao do termo grav do elemento R na face IJ
         gright=dot(RotH(vd1)'*K2,(gravelem(rel,:)));
         
-        %nec1=esurn2(no1+1)- esurn2(no1);
-        %g1=0;
         if nflagno(no1,1)>200
             g1=wg(no1);
         else
             g1=gravno(no1,1);
         end
-        %nec2=esurn2(no2+1)- esurn2(no2);
-        %g2=0;
-       
+        
         if nflagno(no2,1)>200
             g2=wg(no2);
         else
             g2=gravno(no2,1);
         end
-        
-        %========================================================================================
-        g(iface+size(bedge,1),1)=Kde*((H2/Kn2)*gright+(H1/Kn1)*gleft)-Kde*Ded*norm(vd1)*(g1-g2);
-        %========================================================================================
-    end
+        g(iface+size(bedge,1),1)=-Kde*((H2/Kn2)*gright+(H1/Kn1)*gleft)+Kde*Ded*norm(vd1)*(g2-g1);
+     end
     G(lef,1)=G(lef,1)-g(iface+size(bedge,1),1);
     G(rel,1)=G(rel,1)+g(iface+size(bedge,1),1);
 end

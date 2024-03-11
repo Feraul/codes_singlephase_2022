@@ -88,8 +88,8 @@ for iface=1:size(inedge,1)
 
     end
 
-    %Contabilização das contribuições dos nós que não estão na
-    %fronteiras de Dirichlet.
+    %Contabilizacao das contribuicoes dos vertices que nao perence
+    %contorno de Dirichlet.
     % first node
     if nflagno(inedge(iface,1),1)>200
         for j=1:(esurn2(inedge(iface,1)+1)-esurn2(inedge(iface,1)))
