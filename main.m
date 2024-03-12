@@ -57,7 +57,7 @@ erromethod='erromethod6';
 % nlfvHP    --> (NL-TPFA-H) metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='lfvHP';
+pmetodo='mpfad';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos nao lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
