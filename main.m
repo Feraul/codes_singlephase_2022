@@ -45,7 +45,7 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
 % erromethod3 --->  ''     ''     por Eigestad et al 2005
 % erromethod4 --->  ''     ''     por Shen e Yuan 2015
 % erromethod6 --->  ''     ''     por M. Starnoni 2019, para o caso gravitacional
-erromethod='erromethod1';
+erromethod='erromethod6';
 %% defina o tipo de metodo  
 % tpfa      --> (TPFA)
 % mpfad     --> (MPFA-D) 
@@ -57,7 +57,7 @@ erromethod='erromethod1';
 % nlfvHP    --> (NL-TPFA-H) metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='mpfad';
+pmetodo='lfvHP';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos nao lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
@@ -94,12 +94,12 @@ typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %benchmark='lepotier';
 %benchmark='shenyuan16';
 %benchmark='guangwei'; 
-benchmark='starnonigrav1';
+benchmark='starnonigrav2';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
 gravitational='yes';
 % quando pretende incluir termo gravitacional deve utilizar estrategia
-% 'starnoni' ou 'inhouse' 
+% 'starnoni'  
 %strategy= 'starnoni';
 strategy='GravConsist'; % ainda nao funciona
 

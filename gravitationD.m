@@ -1,5 +1,5 @@
 function [G,g]=gravitationD(kmap,gravelem,gravface,Hesq, Kde,Kn,Kt,Ded,...
-    grav_elem_escalar,gravno,w,nflagno,wg)
+    grav_elem_escalar,gravno,w,nflagno)
 global inedge bedge elem centelem coord normals strategy esurn1 esurn2 benchmark
 Klef=zeros(3,3);
 G=zeros(size(elem,1),1);
@@ -31,7 +31,7 @@ for ifacont=1:size(bedge,1)
             g(ifacont,1)=0;
         else
             if strcmp(benchmark,'starnonigrav1')
-                g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
+                g(ifacont,1)=-dot((R*ve1')'*Klef,(gravelem(lef,:)));
                 
             else
                 g(ifacont,1)=-dot((R*ve1')'*Klef,(gravelem(lef,:)));

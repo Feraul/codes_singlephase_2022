@@ -157,10 +157,10 @@ switch benchmark
             
             if y11>=0.5
                 % solucao analitica
-                gravface(j)= -11+h1*y11;
+                gravface(j,1:3)= [0 h1 0];
             else
                 % solucao analitica
-                gravface(j)= -6.5+h2*y11;
+                gravface(j,1:3)= [0 h2 0];
             end
         end
 

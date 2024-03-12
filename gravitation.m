@@ -20,18 +20,15 @@ for ifacont=1:size(bedge,1)
     Klef(2,2)=kmap(elem(lef,5),5);
     
     if  strcmp(strategy,'starnoni')
-        if bedge(ifacont,5)>200
-            g(ifacont,1)=dot((R*ve1')'*Klef,(gravface(ifacont,:)));
-        else
-            
+        
             g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
-        end
+       
     elseif strcmp(strategy,'GravConsist')
         if bedge(ifacont,5)>200
             g(ifacont,1)=0;
         else
             if strcmp(benchmark,'starnonigrav1')
-                g(ifacont,1)=dot((R*ve1')'*Klef,gravelem(lef,:));
+                g(ifacont,1)=-dot((R*ve1')'*Klef,gravelem(lef,:));
                 
             else
                 g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
