@@ -5,7 +5,8 @@ global inedge coord bedge bcflag
     mobilO=1;
     gravaux=zeros(size(inedge,1)+size(bedge,1),1);
     %% interpolação das pressões no pontos armonicos internos
-    gravaux(size(bedge,1)+1:size(bedge,1)+size(inedge,1),1)=weightDMP(:,1).*grav_elem_escalar(weightDMP(:,3))+ weightDMP(:,2).*grav_elem_escalar(weightDMP(:,4));
+    gravaux(size(bedge,1)+1:size(bedge,1)+size(inedge,1),1)=weightDMP(:,1)...
+        *grav_elem_escalar(weightDMP(:,3))+ weightDMP(:,2).*grav_elem_escalar(weightDMP(:,4));
     %% interpolação das pressões no pontos medios do contorno
     for ifacont=1:size(bedge,1)
         lef=bedge(ifacont,3);

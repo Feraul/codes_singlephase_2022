@@ -93,15 +93,14 @@ for iface=1:size(inedge,1)
         % calculo dos fluxo parcial a esquerda
         gaux1=gravaux(auxfacelef1);
         gaux2=gravaux(auxfacelef2);
-        
-        
+        % fluxo gravitacional: esquerda
         fluxesq=norma*((parameter(1,1,ifactual)+parameter(1,2,ifactual))*grav_elem_escalar(lef)-...
             parameter(1,1,ifactual)*gaux1-parameter(1,2,ifactual)*gaux2);
-        % calculo dos fluxo parcial a direita
+        % calculo dos fluxo parcial direita
         
         gaux3=gravaux(auxfacerel1);
         gaux4=gravaux(auxfacerel2);
-        
+        % fluxo gravitacional: direita
         fluxdireit=norma*((parameter(2,1,ifactual)+parameter(2,2,ifactual))*grav_elem_escalar(rel)-...
             parameter(2,1,ifactual)*gaux3-parameter(2,2,ifactual)*gaux4);
         % Calculo das contribuições do elemento a esquerda
