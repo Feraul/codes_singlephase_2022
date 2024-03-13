@@ -31,7 +31,7 @@ for ifacont=1:size(bedge,1)
                 g(ifacont,1)=-dot((R*ve1')'*Klef,gravelem(lef,:));
                 
             else
-                g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
+                g(ifacont,1)=-dot((R*ve1')'*Klef,(gravelem(lef,:)));
             end
         end
         
