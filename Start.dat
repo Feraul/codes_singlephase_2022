@@ -14,7 +14,7 @@
 
 //Do you have a mesh file? [y] ==> "yes"; [n] ==> "no"
 
-y
+n
 
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
@@ -26,7 +26,7 @@ est_quad_4_Neum.msh
 //IMPORTANT: if the file is puted into folder which contain the *.m
 //files, write in the statment below "no path".
 
-C:\Users\flc59\Documents\GitHub\codes_singlephase_2022
+C:\Users\flc59\Documents\codes_singlephase_2022
 
 //If [n] write, immediately below, the path which conduct to  
 //folder where the *.m files is:
@@ -91,13 +91,13 @@ y
 //and two geometric tag)
 
 1
-3 1 1 3
+9 1 1 3
 
 //Direction "y" (number of statments, number of points, growth rate 
 //and two geometric tag)
 
 1
-3 1 2 4
+9 1 2 4
 
 //IMPORTANT: In case where there are two or more properties to long
 //domain, the user must take care during attribution of parameters 
@@ -370,9 +370,9 @@ porosity.dat
 //declared below and so on.
 
 3
-101 0
-102 1
 201 0
+101 1
+102 0
 
 //--------------------------------------------------------------------
 //Tratment of boundary points
@@ -388,8 +388,8 @@ porosity.dat
 //group reported to points will be associated with 1st code written
 //below.
 
-3
-101 102 201
+2
+101 102 
 
 //--------------------------------------------------------------------
 //----------------------- Convergence criteria -----------------------

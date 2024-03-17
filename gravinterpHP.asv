@@ -4,10 +4,9 @@ global inedge coord bedge bcflag
     mobil=1;
     mobilO=1;
     gravaux=zeros(size(inedge,1)+size(bedge,1),1);
-    %% interpolaÁ„o das pressıes no pontos armonicos internos
-    gravaux(size(bedge,1)+1:size(bedge,1)+size(inedge,1),1)=weightDMP(:,1)...
-        *grav_elem_escalar(weightDMP(:,3))+ weightDMP(:,2).*grav_elem_escalar(weightDMP(:,4));
-    %% interpolaÁ„o das pressıes no pontos medios do contorno
+    %% interpola√ß√£o das press√µes no pontos armonicos internos
+    gravaux(size(bedge,1)+1:size(bedge,1)+size(inedge,1),1)=weightDMP(:,1).*grav_elem_escalar(weightDMP(:,3))+ weightDMP(:,2).*grav_elem_escalar(weightDMP(:,4));
+    %% interpola√ß√£o das press√µes no pontos medios do contorno
     for ifacont=1:size(bedge,1)
         lef=bedge(ifacont,3);
         
@@ -33,7 +32,7 @@ global inedge coord bedge bcflag
             % calcula o fluxo na face "ifacelef2"
             fluxoN=normcont*bcflag(r,2);
             %mobil=mobility(ifacont);
-            % "faceoposto" È aquele face oposto ao "ifacont"
+            % "faceoposto" √© aquele face oposto ao "ifacont"
             if faceoposto<size(bedge,1) || faceoposto==size(bedge,1)
                 % faceoposto pode ser contorno de Dirichlet
                 if nflagface(faceoposto,1)<200
@@ -88,7 +87,7 @@ global inedge coord bedge bcflag
                 
                 termo2=(fluxoN/(mobil*normcont*atualksi));
                 
-                % Calculo das contribuiÁıes do elemento a esquerda
+                % Calculo das contribui√ß√µes do elemento a esquerda
                 auxweightlef1=weightDMP(faceoposto-size(bedge,1),1);
                 auxweightlef2=weightDMP(faceoposto-size(bedge,1),2);
                 

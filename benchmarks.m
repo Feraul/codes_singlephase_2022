@@ -287,31 +287,40 @@ switch benchmark
             end
             
         end
-%         
-%         for jj=1:size(bedge,1)+size(inedge,1)
-%             %Define "x" and "y"
-%             if jj<=size(bedge,1)
-%                 v1=bedge(jj,1);
-%                 v2=bedge(jj,2);
-%             else
-%                 v1=inedge(jj-size(bedge,1),1);
-%                 v2=inedge(jj-size(bedge,1),2);
-%             end
-%             a=0.5*(coord(v1,:)+coord(v2,:));
-%             x11=a(1,1);
-%             y11=a(1,2);
-%            
-%             if single(y11)>0.5
-%                 
-%                 % solucao analitica
-%                 aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h1, 0];
-%             else
-%                 % solucao analitica
-%                aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h2,0];
-%                 
-%             end
-%             gravface(jj,:)=aaa;
-%         end
+        
+        for jj=1:size(bedge,1)+size(inedge,1)
+            %Define "x" and "y"
+            if jj<=size(bedge,1)
+                v1=bedge(jj,1);
+                v2=bedge(jj,2);
+            else
+                v1=inedge(jj-size(bedge,1),1);
+                v2=inedge(jj-size(bedge,1),2);
+            end
+            a=0.5*(coord(v1,:)+coord(v2,:));
+            x11=a(1,1);
+            y11=a(1,2);
+           
+            if single(y11)>0.5
+                
+                % solucao analitica
+                aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h1, 0];
+            else
+                % solucao analitica
+               aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h2,0];
+                
+            end
+            if single(y11)>0.5
+                
+                % solucao analitica
+                gravface(jj,1)= -sin(x11)*cos(y11)-11+h1*y11;
+            else
+                % solucao analitica
+                gravface(jj,1)= -sin(x11)*cos(y11)-6.5+h2*y11;
+                
+            end
+            
+        end
 %          for j=1:size(bedge,1)+size(inedge,1)
 %             %Define "x" and "y"
 %             if j<=size(bedge,1)
@@ -393,27 +402,35 @@ switch benchmark
             
         end
         
-%         for jj=1:size(bedge,1)+size(inedge,1)
-%             %Define "x" and "y"
-%             if jj<=size(bedge,1)
-%                 v1=bedge(jj,1);
-%                 v2=bedge(jj,2);                
-%             else
-%                 v1=inedge(jj-size(bedge,1),1);
-%                 v2=inedge(jj-size(bedge,1),2);
-%             end
-%             a=0.5*(coord(v1,:)+coord(v2,:));
-%             x11=a(1,1);
-%             y11=a(1,2);
-%             
-%             if single(y11)>0.5
-%                bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h1];
-%             else
-%                bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h2];
-%                 
-%             end           
-%            gravface(jj,1:2)=bbb; 
-%         end
+        for jj=1:size(bedge,1)+size(inedge,1)
+            %Define "x" and "y"
+            if jj<=size(bedge,1)
+                v1=bedge(jj,1);
+                v2=bedge(jj,2);                
+            else
+                v1=inedge(jj-size(bedge,1),1);
+                v2=inedge(jj-size(bedge,1),2);
+            end
+            a=0.5*(coord(v1,:)+coord(v2,:));
+            x11=a(1,1);
+            y11=a(1,2);
+            
+            if single(y11)>0.5
+               bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h1];
+            else
+               bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h2];
+                
+            end           
+           if single(y11)>0.5
+                
+                % solucao analitica
+                gravface(jj,1)= -100*sin(x11)*cos(y11)-11+h1*y11;
+            else
+                % solucao analitica
+                gravface(jj,1)= -100*sin(x11)*cos(y11)-6.5+h2*y11;
+                
+            end
+        end
         
         K=kmap;
         elem(:,5)=1;
