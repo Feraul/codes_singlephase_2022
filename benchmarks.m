@@ -2,8 +2,8 @@
 % exemplo: tensor de permeabilidade (kmap), pressão analitica (u), termos de fonte (fonte),
 % velocidade analitica (vel),gravidade (grav)
 function[elem,kmap,normKmap,u,bedge,fonte,vel,grav,gravno,gravface,...
-                          grav_elem_escalar]=benchmarks(kmap,elem,bedge)
-global centelem coord inedge normals elemarea bcflag benchmark 
+    grav_elem_escalar]=benchmarks(kmap,elem,bedge)
+global centelem coord inedge normals elemarea bcflag benchmark
 normKmap=0;
 vel=0;
 u=0;
@@ -122,16 +122,16 @@ switch benchmark
                 nij=R*IJ'/norma;
                 
                 ym=a(1,2);
-               
-                    if ym>=0.5
-                        h1=10;
-                        V=-[-0.1*0 -0 0];
-                    else
-                        h2=1;
-                        V=-[-0.1*0 -0 0];
-                    end
                 
-            %Obtain the flow rate
+                if ym>=0.5
+                    h1=10;
+                    V=-[-0.1*0 -0 0];
+                else
+                    h2=1;
+                    V=-[-0.1*0 -0 0];
+                end
+                
+                %Obtain the flow rate
                 
             else
                 v1=inedge(j-size(bedge,1),1);
@@ -145,10 +145,10 @@ switch benchmark
                 ym=a(1,2);
                 if ym>=0.5
                     h1=10;
-                V=-[-0.1*0 0 0];
+                    V=-[-0.1*0 0 0];
                 else
                     h2=1;
-                V=-[-0.1*0 -0 0];    
+                    V=-[-0.1*0 -0 0];
                 end
             end
             F(j,1) = dot(V,nij');
@@ -157,18 +157,18 @@ switch benchmark
             
             if y11>=0.5
                 % solucao analitica
-                gravface(j,1:3)= [0 h1 0];
+                gravface(j)= -11+h1*y11;
             else
                 % solucao analitica
-                gravface(j,1:3)= [0 h2 0];
+                gravface(j)= -6.5+h2*y11;
             end
         end
-
+        
         vel=F;
         K=kmap;
         elem(:,5)=1;
     case 'starnonigrav2'
-         R=[0 1 0; -1 0 0; 0 0 0];
+        R=[0 1 0; -1 0 0; 0 0 0];
         for i = 1:size(centelem,1)
             %Define "x" and "y"
             x = centelem(i,1);
@@ -220,7 +220,7 @@ switch benchmark
                 v2=inedge(j-size(bedge,1),2);
                 a=0.5*(coord(v1,:)+coord(v2,:));
                 % calculo da velocidade
-                IJ=coord(v1,:)-coord(v2,:);  
+                IJ=coord(v1,:)-coord(v2,:);
             end
             norma=norm(IJ);
             nij=R*IJ'/norma;
@@ -228,20 +228,20 @@ switch benchmark
             % velocidade_gravitacional, embora essa soma foi zero porque
             % g=-grad(p).
             V=-[cos(a(1,1))*cos(a(1,2))-0.1*sin(a(1,1))*sin(a(1,2)),...
-                   0.1*cos(a(1,1))*cos(a(1,2))-sin(a(1,1))*sin(a(1,2)),0]+...
-                   [cos(a(1,1))*cos(a(1,2))-0.1*sin(a(1,1))*sin(a(1,2)),...
-                   0.1*cos(a(1,1))*cos(a(1,2))-sin(a(1,1))*sin(a(1,2)),0];
+                0.1*cos(a(1,1))*cos(a(1,2))-sin(a(1,1))*sin(a(1,2)),0]+...
+                [cos(a(1,1))*cos(a(1,2))-0.1*sin(a(1,1))*sin(a(1,2)),...
+                0.1*cos(a(1,1))*cos(a(1,2))-sin(a(1,1))*sin(a(1,2)),0];
             F(j,1) = dot(V,nij');
             x11=a(1,1);
             y11=a(1,2);
             % parametro segundo  Starnoni
             
-           
-                % solucao analitica
-                gravface(j)= -1- sin(x11)*cos(y11);
-           
+            
+            % solucao analitica
+            gravface(j)= -1- sin(x11)*cos(y11);
+            
         end
-
+        
         vel=F;
         K=kmap;
         elem(:,5)=1;
@@ -300,14 +300,14 @@ switch benchmark
             a=0.5*(coord(v1,:)+coord(v2,:));
             x11=a(1,1);
             y11=a(1,2);
-           
+            
             if single(y11)>0.5
                 
                 % solucao analitica
                 aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h1, 0];
             else
                 % solucao analitica
-               aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h2,0];
+                aaa= [-cos(x11)*cos(y11), sin(x11)*sin(y11)+h2,0];
                 
             end
             if single(y11)>0.5
@@ -321,49 +321,49 @@ switch benchmark
             end
             
         end
-%          for j=1:size(bedge,1)+size(inedge,1)
-%             %Define "x" and "y"
-%             if j<=size(bedge,1)
-%                 v1=bedge(j,1);
-%                 v2=bedge(j,2);
-%                 a=0.5*(coord(v1,:)+coord(v2,:));
-%                 % calculo da velocidade
-%                 IJ=coord(v1,:)-coord(v2,:);
-%             else
-%                 v1=inedge(j-size(bedge,1),1);
-%                 v2=inedge(j-size(bedge,1),2);
-%                 a=0.5*(coord(v1,:)+coord(v2,:));
-%                 % calculo da velocidade
-%                 IJ=coord(v1,:)-coord(v2,:);  
-%             end
-%             y111=a(1,2);
-%             if single(y111)>0.5
-%                 V=-[cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h1),...
-%                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h1),0]+...
-%                    [cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h1),...
-%                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h1),0];
-%             else
-%                V=-[cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h2),...
-%                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h2),0]+...
-%                    [cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h2),...
-%                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h2),0]; 
-%             end
-%             norma=norm(IJ);
-%             nij=R*IJ'/norma;
-%             % note que a velocidade analitica: velocidade_pressao +
-%             % velocidade_gravitacional, embora essa soma sera zero porque
-%             % g=-grad(p).
-%             
-%             F(j,1) = dot(V,nij'); 
-%         end
-% 
-%         vel=F;
+        %          for j=1:size(bedge,1)+size(inedge,1)
+        %             %Define "x" and "y"
+        %             if j<=size(bedge,1)
+        %                 v1=bedge(j,1);
+        %                 v2=bedge(j,2);
+        %                 a=0.5*(coord(v1,:)+coord(v2,:));
+        %                 % calculo da velocidade
+        %                 IJ=coord(v1,:)-coord(v2,:);
+        %             else
+        %                 v1=inedge(j-size(bedge,1),1);
+        %                 v2=inedge(j-size(bedge,1),2);
+        %                 a=0.5*(coord(v1,:)+coord(v2,:));
+        %                 % calculo da velocidade
+        %                 IJ=coord(v1,:)-coord(v2,:);
+        %             end
+        %             y111=a(1,2);
+        %             if single(y111)>0.5
+        %                 V=-[cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h1),...
+        %                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h1),0]+...
+        %                    [cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h1),...
+        %                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h1),0];
+        %             else
+        %                V=-[cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h2),...
+        %                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h2),0]+...
+        %                    [cos(a(1,1))*cos(a(1,2))-0.1*(sin(a(1,1))*sin(a(1,2))+h2),...
+        %                    0.1*cos(a(1,1))*cos(a(1,2))-(sin(a(1,1))*sin(a(1,2))+h2),0];
+        %             end
+        %             norma=norm(IJ);
+        %             nij=R*IJ'/norma;
+        %             % note que a velocidade analitica: velocidade_pressao +
+        %             % velocidade_gravitacional, embora essa soma sera zero porque
+        %             % g=-grad(p).
+        %
+        %             F(j,1) = dot(V,nij');
+        %         end
+        %
+        %         vel=F;
         K=kmap;
         elem(:,5)=1;
     case 'starnonigrav4'
         % parametro segundo  Starnoni
-            h1=10;
-            h2=1;
+        h1=10;
+        h2=1;
         for i = 1:size(centelem,1)
             %Define "x" and "y"
             x = centelem(i,1);
@@ -373,7 +373,7 @@ switch benchmark
                 
                 % solucao analitica
                 u(i,1)= 100*sin(x)*cos(y)+11-h1*y;
-               
+                
                 % calculo do gravidade
                 grav(i,:)=[-100*cos(x)*cos(y) h1+100*sin(x)*sin(y) 0];
                 grav_elem_escalar(i,1)=-100*sin(x)*cos(y)-11+h1*y;
@@ -406,7 +406,7 @@ switch benchmark
             %Define "x" and "y"
             if jj<=size(bedge,1)
                 v1=bedge(jj,1);
-                v2=bedge(jj,2);                
+                v2=bedge(jj,2);
             else
                 v1=inedge(jj-size(bedge,1),1);
                 v2=inedge(jj-size(bedge,1),2);
@@ -416,12 +416,12 @@ switch benchmark
             y11=a(1,2);
             
             if single(y11)>0.5
-               bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h1];
+                bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h1];
             else
-               bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h2];
+                bbb= [-100*cos(x11)*cos(y11), 100*sin(x11)*sin(y11)+h2];
                 
-            end           
-           if single(y11)>0.5
+            end
+            if single(y11)>0.5
                 
                 % solucao analitica
                 gravface(jj,1)= -100*sin(x11)*cos(y11)-11+h1*y11;
@@ -1419,21 +1419,21 @@ switch benchmark
         % contorno interior
         % unstructured mesh com furo reordenando o sentido da fronterira no
         % contorno interior
-%          x=bedge(71:78,1); % UTILIZE Benchmark23_3_18_18.msh
-%          y=bedge(71:78,2);
-%          bedge(71:78,1)=y;
-%          bedge(71:78,2)=x;
-%          bedge(71:78,4:5)=102; % 18x18
-%          bcflag(2,1)=102;
-%          bcflag(2,2)=2;
+        %          x=bedge(71:78,1); % UTILIZE Benchmark23_3_18_18.msh
+        %          y=bedge(71:78,2);
+        %          bedge(71:78,1)=y;
+        %          bedge(71:78,2)=x;
+        %          bedge(71:78,4:5)=102; % 18x18
+        %          bcflag(2,1)=102;
+        %          bcflag(2,2)=2;
         %=====================================
-%          x=bedge(73:80,1); % UTILIZE MeshTri18sym.msh
-%          y=bedge(73:80,2);
-%          bedge(73:80,1)=y;
-%          bedge(73:80,2)=x;
-%          bedge(73:80,4:5)=102; % 18x18
-%          bcflag(2,1)=102;
-%          bcflag(2,2)=2;
+        %          x=bedge(73:80,1); % UTILIZE MeshTri18sym.msh
+        %          y=bedge(73:80,2);
+        %          bedge(73:80,1)=y;
+        %          bedge(73:80,2)=x;
+        %          bedge(73:80,4:5)=102; % 18x18
+        %          bcflag(2,1)=102;
+        %          bcflag(2,2)=2;
         
         %=====================================
         %
@@ -1456,13 +1456,13 @@ switch benchmark
         %===============================================================
         % unstructured mesh com furo reordenando o sentido da fronterira no
         % contorno interior
-%         x=bedge(289:320,1);
-%         y=bedge(289:320,2);
-%         bedge(289:320,1)=y;
-%         bedge(289:320,2)=x;
-%         bedge(289:320,4:5)=102; % benchmark23_3 72x72
-%         bcflag(2,1)=102;
-%         bcflag(2,2)=2;
+        %         x=bedge(289:320,1);
+        %         y=bedge(289:320,2);
+        %         bedge(289:320,1)=y;
+        %         bedge(289:320,2)=x;
+        %         bedge(289:320,4:5)=102; % benchmark23_3 72x72
+        %         bcflag(2,1)=102;
+        %         bcflag(2,2)=2;
         
         % unstructured mesh com furo reordenando o sentido da fronterira no
         % contorno interior
@@ -1762,14 +1762,14 @@ switch benchmark
             k=1;
             u(i,1)=sin(pi*x)*sin(pi*y);
             % in the article Zhang Kobaise 2019, consider:
-%             fonte(i,1)=elemarea(i,1)*(pi/(x^2+y^2))*(-(alfa - 1)*x*...
-%                 cos(pi*x)*(2*pi*y*...
-%                 cos(pi*y) + sin(pi*y)) + ...
-%                 sin(pi*x)*(-(alfa - 1)*y*...
-%                 cos(pi*y) + (1 + alfa)*pi*((x^2) + (y^2))*...
-%                 sin(pi*y)));
-%             k = (1/((x^2) + (y^2)));
-%             u(i,1)=sin(pi*x)*sin(pi*y)+1;
+            %             fonte(i,1)=elemarea(i,1)*(pi/(x^2+y^2))*(-(alfa - 1)*x*...
+            %                 cos(pi*x)*(2*pi*y*...
+            %                 cos(pi*y) + sin(pi*y)) + ...
+            %                 sin(pi*x)*(-(alfa - 1)*y*...
+            %                 cos(pi*y) + (1 + alfa)*pi*((x^2) + (y^2))*...
+            %                 sin(pi*y)));
+            %             k = (1/((x^2) + (y^2)));
+            %             u(i,1)=sin(pi*x)*sin(pi*y)+1;
             elem(i,5)=i;
             kmap(i,1:5)=[i k*(alfa*x^2+y^2) k*((alfa-1)*x*y) k*((alfa-1)*x*y) k*(x^2+alfa*y^2)];
         end
