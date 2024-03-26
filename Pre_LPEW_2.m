@@ -1,4 +1,4 @@
-function [ w,s,wg] = Pre_LPEW_2(kmap,N,gravrate,gravelem,V)
+function [ w,s,wg] = Pre_LPEW_2(kmap,N,gravrate,gradgravelem,V)
 global coord bcflag bedge nsurn1 nsurn2 gravitational esurn1 esurn2 elem
 % devolve os pesos "w" cujos elementos são organizados em um vetor
 %Retorna todos os parâmetros necessários às expressões dos fluxos.
@@ -25,9 +25,9 @@ for No=1:size(coord,1)
     [ ve2, ve1, theta2, theta1 ] = angulos_Interp_LPEW2( O, P, T, Qo,No );
     % calculas as netas uma relacao de de alturas
     
-    [ neta,gaux] = netas_Interp_LPEW( O, P, T, Qo, No,kmap,gravelem);
+    [ neta,gaux] = netas_Interp_LPEW( O, P, T, Qo, No,kmap,gradgravelem);
     % calculas as projecoes normais em torno do nó "No"
-    [ Kt1, Kt2, Kn1, Kn2,gaux3 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, No,gravelem);
+    [ Kt1, Kt2, Kn1, Kn2,gaux3 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, No,gradgravelem);
     % calcula os lambdas
     [ lambda,r,gaux2 ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
         theta2, ve1, ve2, neta, P, O,r,gaux);
@@ -45,7 +45,7 @@ for No=1:size(coord,1)
         K(1,2) = kmap(elem(j,5),3);
         K(2,1) = kmap(elem(j,5),4);
         K(2,2) = kmap(elem(j,5),5);
-        m=m+dot((K*gravelem(j,:)')',gaux2(i,:));
+        m=m+dot((K*gradgravelem(j,:)')',gaux2(i,:));
     end
     wg(No,1)=m/sum(lambda);
     %wg(No,1)=(sum(gaux3)+m)/sum(lambda);

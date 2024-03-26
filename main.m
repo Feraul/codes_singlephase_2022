@@ -83,9 +83,9 @@ interpol='LPEW2';
 % digite 'yes' ou 'no'
 correction='no';
 % qual tipo de correcao deseja utilizar
-%typecorrection='firstcorrection'; % correcao utilizando express. simplif.
+typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %typecorrection= 'secondcorrection'; % correcao utilizando ponto medio da face
-typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
+%typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %% digite segundo o benchmark
 % procure o teste que deseja rodar no arquivo "benchmarks.m"
 %benchmark='edwards';
@@ -94,7 +94,7 @@ typecorrection='thirdcorrection'; % correcao utilizando metodo Kobaise
 %benchmark='lepotier';
 %benchmark='shenyuan16';
 %benchmark='guangwei'; 
-benchmark='starnonigrav2';
+benchmark='starnonigrav4';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
 gravitational='yes';

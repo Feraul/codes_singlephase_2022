@@ -1,4 +1,4 @@
-function [G,g]=gravitation(kmap,gravelem,gravface,Hesq, Kde,Kn,Kt,Ded,...
+function [G,g]=gravitation(kmap,gradgravelem,gravface,Hesq, Kde,Kn,Kt,Ded,...
     grav_elem_escalar,gravno,w,nflagno,wg)
 global inedge bedge elem centelem coord normals strategy esurn1 esurn2 benchmark
 Klef=zeros(3,3);
@@ -21,23 +21,18 @@ for ifacont=1:size(bedge,1)
     
     if  strcmp(strategy,'starnoni')
         
-            g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
-       
+        g(ifacont,1)=dot((R*ve1')'*Klef,(gradgravelem(lef,:)));
+        
     elseif strcmp(strategy,'GravConsist')
         if bedge(ifacont,5)>200
             g(ifacont,1)=0;
         else
-            if strcmp(benchmark,'starnonigrav1')
-                g(ifacont,1)=-dot((R*ve1')'*Klef,gravelem(lef,:));
-                
-            else
-                g(ifacont,1)=-dot((R*ve1')'*Klef,(gravelem(lef,:)));
-            end
+            g(ifacont,1)=-dot((R*ve1')'*Klef,gradgravelem(lef,:));
         end
         
     else
         %g(ifacont,1)=dot((R*ve1')'*Klef,(gravface(ifacont,:)));
-        g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
+        g(ifacont,1)=dot((R*ve1')'*Klef,(gradgravelem(lef,:)));
     end
     G(lef,1)=G(lef,1)-g(ifacont,1);
     
@@ -70,7 +65,7 @@ for iface=1:size(inedge,1)
         K4(2,2)=kmap(elem(rel,5),5);
         vd1=coord(inedge(iface,2),1:2)-coord(inedge(iface,1),1:2);
         Keq=inv((dj1*inv(K3)+dj2*inv(K4))); % equation 21
-        graveq=((dj1*gravelem(lef,1:2)+dj2*gravelem(rel,1:2))'); % equation 22
+        graveq=((dj1*gradgravelem(lef,1:2)+dj2*gradgravelem(rel,1:2))'); % equation 22
         g(iface+size(bedge,1),1)=dot(((R1*vd1')')*Keq, graveq);% equation 20
     elseif strcmp(strategy,'GravConsist')
         %Determinação dos centróides dos elementos à direita e à esquerda.
@@ -111,15 +106,15 @@ for iface=1:size(inedge,1)
         Kn2 = (RotH(vd1)'*K2*RotH(vd1))/norm(vd1)^2;
         Kt2 = (RotH(vd1)'*K2*(vd1)')/norm(vd1)^2;
         
-        Kde = ((Kn1*Kn2))/(Kn1*H2 + Kn2*H1);
+        Kde1 = -((Kn1*Kn2))/(Kn1*H2 + Kn2*H1);
         % Ded: é uma constante que tem constantes geometricas + contantes
         % tangeciais
-        Ded = (dot(vd1,vcen)/norm(vd1)^2) -...
+        Ded1 = (dot(vd1,vcen)/norm(vd1)^2) -...
             (1/norm(vd1))*((Kt2/Kn2)*H2 + (Kt1/Kn1)*H1);
         %aproximacao do termo grav do elemento L na face IJ
-        gleft=dot(RotH(vd1)'*K1,(gravelem(lef,:)));
+        gleft=dot(RotH(vd1)'*K1,(gradgravelem(lef,:)));
         %aproximacao do termo grav do elemento R na face IJ
-        gright=dot(RotH(vd1)'*K2,(gravelem(rel,:)));
+        gright=dot(RotH(vd1)'*K2,(gradgravelem(rel,:)));
         
         if nflagno(no1,1)>200
             g1=wg(no1);
@@ -132,8 +127,9 @@ for iface=1:size(inedge,1)
         else
             g2=gravno(no2,1);
         end
-        g(iface+size(bedge,1),1)=-Kde*((H2/Kn2)*gright+(H1/Kn1)*gleft)+Kde*Ded*norm(vd1)*(g2-g1);
-     end
+        
+        g(iface+size(bedge,1),1)=Kde1*((H2/Kn2)*gright+(H1/Kn1)*gleft-Ded1*norm(vd1)*(g2-g1));
+    end
     G(lef,1)=G(lef,1)-g(iface+size(bedge,1),1);
     G(rel,1)=G(rel,1)+g(iface+size(bedge,1),1);
 end

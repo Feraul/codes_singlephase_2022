@@ -23,8 +23,8 @@ for ifacont=1:size(bedge,1)
         %if bedge(ifacont,5)>200
         %    g(ifacont,1)=dot((R*ve1')'*Klef,(gravface(ifacont,:)));
         %else
-            
-            g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
+        
+        g(ifacont,1)=dot((R*ve1')'*Klef,(gravelem(lef,:)));
         %end
     elseif strcmp(strategy,'GravConsist')
         if bedge(ifacont,5)>200
@@ -78,48 +78,48 @@ for iface=1:size(inedge,1)
     elseif strcmp(strategy,'GravConsist')
         %Determinação dos centróides dos elementos à direita e à esquerda.
         %====================================================================================
-        %         C1 = centelem(inedge(iface,3),:); % baricentro do elemento a esquerda
-        %         C2 = centelem(inedge(iface,4),:); % baricentro do elemento direito
-        %         vcen = C2 - C1;
-        %         vd1 = coord(inedge(iface,2),:) - coord(inedge(iface,1),:);
-        %         ve2 = C1 - coord(inedge(iface,1),:);
-        %         vd2 = C2 - coord(inedge(iface,1),:);     %Do início da aresta até o
-        %         %centro da célula da direita.
+        %                 C1 = centelem(inedge(iface,3),:); % baricentro do elemento a esquerda
+        %                 C2 = centelem(inedge(iface,4),:); % baricentro do elemento direito
+        %                 vcen = C2 - C1;
+        %                 vd1 = coord(inedge(iface,2),:) - coord(inedge(iface,1),:);
+        %                 ve2 = C1 - coord(inedge(iface,1),:);
+        %                 vd2 = C2 - coord(inedge(iface,1),:);     %Do início da aresta até o
+        %                 %centro da célula da direita.
         %
-        %         ce = cross(vd1,ve2);
-        %         H1 = norm(ce)/norm(vd1); % altura a esquerda
-        %         %Determinação das alturas dos centróides dos elementos à direita e à%
-        %         %esquerda.                                                          %
-        %         cd = cross(vd1,vd2);
-        %         H2 = norm(cd)/norm(vd1); % altura a direita
-        %         % tensor de permeabilidade do elemento a esquerda
+        %                 ce = cross(vd1,ve2);
+        %                 H1 = norm(ce)/norm(vd1); % altura a esquerda
+        %                 %Determinação das alturas dos centróides dos elementos à direita e à%
+        %                 %esquerda.                                                          %
+        %                 cd = cross(vd1,vd2);
+        %                 H2 = norm(cd)/norm(vd1); % altura a direita
+        %                 % tensor de permeabilidade do elemento a esquerda
         %
-        %         K1(1,1)=kmap(elem(lef,5),2);
-        %         K1(1,2)=kmap(elem(lef,5),3);
-        %         K1(2,1)=kmap(elem(lef,5),4);
-        %         K1(2,2)=kmap(elem(lef,5),5);
+        %                 K1(1,1)=kmap(elem(lef,5),2);
+        %                 K1(1,2)=kmap(elem(lef,5),3);
+        %                 K1(2,1)=kmap(elem(lef,5),4);
+        %                 K1(2,2)=kmap(elem(lef,5),5);
         %
-        %         % tensor de permeabilidade do elemento a direita
+        %                 % tensor de permeabilidade do elemento a direita
         %
-        %         K2(1,1)=kmap(elem(rel,5),2);
-        %         K2(1,2)=kmap(elem(rel,5),3);
-        %         K2(2,1)=kmap(elem(rel,5),4);
-        %         K2(2,2)=kmap(elem(rel,5),5);
-        %         % calculo das constantes tangenciais e normais em cada face interna
-        %         Kn1 = (RotH(vd1)'*K1*RotH(vd1))/norm(vd1)^2;
-        %         Kt1 = (RotH(vd1)'*K1*(vd1)')/norm(vd1)^2;
+        %                 K2(1,1)=kmap(elem(rel,5),2);
+        %                 K2(1,2)=kmap(elem(rel,5),3);
+        %                 K2(2,1)=kmap(elem(rel,5),4);
+        %                 K2(2,2)=kmap(elem(rel,5),5);
+        %                 % calculo das constantes tangenciais e normais em cada face interna
+        %                 Kn1 = (RotH(vd1)'*K1*RotH(vd1))/norm(vd1)^2;
+        %                 Kt1 = (RotH(vd1)'*K1*(vd1)')/norm(vd1)^2;
         %
-        %         Kn2 = (RotH(vd1)'*K2*RotH(vd1))/norm(vd1)^2;
-        %         Kt2 = (RotH(vd1)'*K2*(vd1)')/norm(vd1)^2;
+        %                 Kn2 = (RotH(vd1)'*K2*RotH(vd1))/norm(vd1)^2;
+        %                 Kt2 = (RotH(vd1)'*K2*(vd1)')/norm(vd1)^2;
         %
-        %         Kde1 = ((Kn1*Kn2))/(Kn1*H2 + Kn2*H1);
-        %         % Ded: é uma constante que tem constantes geometricas + contantes
-        %         % tangeciais
-        %         Ded1 = (dot(vd1,vcen)/norm(vd1)^2) -(1/norm(vd1))*((Kt2/Kn2)*H2 + (Kt1/Kn1)*H1);
-        %         %aproximacao do termo grav do elemento L na face IJ
-        %         gleft=dot(RotH(vd1)'*K1,(gravelem(lef,:)));
-        %         %aproximacao do termo grav do elemento R na face IJ
-        %         gright=dot(RotH(vd1)'*K2,(gravelem(rel,:)));
+        %                 Kde1 = -((Kn1*Kn2))/(Kn1*H2 + Kn2*H1);
+        %                 % Ded: é uma constante que tem constantes geometricas + contantes
+        %                 % tangeciais
+        %                 Ded1 = (dot(vd1,vcen)/norm(vd1)^2) -(1/norm(vd1))*((Kt2/Kn2)*H2 + (Kt1/Kn1)*H1);
+        %                 %aproximacao do termo grav do elemento L na face IJ
+        %                 gleft=dot(RotH(vd1)'*K1,(gravelem(lef,:)));
+        %                 %aproximacao do termo grav do elemento R na face IJ
+        %                 gright=dot(RotH(vd1)'*K2,(gravelem(rel,:)));
         %         if nflagno(no1,1)>200
         %             g1=wg(no1);
         %         else
@@ -158,7 +158,7 @@ for iface=1:size(inedge,1)
         end
         
         %========================================================================================
-        %g(iface+size(bedge,1),1)=Kde*((H2/Kn2)*gright+(H1/Kn1)*gleft)-Kde*Ded*norm(vd1)*(g2-g1);
+        %g(iface+size(bedge,1),1)=Kde1*((H2/Kn2)*gright+(H1/Kn1)*gleft)-Kde1*Ded1*norm(vd1)*(g2-g1);
         %========================================================================================
         g(iface+size(bedge,1),1)= Kde(iface)*(grav_elem_escalar(rel)-grav_elem_escalar(lef)-Ded(iface)*(g2-g1));
     end
