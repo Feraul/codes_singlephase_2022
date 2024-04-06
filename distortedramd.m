@@ -10,8 +10,12 @@ b=1;
 ex = a + (b-a)*rand(size(coord,1),1);
 ey = a + (b-a)*rand(size(coord,1),1);
 % quando mas proximo a 1 eh mas ditorcido
-alpha=0.35;
-h=1000/25;
+alpha=0.15;
+h=2;
+% h=0.25 --> 160x80
+%h=0.5 --> 80x40
+%h=0.95 -->40x20
+%h=2 -->20x10
 
 for icoord=1:size(coord,1)
     x=coord(icoord,1);
