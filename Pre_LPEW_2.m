@@ -19,20 +19,24 @@ for No=1:size(coord,1)
     % P--> coordenadas dos vértices na vizinhança do nó "No"
     % T--> coordenadas dos pontos medios nas vizinhas ao nó "No"
     % Qo-> coordenada do nó em questão
-    [ O, P, T, Qo ] = OPT_Interp_LPEW(No);
+    [ O, P, T, Qo,flagbedge ] = OPT_Interp_LPEW(No);
     % calcula os angulos apropiados para calculas os pesos
     
     [ ve2, ve1, theta2, theta1 ] = angulos_Interp_LPEW2( O, P, T, Qo,No );
     % calculas as netas uma relacao de de alturas
     
-    [ neta,gaux] = netas_Interp_LPEW( O, P, T, Qo, No,kmap,gradgravelem);
+    [ neta,gaux,gauxm] = netas_Interp_LPEW( O, P, T, Qo, No,kmap,gradgravelem,flagbedge);
     % calculas as projecoes normais em torno do nó "No"
     [ Kt1, Kt2, Kn1, Kn2,gaux3 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, No,gradgravelem);
     % calcula os lambdas
     [ lambda,r,gaux2 ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
         theta2, ve1, ve2, neta, P, O,r,gaux);
+    [ lambda,r,gaux2m ] =  aux_Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
+        theta2, ve1, ve2, neta, P, O,r,gauxm);
+   
     for k=0:size(O,1)-1
         w(apw(No)+k,1)=lambda(k+1)/sum(lambda); %calculo dos pesos 
+      
     end
     
     apw(No+1)=apw(No)+size(O,1);
@@ -45,10 +49,19 @@ for No=1:size(coord,1)
         K(1,2) = kmap(elem(j,5),3);
         K(2,1) = kmap(elem(j,5),4);
         K(2,2) = kmap(elem(j,5),5);
+        
+        %gaux2: equacao 4.33 do manual 
+        %m(i)=dot((K*gradgravelem(j,:)')',gaux2(i,:));
         m=m+dot((K*gradgravelem(j,:)')',gaux2(i,:));
     end
-    wg(No,1)=m/sum(lambda);
-    %wg(No,1)=(sum(gaux3)+m)/sum(lambda);
+    %for k=0:size(O,1)-1
+    %    wg(apw(No)+k,1)=(m(k+1))/sum(lambda); %calculo dos pesos  
+    %end
+    wg(No,1)=m/sum(lambda); % erro -> 0.0023
+    %wg(No,1)=(sum(gaux3)+m)/sum(lambda); % erro -> 0.0038
+    %wg(No,1)=sum(gaux2m)/sum(lambda); % erro-> 0.0035
+    %wg(No,1)=(sum(gaux3)+sum(gaux2m))/sum(lambda); % erro -> 0.005
+    %wg(No,1)=(sum(ww.*gaux3))/sum(lambda); % erro -> 0.0054
         
     % calculando os pesos nos vertices do contorno de Neumann
     % N ordena faces na vizinhanca de um vertices, comecando pela face do

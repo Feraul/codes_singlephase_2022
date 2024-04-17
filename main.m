@@ -57,7 +57,7 @@ erromethod='erromethod6';
 % nlfvHP    --> (NL-TPFA-H) metodo nao linear baseado em pontos harmonicos
 % nlfvPPS   --> 
 % interpfree
-pmetodo='lfvHP';
+pmetodo='mpfad';
 %% metodo de interacao: picard, newton, broyden, secant,
 % método de iterecao proprio de métodos nao lineares iterfreejacobian,iterdiscretnewton, JFNK
 % iteration='iterdiscretnewton';
@@ -94,7 +94,7 @@ typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %benchmark='lepotier';
 %benchmark='shenyuan16';
 %benchmark='guangwei'; 
-benchmark='starnonigrav4';
+benchmark='starnonigrav1';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
 gravitational='yes';
@@ -130,7 +130,6 @@ mobility=1;
     gamma,wells,parameter,Hesq, Kde, Kn, Kt, Ded,weightDMP,auxface,...
     calnormface,gravresult,gravrate,weight,s,gravno,gravelem,gravface,...
     grav_elem_escalar,wg,N);
-
 %% pos-processador no visit
 postprocessor(full(abs(pressurenum-pressurexact)),1); 
 postprocessor(full(pressurenum),2) % plotagem da pressao numerica

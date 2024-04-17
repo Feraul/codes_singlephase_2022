@@ -1,10 +1,10 @@
-function [ Kt1, Kt2, Kn1, Kn2,gaux3 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, ni,gravelem)
+function [ Kt1, Kt2, Kn1, Kn2,gaux3 ] = Ks_Interp_LPEW2( O, T, Qo, kmap, No,gravelem)
 
 global esurn2 esurn1 elem  gravitational
 %Retorna os K(n ou t) necessários para a obtenção dos weights. kmap é a
 %matriz de permeabilidade; Ex: Kt1->linhaN=Kt1(cellN);
 
-nec=esurn2(ni+1)-esurn2(ni);
+nec=esurn2(No+1)-esurn2(No);
 
 Kt1=zeros(nec,2); %As colunas representam i=1 e i=2.
 Kt2=zeros(nec,1);
@@ -16,11 +16,11 @@ R=[0 1 0; -1 0 0; 0 0 0];
 gaux3=0;
 %Construção do tensor permeabilidade.%
 
-%Cálculo das primeiras constantes, para todas as células que concorrem num%
-%nó "ni".                                                                 %
+%Cálculo das primeiras constantes, para todas as células que concorrem num
+%vertice "No".                                                                 
 for k=1:nec
 
-    j=esurn1(esurn2(ni)+k);
+    j=esurn1(esurn2(No)+k);
 
     for i=1:2
         if (size(T,1)==size(O,1))&&(k==nec)&&(i==2)

@@ -1,10 +1,10 @@
-function [ lambda,r,gaux2 ] = Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
+function [ lambda,r,gaux2 ] = aux_Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
     theta2, ve1, ve2, netas, P, O,r,gaux )
 %Determina os lambdas.
 nec=size(O,1);
 lambda=zeros(nec,1);
 
-if size(P,1)==size(O,1) %Se for um nó interno.
+if size(P,1)==size(O,1) %Se for um nÃ³ interno.
     for k=1:nec,
         if (k==1)&&(size(P,1)==size(O,1))
             zetan=Kn2(nec)*cot(ve1(nec))+Kn2(k)*cot(ve2(k))+Kt2(nec)-Kt2(k);
@@ -17,7 +17,7 @@ if size(P,1)==size(O,1) %Se for um nó interno.
         end
         zeta(k)=zetan/zetad;
     end
-else %Se for um nó do contorno.
+else %Se for um nÃ³ do contorno.
     for k=1:nec+1,
         if (k==1)&&(size(P,1)~=size(O,1))
             zetan=Kn2(k)*cot(ve2(k))-Kt2(k);
@@ -41,14 +41,15 @@ else %Se for um nó do contorno.
     end
 end
 
+
 %if size(P,1)==size(O,1) % quando o vertice estiver no interior da malha
     for k=1:nec
         if (k==nec)&&(size(P,1)==size(O,1))
             lambda(k)=zeta(k)*Kn1(k,1)*netas(k,1) + zeta(1)*Kn1(k,2)*netas(k,2);
-            gaux2(k,1:3)=zeta(k)*gaux(k,1:3) + zeta(1)*gaux(k,4:6);
+            gaux2(k)=zeta(k)*gaux(k,1) + zeta(1)*gaux(k,2);
         else
             lambda(k)=zeta(k)*Kn1(k,1)*netas(k,1) + zeta(k+1)*Kn1(k,2)*netas(k,2);
-            gaux2(k,1:3)=zeta(k)*gaux(k,1:3)+zeta(k+1)*gaux(k,4:6);
+            gaux2(k)=zeta(k)*gaux(k,1)+zeta(k+1)*gaux(k,2);
         end
     end
 % else
@@ -56,22 +57,22 @@ end
 %     if 1-nec==0
 %         for k=1:nec
 %             lambda(k)=Kn1(k,1)*netas(k,1)*zeta(k)+Kn1(k,2)*netas(k,2)*zeta(k+1);
-%             gaux2(k,1:3)=zeta(k)*gaux(k,1:3)+zeta(k+1)*gaux(k,4:6);
+%             gaux2(k)=zeta(k)*gaux(k,1)+zeta(k+1)*gaux(k,2);
 %         end
 %     else
 %         for k=1:nec
 %             if (k==1)
-%                 gaux2(k,1:3)=zeta(k+1)*gaux(k,4:6);
+%                 gaux2(k)=zeta(k+1)*gaux(k,2);
 %             elseif (k==nec)
-%                 gaux2(k,1:3)=zeta(k)*gaux(k,1:3);
+%                 gaux2(k)=zeta(k)*gaux(k,1);
 %             else
-%                 gaux2(k,1:3)=zeta(k)*gaux(k,1:3)+zeta(k+1)*gaux(k,4:6);
+%                 gaux2(k)=zeta(k)*gaux(k,1)+zeta(k+1)*gaux(k,2);
 %             end
 %             lambda(k)=Kn1(k,1)*netas(k,1)*zeta(k)+Kn1(k,2)*netas(k,2)*zeta(k+1);
 %         end
 %     end
 %     
 % end
-
 end
+
 
