@@ -14,12 +14,12 @@
 
 //Do you have a mesh file? [y] ==> "yes"; [n] ==> "no"
 
-n
+y
 
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
 
-distorte_quad_16.msh
+BenchHydraulic1x.msh
 
 //OBS.: This file must be puted into folder together with *.m files 
 //or in a folder whose path will be declared immediately below:
@@ -370,9 +370,9 @@ porosity.dat
 //declared below and so on.
 
 3
+101 0
+102 1
 201 0
-101 1
-102 0
 
 //--------------------------------------------------------------------
 //Tratment of boundary points
@@ -388,8 +388,8 @@ porosity.dat
 //group reported to points will be associated with 1st code written
 //below.
 
-3
-101 102 201
+2
+101 102 
 
 //--------------------------------------------------------------------
 //----------------------- Convergence criteria -----------------------
