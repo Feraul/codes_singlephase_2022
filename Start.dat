@@ -19,7 +19,7 @@ y
 //If [y] write, immediately below, only the name of mesh file with 
 //extension *.msh:
 
-BenchHydraulic1x.msh
+malha352.msh
 
 //OBS.: This file must be puted into folder together with *.m files 
 //or in a folder whose path will be declared immediately below:
@@ -371,8 +371,8 @@ porosity.dat
 
 3
 101 0
-102 1
 201 0
+202 0
 
 //--------------------------------------------------------------------
 //Tratment of boundary points
@@ -388,8 +388,8 @@ porosity.dat
 //group reported to points will be associated with 1st code written
 //below.
 
-2
-101 102 
+3
+101 201 202  
 
 //--------------------------------------------------------------------
 //----------------------- Convergence criteria -----------------------

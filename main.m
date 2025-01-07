@@ -23,8 +23,8 @@ global coord centelem elem esurn1 esurn2 nsurn1 nsurn2 bedge inedge ...
 % 3. Deve-se investir nos precondicionadores
 % 4. Deve-se incluir condicao de contorno de Neumann no eLPEW2
 % 7. O termo gravitacional consistente necessita trabalhar
-%% Habilite esta funcao para obter distocao de malhas estruturadas
-%[auxcoord]=distortedramd;
+%% Habilite esta funcao para obter distorcao de malhas estruturadas
+[auxcoord]=distortedramd;
 %% funcao que modificacao de bedge
 % esta funcao deve ser ativado somente para alguma malhas
 %[bedge]=modificationbedge(bedge);
