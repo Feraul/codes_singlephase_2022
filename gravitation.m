@@ -29,6 +29,7 @@ for ifacont=1:size(bedge,1)
     elseif strcmp(strategy,'GravConsist')
         if bedge(ifacont,5)>200
             g(ifacont,1)=0;
+            
         else
             if strcmp(benchmark,'starnonigrav1')
                  A=(Kn(ifacont)/(Hesq(ifacont)*nor));
@@ -78,9 +79,9 @@ for iface=1:size(inedge,1)
         K4(1,2)=kmap(elem(rel,5),3);
         K4(2,1)=kmap(elem(rel,5),4);
         K4(2,2)=kmap(elem(rel,5),5);
-        vd1=coord(inedge(iface,2),1:3)-coord(inedge(iface,1),1:3);
+        vd1=coord(inedge(iface,2),1:2)-coord(inedge(iface,1),1:2);
         Keq=inv((dj1*inv(K3)+dj2*inv(K4))); % equation 21
-        graveq=((dj1*gradgravelem(lef,1:3)+dj2*gradgravelem(rel,1:3))'); % equation 22
+        graveq=((dj1*gradgravelem(lef,1:2)+dj2*gradgravelem(rel,1:2))'); % equation 22
         g(iface+size(bedge,1),1)=dot(((R1*vd1')')*Keq, graveq);% equation 20
     elseif strcmp(strategy,'GravConsist')
         %Determinação dos centróides dos elementos à direita e à esquerda.
@@ -135,7 +136,7 @@ for iface=1:size(inedge,1)
         %if nflagno(no1,1)>200
            g1=wg(no1);
         %else
-        %   g1=gravno(no1,1);
+        %  g1=gravno(no1,1);
         %end
 
         %if nflagno(no2,1)>200
@@ -175,7 +176,8 @@ for iface=1:size(inedge,1)
         graveq=((dj1*gradgravelem(lef,1:2)+dj2*gradgravelem(rel,1:2))'); % equation 22
 
         %g(iface+size(bedge,1),1)=-dot((RotH(vd11)')*Keq, graveq)+Kde1*Ded1*norm(vd1)*(g1-g2);
-        g(iface+size(bedge,1),1)=-Kde1*((H2/Kn2)*gright-(H1/Kn1)*gleft)+Kde1*Ded1*norm(vd1)*(g1-g2);
+        g(iface+size(bedge,1),1)=-Kde1*((H2/Kn2)*gright-(H1/Kn1)*gleft)+...
+                                  Kde1*Ded1*norm(vd1)*(g1-g2);
         %g(iface+size(bedge,1),1)=Kde1*norm(vd1)*(grav_elem_escalar(rel)-grav_elem_escalar(lef))+Kde1*Ded1*norm(vd1)*(g1-g2);
     end
     G(lef,1)=G(lef,1)-g(iface+size(bedge,1),1);

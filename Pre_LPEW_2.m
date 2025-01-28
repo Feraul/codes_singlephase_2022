@@ -31,8 +31,8 @@ for No=1:size(coord,1)
     % calcula os lambdas
     [ lambda,r,gaux2 ] =  Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
         theta2, ve1, ve2, neta, P, O,r,gaux);
-    [ lambda,r,gaux2m ] =  aux_Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
-        theta2, ve1, ve2, neta, P, O,r,gauxm);
+   % [ lambda,r,gaux2m ] =  aux_Lamdas_Weights_LPEW2( Kt1, Kt2, Kn1, Kn2, theta1,...
+   %    theta2, ve1, ve2, neta, P, O,r,gauxm);
    
     for k=0:size(O,1)-1
         w(apw(No)+k,1)=lambda(k+1)/sum(lambda); %calculo dos pesos 
@@ -57,8 +57,8 @@ for No=1:size(coord,1)
     %for k=0:size(O,1)-1
     %    wg(apw(No)+k,1)=(m(k+1))/sum(lambda); %calculo dos pesos  
     %end
-    wg(No,1)=m/sum(lambda); % erro -> 0.0023
-    %wg(No,1)=(sum(gaux3)+m)/sum(lambda); % erro -> 0.0038
+    %wg(No,1)=m/sum(lambda); % erro -> 0.0023
+    wg(No,1)=(sum(gaux3)+m)/sum(lambda); % erro -> 0.0038
     %wg(No,1)=sum(gaux2m)/sum(lambda); % erro-> 0.0035
     %wg(No,1)=(sum(gaux3)+sum(gaux2m))/sum(lambda); % erro -> 0.005
     %wg(No,1)=(sum(ww.*gaux3))/sum(lambda); % erro -> 0.0054
@@ -80,17 +80,38 @@ for No=1:size(coord,1)
         s1 = find(a == 1);
         b = bcflag(:,1) == bedge(comp2,5);
         s2 = find(b == 1);
+        %------------------------------------------------------------------
         if strcmp(gravitational,'yes')
-            % contribuicoes do termo gravitacional
-            m1= gravrate(comp1,1);
-            m2= gravrate(comp2,1);
+             % contribuicoes do termo gravitacional
+           R=[0 1; -1 0 ];
+            %------------------------------
+            K1(1,1)=kmap(elem(bedge(comp1,3),5),2);
+            K1(1,2)=kmap(elem(bedge(comp1,3),5),3);
+            K1(2,1)=kmap(elem(bedge(comp1,3),5),4);
+            K1(2,2)=kmap(elem(bedge(comp1,3),5),5);
+            
+            v1=0.5*(coord(bedge(comp1,2),1:2)+coord(bedge(comp1,1),1:2))-coord(No,1:2);
+            %------------------------------
+            K2(1,1)=kmap(elem(bedge(comp2,3),5),2);
+            K2(1,2)=kmap(elem(bedge(comp2,3),5),3);
+            K2(2,1)=kmap(elem(bedge(comp2,3),5),4);
+            K2(2,2)=kmap(elem(bedge(comp2,3),5),5);
+
+            v2=0.5*(coord(bedge(comp2,2),1:2)+coord(bedge(comp2,1),1:2))-coord(No,1:2);
+
+            %-------------------------------
+            m1=dot((R*(v1)')'*K1,gradgravelem(bedge(comp1,3),1:2));
+            m2= dot((R*(v2)')'*K2,gradgravelem(bedge(comp2,3),1:2));
+           
         else
             m1=0;
             m2=0;
         end
         % da errado quando colocamos o termo gravitacional
-        %s(No,1) = -(1/sum(lambda))*(r(1,1)*(norm1*bcflag(s1,2) + m1)+...
-        %                            r(1,2)*(norm2*bcflag(s2,2) + m2));
+        %s(No,1) = -(1/sum(lambda))*(r(1,1)*(norm1*bcflag(s1,2))+...
+        %                            r(1,2)*(norm2*bcflag(s2,2)));
+
+        %wg(No,1)=wg(No,1)+(1/sum(lambda))*(r(1,1)*m1+r(1,2)*m2); 
         %esta rutina funciona quando o vertice da quina da malha
         %computacional pertence ao contorno de Dirichlet
         s(No,1) = -(1/sum(lambda))*(r(1,1)*bcflag(s1,2) + ...

@@ -5,7 +5,6 @@ function [ M, I ] = globalmatrixmpfad( w,s, Kde, Ded, Kn, Kt, nflagno, ...
 global coord elem esurn1 esurn2  bedge inedge  centelem bcflag gravitational...
     strategy elemarea
 
-%-----------------------inicio da rutina ----------------------------------%
 %Constroi a matriz global.
 
 M=sparse(size(elem,1),size(elem,1)); %Prealocacao de M.
@@ -76,12 +75,12 @@ for iface=1:size(inedge,1)
         I(rel)=I(rel)-Kde(iface)*Ded(iface)*nflagno(inedge(iface,2),2);
     end
     % quando o nó pertece ao contorno de Neumann
-    if nflagno(inedge(iface,1),1)==202
+    if nflagno(inedge(iface,1),1)==201
 
         I(inedge(iface,3))=I(inedge(iface,3))-Kde(iface)*Ded(iface)*s(inedge(iface,1)); %ok
         I(inedge(iface,4))=I(inedge(iface,4))+Kde(iface)*Ded(iface)*s(inedge(iface,1)); %ok
     end
-    if nflagno(inedge(iface,2),1)==202
+    if nflagno(inedge(iface,2),1)==201
 
         I(inedge(iface,3))=I(inedge(iface,3))+Kde(iface)*Ded(iface)*s(inedge(iface,2)); %ok
         I(inedge(iface,4))=I(inedge(iface,4))-Kde(iface)*Ded(iface)*s(inedge(iface,2)); %ok
@@ -114,9 +113,9 @@ for iface=1:size(inedge,1)
 
     % termo gravitacional
     if strcmp(gravitational,'yes')
-        m=gravrate(size(bedge,1)+iface,1);
-        I(lef)=I(lef)-m ;
-        I(rel)=I(rel)+m ;
+       m=gravrate(size(bedge,1)+iface,1);
+       I(lef)=I(lef)-m;
+       I(rel)=I(rel)+m;
     end
 end
 end

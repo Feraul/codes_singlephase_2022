@@ -17,7 +17,7 @@ gaux3=0;
 %Construção do tensor permeabilidade.%
 
 %Cálculo das primeiras constantes, para todas as células que concorrem num
-%vertice "No".                                                                 
+%vertice "No".
 for k=1:nec
 
     j=esurn1(esurn2(No)+k);
@@ -51,22 +51,18 @@ for k=1:nec
     K1(2,2)= kmap(elem(j,5),5);
 
     if (size(T,1)==size(O,1))&&(k==nec)
-
         %------------ Calculo dos K's internos no elemento ---------------%
-
         Kn2(k)=((R*(T(1,:)-T(k,:))')'*K1*(R*(T(1,:)-T(k,:))'))/norm(T(1,:)-T(k,:))^2;
         Kt2(k)=((R*(T(1,:)-T(k,:))')'*K1*(T(1,:)-T(k,:))')/norm(T(1,:)-T(k,:))^2;
-        if strcmp(gravitational,'yes')
-            gaux3(k)=dot((R*(T(1,:)-T(k,:))')'*K1,gravelem(j,:));
-        end
+        vec= (R*(T(1,:)-T(k,:))')';
     else
-
         Kn2(k)=(R*(T(k+1,:)-T(k,:))')'*K1*(R*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
         Kt2(k)=((R*(T(k+1,:)-T(k,:))')'*K1*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
-        if strcmp(gravitational,'yes')
-            gaux3(k)=dot((R*(T(k+1,:)-T(k,:))')'*K1,gravelem(j,:));
-        end
+        vec=(R*(T(k+1,:)-T(k,:))')';
     end
+       if strcmp(gravitational,'yes')
+            gaux3(k)=dot(vec*K1,gravelem(j,:));
+        end
 
 end
 

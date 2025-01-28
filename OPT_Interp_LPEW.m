@@ -18,10 +18,11 @@ Qo=coord(ni,:);                     % coordenada do nó "ni".
 for i=1:size(P,1),
     P(i,:)=coord(nsurn1(nsurn2(ni)+i),:);
     T(i,:)=(P(i,:)+Qo)/2;
+    % aloca o flag da da aresta ou face pertence ao contorno
     aa=ni;
     bb=nsurn1(nsurn2(ni)+i);
     if aa<=size(bedge,1) && bb<=size(bedge,1)
-    c(i,1)=find(bedge(:,1)==aa & bedge(:,2)==bb | bedge(:,2)==aa & bedge(:,1)==bb);
+        c(i,1)=find(bedge(:,1)==aa & bedge(:,2)==bb | bedge(:,2)==aa & bedge(:,1)==bb);
     else
         c(i,1)=0;
     end
