@@ -46,7 +46,7 @@ for ifacont=1:size(bedge,1)
         % Contorno de Neumann
         x=bcflag(:,1)==bedge(ifacont,5);
         r=find(x==1);
-        I(lef)=I(lef) -normcont*bcflag(r,2);%+m;
+        I(lef)=I(lef) -normcont*bcflag(r,2);
     end
 end
 
@@ -77,14 +77,12 @@ for iface=1:size(inedge,1)
     % quando o nó pertece ao contorno de Neumann
     if nflagno(inedge(iface,1),1)==201
 
-        I(inedge(iface,3))=I(inedge(iface,3))-Kde(iface)*Ded(iface)*s(inedge(iface,1)); %ok
-        I(inedge(iface,4))=I(inedge(iface,4))+Kde(iface)*Ded(iface)*s(inedge(iface,1)); %ok
+        I(lef)=I(lef)-Kde(iface)*Ded(iface)*s(inedge(iface,1)); %ok
+        I(rel)=I(rel)+Kde(iface)*Ded(iface)*s(inedge(iface,1)); %ok
     end
     if nflagno(inedge(iface,2),1)==201
-
-        I(inedge(iface,3))=I(inedge(iface,3))+Kde(iface)*Ded(iface)*s(inedge(iface,2)); %ok
-        I(inedge(iface,4))=I(inedge(iface,4))-Kde(iface)*Ded(iface)*s(inedge(iface,2)); %ok
-
+        I(lef)=I(lef)+Kde(iface)*Ded(iface)*s(inedge(iface,2)); %ok
+        I(rel)=I(rel)-Kde(iface)*Ded(iface)*s(inedge(iface,2)); %ok
     end
 
     %Contabilizacao das contribuicoes dos vertices que nao perence
@@ -92,12 +90,9 @@ for iface=1:size(inedge,1)
     % first node
     if nflagno(inedge(iface,1),1)>200
         for j=1:(esurn2(inedge(iface,1)+1)-esurn2(inedge(iface,1)))
-
             post_cont=esurn2(inedge(iface,1))+j;
-
             M(lef, esurn1(post_cont))=M(lef,esurn1(post_cont)) + Kde(iface)*Ded(iface)*w(post_cont);
             M(rel, esurn1(post_cont))=M(rel,esurn1(post_cont)) - Kde(iface)*Ded(iface)*w(post_cont);
-
         end
 
     end
@@ -105,7 +100,6 @@ for iface=1:size(inedge,1)
     if nflagno(inedge(iface,2),1)>200
         for j=1:(esurn2(inedge(iface,2)+1)-esurn2(inedge(iface,2)))
             post_cont=esurn2(inedge(iface,2))+j;
-
             M(lef, esurn1(post_cont))=M(lef,esurn1(post_cont)) - Kde(iface)*Ded(iface)*w(post_cont);
             M(rel, esurn1(post_cont))=M(rel,esurn1(post_cont)) + Kde(iface)*Ded(iface)*w(post_cont);
         end

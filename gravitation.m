@@ -29,18 +29,20 @@ for ifacont=1:size(bedge,1)
     elseif strcmp(strategy,'GravConsist')
         if bedge(ifacont,5)>200
             g(ifacont,1)=0;
-            
+            %g(ifacont,1)=-dot((R*ve1')'*Klef,(gradgravelem(lef,:)));
+
         else
+            A=(Kn(ifacont)/(Hesq(ifacont)*nor));
             if strcmp(benchmark,'starnonigrav1')
-                 A=(Kn(ifacont)/(Hesq(ifacont)*nor));
+
                 gravno1=gravno(bedge(ifacont,1),1);
                 gravno2=gravno(bedge(ifacont,2),1);
-%         g(ifacont,1)=-A*(((O-coord(B2,:)))*(coord(B1,:)-coord(B2,:))'*gravno1+...
-%             (O-coord(B1,:))*(coord(B2,:)-coord(B1,:))'*gravno2-(nor^2)*grav_elem_escalar(lef))...
-%             -(gravno2-gravno1)*Kt(ifacont);
+                %          g(ifacont,1)=-A*(((O-coord(B2,:)))*(coord(B1,:)-coord(B2,:))'*gravno1+...
+                %             (O-coord(B1,:))*(coord(B2,:)-coord(B1,:))'*gravno2-(nor^2)*grav_elem_escalar(lef))...
+                %              -(gravno2-gravno1)*Kt(ifacont);
 
-                g(ifacont,1)=-dot((R*ve1')'*Klef,(gradgravelem(lef,:)));
-                
+                g(ifacont,1)=-dot((R*ve1')'*Klef,gradgravelem(lef,:));
+
             else
                 g(ifacont,1)=-dot((R*ve1')'*Klef,(gradgravelem(lef,:)));
             end
@@ -123,68 +125,41 @@ for iface=1:size(inedge,1)
         Kn2 = (RotH(vd11)'*K4*RotH(vd11))/norm(vd11)^2;
         Kt2 = (RotH(vd11)'*K4*(vd11)')/norm(vd11)^2;
 
-        Kde1 = -((Kn1*Kn2))/(Kn1*H2 + Kn2*H1);
+        Kde1 = ((Kn1*Kn2))/(Kn1*H2 + Kn2*H1);
         % Ded: constante que tem constantes geometricas + contantes
         % tangeciais
         Ded1 = (dot(vd1,vcen)/norm(vd1)^2) -...
-            (1/norm(vd1))*((Kt2/Kn2)*H2 + (Kt1/Kn1)*H1);
+            (1/norm(vd1))*((Kt2/Kn2)*H1 + (Kt1/Kn1)*H2);
+
         %aproximacao do termo grav do elemento L na face IJ
         gleft=dot(RotH(vd11)'*K3,(gradgravelem(lef,1:2)));
         %aproximacao do termo grav do elemento R na face JI
-        gright=dot(-RotH(vd11)'*K4,(gradgravelem(rel,1:2)));
+        gright=dot(RotH(vd11)'*K4,(gradgravelem(rel,1:2)));
 
         %if nflagno(no1,1)>200
-           g1=wg(no1);
+        g1=wg(no1);
         %else
         %  g1=gravno(no1,1);
         %end
 
         %if nflagno(no2,1)>200
-           g2=wg(no2);
+        g2=wg(no2);
         %else
         %   g2=gravno(no2,1);
         %end
-%         g1=0;
-%         nec1=esurn2(no1+1)- esurn2(no1);
-%         nec2=esurn2(no2+1)- esurn2(no2);
-%         %if nflagno(no1,1)>200
-%             for j=1:nec1
-%                 element1=esurn1(esurn2(no1)+j);
-%                 %if element1~=lef && element1~=rel
-%                     g1=g1+wg(esurn2(no1)+j);
-%                 %end
-%             end
 
-        %else
-        %    g1=gravno(no1,1);
-        %end
-        %g2=0;
-
-        %if nflagno(no2,1)>200
-        %    for j=1:nec2
-        %        element2=esurn1(esurn2(no2)+j);
-        %        %if element2~=lef && element2~=rel
-        %            g2=g2+wg(esurn2(no2)+j);
-        %        %end
-        %    end
-        %else
-        %    g2=gravno(no2,1);
-        %end
-
-        vd1=coord(inedge(iface,2),1:2)-coord(inedge(iface,1),1:2);
         Keq=inv((dj1*inv(K3)+dj2*inv(K4))); % equation 21
         graveq=((dj1*gradgravelem(lef,1:2)+dj2*gradgravelem(rel,1:2))'); % equation 22
 
         %g(iface+size(bedge,1),1)=-dot((RotH(vd11)')*Keq, graveq)+Kde1*Ded1*norm(vd1)*(g1-g2);
-        g(iface+size(bedge,1),1)=-Kde1*((H2/Kn2)*gright-(H1/Kn1)*gleft)+...
-                                  Kde1*Ded1*norm(vd1)*(g1-g2);
-        %g(iface+size(bedge,1),1)=Kde1*norm(vd1)*(grav_elem_escalar(rel)-grav_elem_escalar(lef))+Kde1*Ded1*norm(vd1)*(g1-g2);
+        g(iface+size(bedge,1),1)=-Kde1*((H2/Kn2)*gright+(H1/Kn1)*gleft)+...
+            Kde1*Ded1*norm(vd1)*(g1-g2);
     end
     G(lef,1)=G(lef,1)-g(iface+size(bedge,1),1);
     G(rel,1)=G(rel,1)+g(iface+size(bedge,1),1);
 end
 end
-
+%--------------------------------------------------------------------------
 function [RH]=RotH(vi)
 %Função que retorna a rotação de um certo vetor em 90 graus,
 %horariamente, na primeira coluna da matriz R, e horariamente,

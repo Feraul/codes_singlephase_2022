@@ -11,7 +11,6 @@ Kt2=zeros(nec,1);
 Kn1=zeros(nec,2);
 Kn2=zeros(nec,1);
 K=zeros(3);
-K1=zeros(3);
 R=[0 1 0; -1 0 0; 0 0 0];
 gaux3=0;
 %Construção do tensor permeabilidade.%
@@ -19,52 +18,36 @@ gaux3=0;
 %Cálculo das primeiras constantes, para todas as células que concorrem num
 %vertice "No".
 for k=1:nec
-
+    % elemento j
     j=esurn1(esurn2(No)+k);
-
+    % permeabilidade
+    K(1,1)=kmap(elem(j,5),2);
+    K(1,2)=kmap(elem(j,5),3);
+    K(2,1)=kmap(elem(j,5),4);
+    K(2,2)=kmap(elem(j,5),5);
     for i=1:2
         if (size(T,1)==size(O,1))&&(k==nec)&&(i==2)
-            K(1,1)=kmap(elem(j,5),2);
-            K(1,2)=kmap(elem(j,5),3);
-            K(2,1)=kmap(elem(j,5),4);
-            K(2,2)=kmap(elem(j,5),5);
-
             Kn1(k,i)=((R*(T(1,:)-Qo)')'*K*(R*(T(1,:)-Qo)'))/norm(T(1,:)-Qo)^2;
             Kt1(k,i)=((R*(T(1,:)-Qo)')'*K*(T(1,:)-Qo)')/norm(T(1,:)-Qo)^2;
         else
-            K(1,1)=kmap(elem(j,5),2);
-            K(1,2)=kmap(elem(j,5),3);
-            K(2,1)=kmap(elem(j,5),4);
-            K(2,2)=kmap(elem(j,5),5);
-
             Kn1(k,i)=((R*(T(k+i-1,:)-Qo)')'*K*(R*(T(k+i-1,:)-Qo)'))/norm(T(k+i-1,:)-Qo)^2;
             Kt1(k,i)=((R*(T(k+i-1,:)-Qo)')'*K*(T(k+i-1,:)-Qo)')/norm(T(k+i-1,:)-Qo)^2;
         end
     end
-
-
     %------------------------- Tensores ----------------------------------%
-
-    K1(1,1)= kmap(elem(j,5),2);
-    K1(1,2)= kmap(elem(j,5),3);
-    K1(2,1)= kmap(elem(j,5),4);
-    K1(2,2)= kmap(elem(j,5),5);
-
     if (size(T,1)==size(O,1))&&(k==nec)
         %------------ Calculo dos K's internos no elemento ---------------%
-        Kn2(k)=((R*(T(1,:)-T(k,:))')'*K1*(R*(T(1,:)-T(k,:))'))/norm(T(1,:)-T(k,:))^2;
-        Kt2(k)=((R*(T(1,:)-T(k,:))')'*K1*(T(1,:)-T(k,:))')/norm(T(1,:)-T(k,:))^2;
+        Kn2(k)=((R*(T(1,:)-T(k,:))')'*K*(R*(T(1,:)-T(k,:))'))/norm(T(1,:)-T(k,:))^2;
+        Kt2(k)=((R*(T(1,:)-T(k,:))')'*K*(T(1,:)-T(k,:))')/norm(T(1,:)-T(k,:))^2;
         vec= (R*(T(1,:)-T(k,:))')';
     else
-        Kn2(k)=(R*(T(k+1,:)-T(k,:))')'*K1*(R*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
-        Kt2(k)=((R*(T(k+1,:)-T(k,:))')'*K1*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
+        Kn2(k)=(R*(T(k+1,:)-T(k,:))')'*K*(R*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
+        Kt2(k)=((R*(T(k+1,:)-T(k,:))')'*K*(T(k+1,:)-T(k,:))')/norm(T(k+1,:)-T(k,:))^2;
         vec=(R*(T(k+1,:)-T(k,:))')';
     end
-       if strcmp(gravitational,'yes')
-            gaux3(k)=dot(vec*K1,gravelem(j,:));
-        end
-
+    if strcmp(gravitational,'yes')
+        gaux3(k)=dot(vec*K,gravelem(j,:));
+    end
 end
-
 end
 

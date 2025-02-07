@@ -36,7 +36,7 @@ for ifacont=1:size(bedge,1);
             (O-coord(B1,:))*(coord(B2,:)-coord(B1,:))'*c2-(nor^2)*p(lef))...
             -(c2-c1)*Kt(ifacont);
 
-        flowrate(ifacont)=auxflowrate-m;
+        flowrate(ifacont)=auxflowrate+m;
     else
 
         x=bcflag(:,1)==bedge(ifacont,5);

@@ -23,8 +23,10 @@ for i=1:size(P,1),
     bb=nsurn1(nsurn2(ni)+i);
     if aa<=size(bedge,1) && bb<=size(bedge,1)
         c(i,1)=find(bedge(:,1)==aa & bedge(:,2)==bb | bedge(:,2)==aa & bedge(:,1)==bb);
+        c(i,2)=bedge(c(i,1),5);
     else
         c(i,1)=0;
+        c(i,2)=0;
     end
 end
 
