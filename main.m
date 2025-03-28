@@ -94,7 +94,7 @@ typecorrection='firstcorrection'; % correcao utilizando express. simplif.
 %benchmark='lepotier';
 %benchmark='shenyuan16';
 %benchmark='guangwei'; 
-benchmark='starnonigrav1';
+benchmark='starnonigrav2';
 %% com termo gravitacional
 % com termo gravitacional 'yes' ou 'no'
 gravitational='yes';

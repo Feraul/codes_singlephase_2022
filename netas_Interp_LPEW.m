@@ -32,7 +32,7 @@ for k=1:size(netas,1)
             if flagbedge(k,1)~=0
                 % para vertice no contorno do dominio
                 if flagbedge(k,2)>200
-                    gaux(k,4:6)=0*(R*(Qo-T(1,:))')';
+                    gaux(k,4:6)=(R*(Qo-T(1,:))')';
                 else
                     gaux(k,4:6)=(R*(Qo-T(1,:))')';
                 end
@@ -51,7 +51,7 @@ for k=1:size(netas,1)
             if flagbedge(k+1,1)~=0
                 % para vertice no contorno do dominio
                 if flagbedge(k+1,2)>200
-                    gaux(k,4:6)=0*(R*(Qo-T(k+1,:))')';
+                    gaux(k,4:6)=(R*(Qo-T(k+1,:))')';
                 else
                     gaux(k,4:6)=(R*(Qo-T(k+1,:))')';
                 end
@@ -77,7 +77,7 @@ for k=1:size(netas,1)
             % para vertice no contorno do dominio
             if  flagbedge(k,2)>200
 
-                gaux(k,1:3)=0*(R*(T(k,:)-Qo)')';
+                gaux(k,1:3)=(R*(T(k,:)-Qo)')';
             else
                 gaux(k,1:3)=(R*(T(k,:)-Qo)')';
             end

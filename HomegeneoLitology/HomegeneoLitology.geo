@@ -6,7 +6,7 @@
 
 //Work developed by: Marcio Souza and Luiz E. Queiroz
 //Adviser Professors: Paulo Lyra & Darlan Carvalho
-//Create date: 2025/1/28;	hour: 15:49h
+//Create date: 2025/2/11;	hour: 17:29h
 
 //--------------------------------------------------------------------
 //This file has CAD parameters. It is related to building of domain
@@ -30,8 +30,8 @@ Physical Line(102) = {2};
 Physical Surface(1) = {6};
 
 
-Transfinite Line {1,3} = 125 Using Progression 1.000000;
-Transfinite Line {2,4} = 125 Using Progression 1.000000;
+Transfinite Line {1,3} = 65 Using Progression 1.000000;
+Transfinite Line {2,4} = 65 Using Progression 1.000000;
 Transfinite Surface {6} = {1,2,3,4};
 
 Recombine Surface {6};
